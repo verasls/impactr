@@ -16,4 +16,6 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 Imports: 
     lubridate,
-    utils
+    utils,
+    glue,
+    rlang (>= 0.4.6)
