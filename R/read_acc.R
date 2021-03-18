@@ -1,3 +1,15 @@
+#' Read raw accelerometer data
+#'
+#' Reads raw accelerometer data files into an \code{impactr_data} object.
+#'
+#' @param file Path to a raw accelerometer data file.
+#'
+#' @return An object of class \code{impactr_data}.
+#'
+#' @export
+#'
+#' @examples
+#' read_acc(impactr_example("hip-imu.csv"))
 read_acc <- function(file) {
   metadata <- get_metadata(file)
   x <- vroom::vroom(
