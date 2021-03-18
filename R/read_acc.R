@@ -1,4 +1,5 @@
 get_metadata <- function(file) {
+  check_metadata(file)
   header <- read_header(file)
   samp_freq <- get_samp_freq(header)
   start_date_time <- get_start_date_time(header)
@@ -8,10 +9,57 @@ get_metadata <- function(file) {
   )
 }
 
+check_metadata <- function(file) {
+  header <- read_header(file)
+  if (!has_header(header)) {
+    rlang::abort(
+      glue::glue(
+        "No header detected in the file `{file}`. \\
+        Please, provide the entire file."
+      )
+    )
+  }
+  if (!is_actigraph(header)) {
+    rlang::abort(
+      glue::glue(
+        "The file `{file}` is not from an ActiGraph accelerometer. \\
+        `impactr` currently only supports ActiGraph accelerometer \\
+        data files."
+      )
+    )
+  }
+  if (!is_raw_data(header)) {
+    rlang::abort(
+      glue::glue(
+        "The file `{file}` is not a raw data file. `impactr` needs the raw \\
+        data to work."
+      )
+    )
+  }
+}
+
+has_header <- function(header) {
+  if (ncol(header) == 1) {
+    TRUE
+  } else if (all(is.na(header[, 2:ncol(header)]))) {
+    TRUE
+  }
+}
+
+is_actigraph <- function(header) {
+  grepl("ActiGraph", header[1, 1])
+}
+
+is_raw_data <- function(header) {
+  epoch_row <- grep("Epoch", header[, 1])
+  epoch <- substr(header[epoch_row, 1], 25, 32)
+  epoch == "00:00:00"
+}
+
 get_samp_freq <- function(header) {
-  samp_freq <- unlist(strsplit(header[, 1], " "))
-  row_num <- which(samp_freq == "Hz") - 1
-  as.numeric(samp_freq[row_num])
+  header_vector <- unlist(strsplit(header[, 1], " "))
+  samp_freq_row <- which(header_vector == "Hz") - 1
+  as.numeric(header_vector[samp_freq_row])
 }
 
 get_start_date_time <- function(header) {
@@ -26,5 +74,5 @@ get_start_date_time <- function(header) {
 }
 
 read_header <- function(file) {
-  read.csv(file, nrows = 10, header = FALSE)
+  utils::read.csv(file, nrows = 10, header = FALSE)
 }
