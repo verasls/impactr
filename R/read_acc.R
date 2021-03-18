@@ -1,3 +1,30 @@
+read_acc <- function(file) {
+  metadata <- get_metadata(file)
+  x <- vroom::vroom(
+    file, skip = 10,
+    col_select = c(
+      timestamp = "Timestamp",
+      acc_X = "Accelerometer X",
+      acc_Y = "Accelerometer Y",
+      acc_Z = "Accelerometer Z"
+    ),
+    col_types = c(
+      "Timestamp" = "T",
+      "Accelerometer X" = "d",
+      "Accelerometer Y" = "d",
+      "Accelerometer Z" = "d"
+    )
+  )
+  new_impactr_data(
+    x,
+    start_date_time = metadata$start_date_time,
+    samp_freq = metadata$samp_freq,
+    acc_placement = NA,
+    subj_body_mass = NA,
+    filter_type = NA
+  )
+}
+
 get_metadata <- function(file) {
   check_metadata(file)
   header <- read_header(file)
