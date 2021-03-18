@@ -13,9 +13,9 @@
 #' @export
 #'
 #' @examples
-#' example_data()
-#' example_data("waist-imu.csv")
-example_data <- function(file = NULL) {
+#' impactr_data()
+#' impactr_data("waist-imu.csv")
+impactr_data <- function(file = NULL) {
   if (is.null(file)) {
     dir(system.file("extdata", package = "impactr"))
   } else {
