@@ -109,7 +109,38 @@ get_start_date_time <- function(header) {
   start_time <- gsub("[[:alpha:]]", "", header[start_time_row, 1])
 
   start_date_time <- paste(start_date, start_time)
-  lubridate::parse_date_time(start_date_time, "%m/%d/%Y%H:%M:%S")
+
+  parse_format <- get_parse_format(header)
+  lubridate::parse_date_time(start_date_time, parse_format)
+}
+
+get_parse_format <- function(header) {
+  header_vector <- unlist(strsplit(header[, 1], " "))
+  date_format_row <- which(header_vector == "format") + 1
+  date_format <- header_vector[date_format_row]
+
+  if (grepl("-", date_format)) {
+    sep_char <- "-"
+  } else if (grepl("/", date_format)) {
+    sep_char <- "/"
+  }
+  date_format_vector <- unlist(strsplit(date_format, sep_char))
+
+  date_format <- unclass(
+    glue::glue_collapse(purrr::map_chr(date_format_vector, sub_format), "/")
+  )
+  time_format <- "%H:%M:%S"
+  paste0(date_format, time_format)
+}
+
+sub_format <- function(date_format) {
+  if (grepl("d", date_format, ignore.case = TRUE)) {
+    "%d"
+  } else if (grepl("m", date_format, ignore.case = TRUE)) {
+    "%m"
+  } else if (grep("y", date_format, ignore.case = TRUE)) {
+    "%Y"
+  }
 }
 
 read_header <- function(file) {
