@@ -15,18 +15,18 @@ read_acc <- function(file) {
   x <- vroom::vroom(
     file, skip = 10,
     col_select = c(
-      timestamp = "Timestamp",
       acc_X = "Accelerometer X",
       acc_Y = "Accelerometer Y",
       acc_Z = "Accelerometer Z"
     ),
     col_types = c(
-      "Timestamp" = "T",
       "Accelerometer X" = "d",
       "Accelerometer Y" = "d",
       "Accelerometer Z" = "d"
     )
   )
+  x <- make_timestamp(x, metadata)
+
   new_impactr_data(
     x,
     start_date_time = metadata$start_date_time,
@@ -141,6 +141,16 @@ sub_format <- function(date_format) {
   } else if (grep("y", date_format, ignore.case = TRUE)) {
     "%Y"
   }
+}
+
+make_timestamp <- function(x, metadata) {
+  start <- metadata$start_date_time
+  n_secs <- nrow(x) / metadata$samp_freq
+  period <- 1 / metadata$samp_freq
+  end <- start + as.difftime(n_secs, units = "secs")
+
+  timestamp <- utils::head(seq(from = start, to = end, by = period), - 1)
+  cbind(timestamp, x)
 }
 
 read_header <- function(file) {
