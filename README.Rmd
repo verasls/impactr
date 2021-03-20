@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 # impactr
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/verasls/impactr/workflows/R-CMD-check/badge.svg)](https://github.com/verasls/impactr/actions)
 <!-- badges: end -->
 
 ## Installation
