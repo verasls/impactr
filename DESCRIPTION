@@ -21,7 +21,8 @@ Imports:
     rlang (>= 0.4.6),
     vroom,
     tibble,
-    pillar
+    pillar,
+    purrr
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
