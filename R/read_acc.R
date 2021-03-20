@@ -82,6 +82,8 @@ has_header <- function(header) {
     TRUE
   } else if (all(is.na(header[, 2:ncol(header)]))) {
     TRUE
+  } else {
+    FALSE
   }
 }
 
