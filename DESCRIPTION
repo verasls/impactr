@@ -10,6 +10,7 @@ Authors@R:
 Description: Functions to read, process and analyse accelerometer
     data related to mechanical loading variables.
 License: MIT + file LICENSE
+BugReports: https://github.com/verasls/impactr/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
