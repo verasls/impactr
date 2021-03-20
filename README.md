@@ -4,6 +4,14 @@
 # impactr
 
 <!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/impactr)](https://CRAN.R-project.org/package=impactr)
+[![R-CMD-check](https://github.com/verasls/impactr/workflows/R-CMD-check/badge.svg)](https://github.com/verasls/impactr/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/verasls/impactr/branch/main/graph/badge.svg)](https://codecov.io/gh/verasls/impactr?branch=main)
+[![Lifecycle:
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
 ## Installation
