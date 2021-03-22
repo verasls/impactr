@@ -9,6 +9,17 @@ test_that("error handling works", {
     )
   )
 
+  # Not an ActiGraph accelerometer file
+  file <- test_path("test-data-no-actigraph.csv")
+  expect_error(
+    read_acc(file),
+    glue::glue(
+      "The file `{file}` is not from an ActiGraph accelerometer. \\
+      `impactr` currently only supports ActiGraph accelerometer \\
+      data files."
+    )
+  )
+
   # Not raw data
   file <- test_path("test-data-epoch.csv")
   expect_error(
