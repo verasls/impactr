@@ -78,17 +78,17 @@ check_metadata <- function(file) {
 }
 
 has_header <- function(header) {
-  if (ncol(header) == 1) {
+ if (any(grepl("ActiGraph", header[1, ]))) {
     TRUE
-  } else if (all(is.na(header[, 2:ncol(header)]))) {
+ } else if (any(grepl("GENEActiv", header[1, ]))) {
     TRUE
-  } else {
+ } else {
     FALSE
-  }
+ }
 }
 
 is_actigraph <- function(header) {
-  grepl("ActiGraph", header[1, 1])
+  any(grepl("ActiGraph", header[1, ]))
 }
 
 is_raw_data <- function(header) {
