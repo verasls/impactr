@@ -1,4 +1,12 @@
 test_that("error handling works", {
+  # use_resultant argument
+  file <- test_path("test-data-hip-imu.csv")
+  expect_error(
+    read_acc(file, "false"),
+    "`use_resultant` must be logical; not character",
+    class = "error_argument_type"
+  )
+
   # No header
   file <- test_path("test-data-no-header.csv")
   expect_error(

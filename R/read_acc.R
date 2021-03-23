@@ -13,6 +13,12 @@
 #' @examples
 #' read_acc(impactr_example("hip-imu.csv"))
 read_acc <- function(file, use_resultant = TRUE) {
+  if (!is.logical(use_resultant)) {
+    lvmisc::abort_argument_type(
+      "use_resultant", must = "be logical", not = use_resultant
+    )
+  }
+
   metadata <- get_metadata(file)
   x <- vroom::vroom(
     file, skip = 10,
