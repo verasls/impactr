@@ -7,6 +7,7 @@
 #' @param subj_body_mass A numerical scalar
 #' @param filter_type A character scalar
 #'
+#' @export
 #' @keywords internal
 new_impactr_data <- function(x,
                              start_date_time,
@@ -30,8 +31,9 @@ new_impactr_data <- function(x,
 
 #' @importFrom tibble tbl_sum
 #' @importFrom pillar dim_desc
+#' @export
+#' @keywords internal
 tbl_sum.impactr_data <- function(x) {
-  cat("# Raw accelerometer data\n")
   c(
     "Start time" = as.character(attributes(x)$start_date_time),
     "Sampling frequency" = paste0(attributes(x)$samp_freq, "Hz"),
