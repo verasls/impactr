@@ -25,7 +25,8 @@ Imports:
     pillar,
     purrr,
     Rcpp,
-    lvmisc
+    lvmisc,
+    stringr
 Suggests: 
     testthat (>= 3.0.0),
     covr
