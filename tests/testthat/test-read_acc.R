@@ -31,6 +31,10 @@ test_that("error handling works", {
   )
 })
 
+test_that("`impactr_data` objects print correctly", {
+  expect_snapshot(read_acc(test_path("test-data-hip-imu.csv")))
+})
+
 test_that("output object is of class `impactr_data`", {
   test_imu <- read_acc(test_path("test-data-hip-imu.csv"))
   test_raw <- read_acc(test_path("test-data-hip-raw.csv"))
