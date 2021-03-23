@@ -24,7 +24,8 @@ Imports:
     tibble,
     pillar,
     purrr,
-    Rcpp
+    Rcpp,
+    lvmisc
 Suggests: 
     testthat (>= 3.0.0),
     covr
