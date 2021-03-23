@@ -40,12 +40,12 @@ tbl_sum.impactr_data <- function(x) {
     "Accelerometer placement" = ifelse(
       is.na(attributes(x)$acc_placement),
       "Non-specified",
-      attributes(x)$acc_placement
+      stringr::str_to_sentence(attributes(x)$acc_placement)
     ),
     "Subject body mass" = ifelse(
       is.na(attributes(x)$subj_body_mass),
       "Non-specified",
-      as.character(attributes(x)$subj_body_mass)
+      paste0(as.character(attributes(x)$subj_body_mass), "kg")
     ),
     "Filter" = ifelse(
       is.na(attributes(x)$filter_type),
