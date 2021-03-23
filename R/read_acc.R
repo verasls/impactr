@@ -3,6 +3,8 @@
 #' Reads raw accelerometer data files into an \code{impactr_data} object.
 #'
 #' @param file Path to a raw accelerometer data file.
+#' @param use_resultant A logical scalar. If \code{TRUE} (default), it computes
+#'   the acceleration resultant vector, if \code{FALSE} it does not.
 #'
 #' @return An object of class \code{impactr_data}.
 #'
@@ -10,7 +12,7 @@
 #'
 #' @examples
 #' read_acc(impactr_example("hip-imu.csv"))
-read_acc <- function(file) {
+read_acc <- function(file, use_resultant = TRUE) {
   metadata <- get_metadata(file)
   x <- vroom::vroom(
     file, skip = 10,
@@ -26,6 +28,10 @@ read_acc <- function(file) {
     )
   )
   x <- make_timestamp(x, metadata)
+
+  if (isTRUE(use_resultant)) {
+    x$acc_R <- compute_resultant(x$acc_X, x$acc_Y, x$acc_Z)
+  }
 
   new_impactr_data(
     x,

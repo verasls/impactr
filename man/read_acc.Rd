@@ -4,10 +4,13 @@
 \alias{read_acc}
 \title{Read raw accelerometer data}
 \usage{
-read_acc(file)
+read_acc(file, use_resultant = TRUE)
 }
 \arguments{
 \item{file}{Path to a raw accelerometer data file.}
+
+\item{use_resultant}{A logical scalar. If \code{TRUE} (default), it computes
+the acceleration resultant vector, if \code{FALSE} it does not.}
 }
 \value{
 An object of class \code{impactr_data}.
