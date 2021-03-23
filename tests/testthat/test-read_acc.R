@@ -75,11 +75,15 @@ test_that("output attributes are correct", {
 test_that("output columns are correct", {
   test_imu <- read_acc(test_path("test-data-hip-imu.csv"))
   test_raw <- read_acc(test_path("test-data-hip-raw.csv"))
+  test_imu_no_res <- read_acc(test_path("test-data-hip-imu.csv"), FALSE)
+  test_raw_no_res <- read_acc(test_path("test-data-hip-raw.csv"), FALSE)
 
   # Column names
   col_names <- c("timestamp", "acc_X", "acc_Y", "acc_Z")
-  expect_equal(names(test_imu), col_names)
-  expect_equal(names(test_raw), col_names)
+  expect_equal(names(test_imu), c(col_names, "acc_R"))
+  expect_equal(names(test_raw), c(col_names, "acc_R"))
+  expect_equal(names(test_imu_no_res), col_names)
+  expect_equal(names(test_raw_no_res), col_names)
 
   # Columns class/type
   expect_s3_class(test_imu$timestamp, "POSIXct")
@@ -90,6 +94,8 @@ test_that("output columns are correct", {
   expect_type(test_raw$acc_Y, "double")
   expect_type(test_imu$acc_Z, "double")
   expect_type(test_raw$acc_Z, "double")
+  expect_type(test_imu$acc_R, "double")
+  expect_type(test_raw$acc_R, "double")
 })
 
 test_that("read_acc() works with date format separated by `/`", {
