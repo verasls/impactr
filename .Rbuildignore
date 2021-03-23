@@ -3,3 +3,4 @@
 ^workflow\.R$
 ^\.github$
 ^codecov\.yml$
+^\.lintr$
