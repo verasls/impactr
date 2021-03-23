@@ -23,8 +23,11 @@ Imports:
     vroom,
     tibble,
     pillar,
-    purrr
+    purrr,
+    Rcpp
 Suggests: 
     testthat (>= 3.0.0),
     covr
 Config/testthat/edition: 3
+LinkingTo: 
+    Rcpp
