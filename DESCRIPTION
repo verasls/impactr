@@ -15,6 +15,7 @@ Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+SystemRequirements: Python (>= 2.7.0)
 Imports: 
     lubridate,
     utils,
@@ -26,10 +27,17 @@ Imports:
     purrr,
     Rcpp,
     lvmisc,
-    stringr
+    stringr,
+    reticulate
 Suggests: 
     testthat (>= 3.0.0),
     covr
 Config/testthat/edition: 3
+Config/reticulate:
+    list(
+      packages = list(
+        list(package = scipy, pip = TRUE)
+      )
+    )
 LinkingTo: 
     Rcpp
