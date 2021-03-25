@@ -2,6 +2,8 @@
 
 S3method(tbl_sum,impactr_data)
 export(define_region)
+export(filter_acc)
+export(filter_signal)
 export(impactr_example)
 export(new_impactr_data)
 export(read_acc)
