@@ -25,8 +25,3 @@ test_that("attributes have the correct values", {
   expect_equal(attributes(out)$acc_placement, "hip")
   expect_equal(attributes(out)$subj_body_mass, 80)
 })
-
-test_that("`impactr_data` objects print correctly", {
-  data <- read_acc(test_path("test-data-hip-imu.csv"))
-  expect_snapshot(specify_parameters(data, "hip", 80))
-})
