@@ -1,4 +1,6 @@
 test_that("error handling works", {
+  skip_if_no_scipy()
+
   data <- read_acc(test_path("test-data-hip-imu.csv"))
 
   expect_error(
@@ -19,6 +21,8 @@ test_that("error handling works", {
 })
 
 test_that("default filtering works", {
+  skip_if_no_scipy()
+
   data <- data.frame(acc_X = 1:16, acc_Y = 17:32, acc_Z = 33:48)
   attributes(data)$samp_freq <- 100
 
