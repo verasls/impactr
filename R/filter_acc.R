@@ -29,12 +29,27 @@
 #' filter_acc(data)
 filter_acc <- function(data, order = 4, cutoff = 20, type = "lowpass") {
   check_args_filter_acc(order, cutoff, type)
+
   fnyq <- attributes(data)$samp_freq / 2
   wn <- cutoff / fnyq
+
   data$acc_X <- filter_signal(data$acc_X, order, wn, type)
   data$acc_Y <- filter_signal(data$acc_Y, order, wn, type)
   data$acc_Z <- filter_signal(data$acc_Z, order, wn, type)
+
+  filter_type <- get_filter_type(order, cutoff, type)
+  attributes(data)$filter_type <- filter_type
   data
+}
+
+get_filter_type <- function(order, cutoff, type) {
+  order <- toOrdinal::toOrdinal(order)
+  if (grepl("lowpass", type)) {
+    type <- "low-pass"
+  }
+  cutoff <- paste0(cutoff, "Hz")
+
+  unclass(glue::glue("Butterworth ({order}-ord, {type}, {cutoff})"))
 }
 
 check_args_filter_acc <- function(order, cutoff, type) {
