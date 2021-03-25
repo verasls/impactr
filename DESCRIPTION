@@ -28,7 +28,8 @@ Imports:
     Rcpp,
     lvmisc,
     stringr,
-    reticulate
+    reticulate,
+    toOrdinal
 Suggests: 
     testthat (>= 3.0.0),
     covr
