@@ -57,7 +57,19 @@ tbl_sum.impactr_data <- function(x) {
     "Peaks" = ifelse(
       all(is.na(attributes(x)$peaks)),
       "Not detected",
-      paste(length(attributes(x)$peaks[["idx"]]), "peaks detected")
+      ifelse(
+        length(attributes(x)$peaks) == 1,
+        paste0(
+          formatC(length(attributes(x)$peaks[[1]][["idx"]]), big.mark = ","),
+          " peaks (", names(attributes(x)$peaks), ")"
+        ),
+        paste0(
+          formatC(length(attributes(x)$peaks[[1]][["idx"]]), big.mark = ","),
+          " peaks (", names(attributes(x)$peaks)[[1]], ") / ",
+          formatC(length(attributes(x)$peaks[[2]][["idx"]]), big.mark = ","),
+          " peaks (", names(attributes(x)$peaks)[[2]], ")"
+        )
+      )
     ),
     "Data dimensions" = dim_desc(x)
   )
