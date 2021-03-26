@@ -68,7 +68,7 @@ check_args_filter_acc <- function(order, cutoff, type) {
 #'
 #' @export
 find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
-
+  check_args_find_peaks(vector, min_height, min_dist)
   min_dist <- attributes(data)$samp_freq * min_dist
 
   if (grepl("resultant", vector, ignore.case = TRUE)) {
@@ -117,4 +117,25 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
   attributes(data)$peaks <- peaks
   row.names(data) <- NULL
   data
+}
+
+#' @importFrom lvmisc %!in%
+check_args_find_peaks <- function(vector, min_height, min_dist) {
+  if (!is.character(vector)) {
+    lvmisc::abort_argument_type("vector", must = "be character", not = vector)
+  }
+  if (!is.numeric(min_height)) {
+    lvmisc::abort_argument_type(
+      "min_height", must = "be numeric", not = min_height
+    )
+  }
+  if (!is.numeric(min_dist)) {
+    lvmisc::abort_argument_type(
+      "min_dist", must = "be numeric", not = min_dist
+    )
+  }
+  valid_values <- c("resultant", "vertical", "both")
+  if (vector %!in% valid_values) {
+    lvmisc::abort_argument_value("vector", valid_values)
+  }
 }
