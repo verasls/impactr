@@ -63,3 +63,25 @@ check_args_filter_acc <- function(order, cutoff, type) {
     lvmisc::abort_argument_type("type", must = "be character", not = type)
   }
 }
+
+#' Find peaks in a signal
+#'
+#' @export
+find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
+
+  min_dist <- attributes(data)$samp_freq * min_dist
+  if (grepl("resultant", vector, ignore.case = TRUE)) {
+    acc_vector <- as.numeric(acc[["acc_R"]])
+  } else if (grepl("vertical", vector, ignore.case = TRUE)) {
+    acc_vector <- as.numeric(acc[["acc_Y"]]) * - 1
+  }
+
+  p <- scipy$signal$find_peaks(
+    acc_vector, height = min_height, distance = min_dist
+  )
+  peaks <- list(height = as.numeric(p[[2]][[1]]), idx = as.numeric(p[[1]] + 1))
+
+  attributes(data)$peaks <- peaks
+  row.names(data) <- NULL
+  data
+}
