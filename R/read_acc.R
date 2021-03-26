@@ -33,7 +33,8 @@ read_acc <- function(file) {
     samp_freq = metadata$samp_freq,
     acc_placement = NA,
     subj_body_mass = NA,
-    filter_type = NA
+    filter_type = NA,
+    peaks = NA
   )
 }
 

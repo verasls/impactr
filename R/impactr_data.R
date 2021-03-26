@@ -14,7 +14,8 @@ new_impactr_data <- function(x,
                              samp_freq,
                              acc_placement,
                              subj_body_mass,
-                             filter_type) {
+                             filter_type,
+                             peaks) {
   stopifnot(is.data.frame(x))
   n_row <- nrow(x)
   tibble::new_tibble(
@@ -24,6 +25,7 @@ new_impactr_data <- function(x,
     acc_placement = acc_placement,
     subj_body_mass = subj_body_mass,
     filter_type = filter_type,
+    peaks = peaks,
     nrow = n_row,
     class = "impactr_data"
   )
@@ -51,6 +53,11 @@ tbl_sum.impactr_data <- function(x) {
       is.na(attributes(x)$filter_type),
       "No filter applied",
       attributes(x)$filter_type
+    ),
+    "Peaks" = ifelse(
+      all(is.na(attributes(x)$peaks)),
+      "Not detected",
+      paste(length(attributes(x)$peaks[["idx"]]), "peaks detected")
     ),
     "Data dimensions" = dim_desc(x)
   )
