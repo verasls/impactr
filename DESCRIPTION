@@ -29,7 +29,8 @@ Imports:
     lvmisc,
     stringr,
     reticulate,
-    toOrdinal
+    toOrdinal,
+    magrittr
 Suggests: 
     testthat (>= 3.0.0),
     covr
