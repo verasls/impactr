@@ -2,6 +2,11 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @keywords internal
+compute_grf <- function(coeff, peaks, body_mass) {
+    .Call(`_impactr_compute_grf`, coeff, peaks, body_mass)
+}
+
+#' @keywords internal
 compute_resultant <- function(acc_X, acc_Y, acc_Z) {
     .Call(`_impactr_compute_resultant`, acc_X, acc_Y, acc_Z)
 }
