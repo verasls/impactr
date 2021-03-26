@@ -101,7 +101,7 @@ check_args_filter_acc <- function(order, cutoff, type) {
 #' data <- use_resultant(data)
 #' find_peaks(data, vector = "resultant")
 find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
-  check_args_find_peaks(vector, min_height, min_dist)
+  check_args_find_peaks(data, vector, min_height, min_dist)
   min_dist <- attributes(data)$samp_freq * min_dist
 
   if (grepl("resultant", vector, ignore.case = TRUE)) {
@@ -153,7 +153,7 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
 }
 
 #' @importFrom lvmisc %!in%
-check_args_find_peaks <- function(vector, min_height, min_dist) {
+check_args_find_peaks <- function(data, vector, min_height, min_dist) {
   if (!is.character(vector)) {
     lvmisc::abort_argument_type("vector", must = "be character", not = vector)
   }
@@ -170,5 +170,15 @@ check_args_find_peaks <- function(vector, min_height, min_dist) {
   valid_values <- c("resultant", "vertical", "both")
   if (vector %!in% valid_values) {
     lvmisc::abort_argument_value("vector", valid_values)
+  }
+  if (vector %in% c("resultant", "both")) {
+    if ("acc_R" %!in% names(data)) {
+      rlang::abort(
+        glue::glue(
+          "The column with the resultant acceleration is not \\
+          present in `data`. Please, compute it with `use_resultant()`."
+        )
+      )
+    }
   }
 }

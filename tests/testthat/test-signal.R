@@ -45,7 +45,7 @@ test_that("default filtering works", {
 
 # find_peaks() tests ------------------------------------------------------
 
-test_that("error handling works", {
+test_that("find_peaks() error handling works", {
   data <- read_acc(test_path("test-data-hip-imu.csv"))
 
   expect_error(
@@ -64,4 +64,5 @@ test_that("error handling works", {
     find_peaks(data, "total"),
     "`vector` must be one of \"resultant\", \"vertical\" or \"both\"."
   )
+  expect_error(find_peaks(data, "resultant"))
 })
