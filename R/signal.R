@@ -66,7 +66,40 @@ check_args_filter_acc <- function(order, cutoff, type) {
 
 #' Find peaks in a signal
 #'
+#' Find peaks in the acceleration signal.
+#'
+#' @param data An \code{impactr_data} object, as obtained with
+#'   \link[=read_acc]{read_acc()}.
+#' @param vector A character string indicating in which acceleration vector to
+#'   find the peaks. Can be "resultant", "vertical" or "both".
+#' @param min_height The minimum height of the peaks (in \emph{g}).
+#' @param min_dist The minimum horizontal distance between peaks (in seconds).
+#'
+#' @return An object of class \code{impactr_data} with the peaks height and
+#'   indices stored as the \code{peaks} attribute.
+#'
+#' @details The default values of the filter parameters are matching the filter
+#'   used in the paper by Veras et al. that developed the mechanical loading
+#'   prediction equations (see References).
+#'
+#' @details The default values of \code{min_height} and \code{min_dist} are
+#'   matching the criteria used in the paper by Veras et al. that developed the
+#'   mechanical loading prediction equations (see References)
+#'
+#' @references \itemize{
+#'   \item Veras L, Diniz-Sousa F, Boppre G, Devezas V, Santos-Sousa H, Preto J,
+#'   Machado L, Vilas- Boas JP, Oliveira J, Fonseca H. Accelerometer-based
+#'   prediction of skeletal mechanical loading during walking in normal weight
+#'   to severely obese subjects. Osteoporosis International. 2020. 31(7):1239-
+#'   1250. \doi{https://doi.org/10.1007/s00198-020-05295-2}.
+#'  }
+#'
 #' @export
+#'
+#' @examples
+#' data <- read_acc(impactr_example("hip-imu.csv"))
+#' data <- use_resultant(data)
+#' find_peaks(data, vector = "resultant")
 find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
   check_args_find_peaks(vector, min_height, min_dist)
   min_dist <- attributes(data)$samp_freq * min_dist

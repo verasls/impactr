@@ -10,7 +10,8 @@ new_impactr_data(
   samp_freq,
   acc_placement,
   subj_body_mass,
-  filter_type
+  filter_type,
+  peaks
 )
 }
 \arguments{
