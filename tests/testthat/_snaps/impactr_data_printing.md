@@ -8,6 +8,7 @@
       # Accelerometer placement: Non-specified
       # Subject body mass:       Non-specified
       # Filter:                  No filter applied
+      # Peaks:                   Not detected
       # Data dimensions:         100 x 4
          timestamp             acc_X   acc_Y acc_Z
          <dttm>                <dbl>   <dbl> <dbl>
@@ -33,6 +34,7 @@
       # Accelerometer placement: Hip
       # Subject body mass:       80kg
       # Filter:                  No filter applied
+      # Peaks:                   Not detected
       # Data dimensions:         100 x 4
          timestamp             acc_X   acc_Y acc_Z
        * <dttm>                <dbl>   <dbl> <dbl>
@@ -58,6 +60,7 @@
       # Accelerometer placement: Non-specified
       # Subject body mass:       Non-specified
       # Filter:                  Butterworth (4th-ord, low-pass, 20Hz)
+      # Peaks:                   Not detected
       # Data dimensions:         100 x 4
          timestamp             acc_X   acc_Y acc_Z
        * <dttm>                <dbl>   <dbl> <dbl>

@@ -44,13 +44,13 @@ test_that("output attributes are correct", {
   test_raw <- read_acc(test_path("test-data-hip-raw.csv"))
 
   # Attributes number
-  expect_equal(length(attributes(test_imu)), 8)
-  expect_equal(length(attributes(test_raw)), 8)
+  expect_equal(length(attributes(test_imu)), 9)
+  expect_equal(length(attributes(test_raw)), 9)
 
   # Attributes names
   attr_names <- c(
     "names", "row.names", "start_date_time", "samp_freq",
-    "acc_placement", "subj_body_mass", "filter_type", "class"
+    "acc_placement", "subj_body_mass", "filter_type", "peaks", "class"
   )
   expect_equal(names(attributes(test_imu)), attr_names)
   expect_equal(names(attributes(test_raw)), attr_names)
