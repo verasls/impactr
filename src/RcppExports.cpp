@@ -5,16 +5,16 @@
 
 using namespace Rcpp;
 
-// compute_grf
-NumericVector compute_grf(List coeff, NumericVector peaks, double body_mass);
-RcppExport SEXP _impactr_compute_grf(SEXP coeffSEXP, SEXP peaksSEXP, SEXP body_massSEXP) {
+// compute_loading
+NumericVector compute_loading(List coeff, NumericVector peaks, double body_mass);
+RcppExport SEXP _impactr_compute_loading(SEXP coeffSEXP, SEXP peaksSEXP, SEXP body_massSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< List >::type coeff(coeffSEXP);
     Rcpp::traits::input_parameter< NumericVector >::type peaks(peaksSEXP);
     Rcpp::traits::input_parameter< double >::type body_mass(body_massSEXP);
-    rcpp_result_gen = Rcpp::wrap(compute_grf(coeff, peaks, body_mass));
+    rcpp_result_gen = Rcpp::wrap(compute_loading(coeff, peaks, body_mass));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -33,7 +33,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_impactr_compute_grf", (DL_FUNC) &_impactr_compute_grf, 3},
+    {"_impactr_compute_loading", (DL_FUNC) &_impactr_compute_loading, 3},
     {"_impactr_compute_resultant", (DL_FUNC) &_impactr_compute_resultant, 3},
     {NULL, NULL, 0}
 };

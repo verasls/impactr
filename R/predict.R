@@ -2,7 +2,7 @@ predict_grf <- function(data, vector) {
   coeff <- get_grf_coefficients("grf", attributes(data)$acc_placement, vector)
   peaks <- attributes(data)$peaks[[vector]]$height
   body_mass <- attributes(data)$subj_body_mass
-  compute_grf(coeff, peaks, body_mass)
+  compute_loading(coeff, peaks, body_mass)
 }
 
 get_grf_coefficients <- function(outcome, acc_placement, vector) {
