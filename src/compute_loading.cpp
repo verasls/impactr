@@ -3,7 +3,8 @@ using namespace Rcpp;
 
 //' @keywords internal
 // [[Rcpp::export]]
-NumericVector compute_loading(List coeff, NumericVector peaks, double body_mass) {
+NumericVector compute_loading(List coeff, NumericVector peaks, 
+                              double body_mass) {
 
     double b0 = as<double>(coeff["b0"]);
     double b1 = as<double>(coeff["b1"]);
