@@ -5,9 +5,6 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 NumericVector get_curve_start(NumericVector acc, NumericVector peaks_idx) {
 
-    // Correct indices from R to C++
-    peaks_idx = peaks_idx - 1;
-
     int n = peaks_idx.size();
     double dFdT = 0;
     NumericVector curve_start(n);
@@ -22,8 +19,6 @@ NumericVector get_curve_start(NumericVector acc, NumericVector peaks_idx) {
         }
     }
 
-    // Correct indices from C++ to R
-    curve_start = curve_start + 1;
     return curve_start;
 
 }
