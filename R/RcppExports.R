@@ -2,6 +2,11 @@
 # Generator token: 10BE3573-1514-4C36-9D1C-5A225CD40393
 
 #' @keywords internal
+get_curve_start <- function(acc, peaks_idx) {
+    .Call(`_impactr_get_curve_start`, acc, peaks_idx)
+}
+
+#' @keywords internal
 compute_loading <- function(coeff, peaks, body_mass) {
     .Call(`_impactr_compute_loading`, coeff, peaks, body_mass)
 }

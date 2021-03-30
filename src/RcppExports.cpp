@@ -5,6 +5,18 @@
 
 using namespace Rcpp;
 
+// get_curve_start
+NumericVector get_curve_start(NumericVector acc, NumericVector peaks_idx);
+RcppExport SEXP _impactr_get_curve_start(SEXP accSEXP, SEXP peaks_idxSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type acc(accSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type peaks_idx(peaks_idxSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_curve_start(acc, peaks_idx));
+    return rcpp_result_gen;
+END_RCPP
+}
 // compute_loading
 NumericVector compute_loading(List coeff, NumericVector peaks, double body_mass);
 RcppExport SEXP _impactr_compute_loading(SEXP coeffSEXP, SEXP peaksSEXP, SEXP body_massSEXP) {
@@ -33,6 +45,7 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
+    {"_impactr_get_curve_start", (DL_FUNC) &_impactr_get_curve_start, 2},
     {"_impactr_compute_loading", (DL_FUNC) &_impactr_compute_loading, 3},
     {"_impactr_compute_resultant", (DL_FUNC) &_impactr_compute_resultant, 3},
     {NULL, NULL, 0}
