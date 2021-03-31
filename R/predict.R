@@ -1,3 +1,36 @@
+#' Predict mechanical loading
+#'
+#' Predict either ground reaction force or loding rate, or both, based on the
+#' accelerometer data.
+#'
+#' @param data An \code{impactr_data} object, as obtained with
+#'   \link[=read_acc]{read_acc()}.
+#' @param outcome A character string. Can be either "grf" (for ground reaction
+#'   force), or "lr" (for loading rate) or "both" (for both mechanical loading
+#'   variables).
+#' @param vector A character string indicating in which acceleration vector to
+#'   find the peaks. Can be "resultant" or "vertical".
+#' @param equation A character string indicating which equation to use to make
+#'   the predictions. The only value supported, currently, is "walking/running".
+#'
+#' @return If \code{outcome} is "grf" or "lf", a numeric vector with the
+#'   predicted mechanical loading. If \code{outcome} is "both", it returns a
+#'   named list with the corresponding predicted mechanical loading variable
+#'   values.
+#'
+#' @export
+#'
+#' @examples
+#' data <- read_acc(impactr_example("hip-imu.csv")) %>%
+#'   specify_parameters(acc_placement = "hip", subj_body_mass = 78) %>%
+#'   use_resultant() %>%
+#'   find_peaks("resultant") %>%
+#'   predict_loading(
+#'     outcome = "grf",
+#'     vector = "resultant",
+#'     equation = "walking/running"
+#'   )
+#' head(data)
 predict_loading <- function(data, outcome, vector, equation) {
   if (grepl("grf", outcome)) {
     predict_grf(data, vector, equation)
