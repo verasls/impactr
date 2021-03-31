@@ -1,3 +1,16 @@
+predict_loading <- function(data, outcome, vector, equation) {
+  if (grepl("grf", outcome)) {
+    predict_grf(data, vector, equation)
+  } else if (grepl("lr", outcome)) {
+    predict_lr(data, vector, equation)
+  } else if (grepl("both", outcome)) {
+    list(
+      grf = predict_grf(data, vector, equation),
+      lr = predict_lr(data, vector, equation)
+    )
+  }
+}
+
 predict_grf <- function(data, vector, equation) {
   coeff <- get_grf_coefficients(
     attributes(data)$acc_placement, vector, equation
