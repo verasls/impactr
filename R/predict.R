@@ -1,7 +1,23 @@
 predict_grf <- function(data, vector) {
   coeff <- get_grf_coefficients(attributes(data)$acc_placement, vector)
-  peaks <- attributes(data)$peaks[[vector]]$height
   body_mass <- attributes(data)$subj_body_mass
+  peaks <- attributes(data)$peaks[[vector]]$height
+  compute_loading(coeff, peaks, body_mass)
+}
+
+predict_lr <- function(data, vector) {
+  samp_freq <- attributes(data)$samp_freq
+  coeff <- get_lr_coefficients(attributes(data)$acc_placement, vector)
+  body_mass <- attributes(data)$subj_body_mass
+  peaks_idx <- attributes(data)$peaks[[vector]]$idx
+
+  if (grepl("resultant", vector)) {
+    acc_vector <- as.numeric(data[["acc_R"]])
+  } else if (grepl("vertical", vector)) {
+    acc_vector <- as.numeric(data[["acc_Y"]]) * -1
+  }
+  start_idx <- get_curve_start(acc_vector, peaks_idx)
+  peaks <- compute_peak_acc_rate(acc_vector, start_idx, peaks_idx, samp_freq)
   compute_loading(coeff, peaks, body_mass)
 }
 
