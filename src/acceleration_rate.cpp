@@ -6,13 +6,13 @@ using namespace Rcpp;
 NumericVector get_curve_start(NumericVector acc, NumericVector peaks_idx) {
 
     int n = peaks_idx.size();
-    double dFdT = 0;
+    double dF = 0;
     NumericVector curve_start(n);
 
     for (int i = 0; i < n; ++i) {
         for (int j = peaks_idx[i] - 1; j > 0; --j) {
-            dFdT = acc[j + 1] - acc[j - 1];
-            if (dFdT < 0) {
+            dF = acc[j + 1] - acc[j - 1];
+            if (dF < 0) {
                 curve_start[i] = j;
                 break;
             }
@@ -20,5 +20,36 @@ NumericVector get_curve_start(NumericVector acc, NumericVector peaks_idx) {
     }
 
     return curve_start;
+
+}
+
+//' @keywords internal
+// [[Rcpp::export]]
+NumericVector compute_peak_acc_rate(NumericVector acc, NumericVector start_idx,
+                                    NumericVector peaks_idx, double samp_freq) {
+
+    int n = start_idx.size();
+    NumericVector peak_acc_rate(n);
+    double dF = 0;
+    double dT = 0;
+    std::vector<double> dFdT;
+
+    for (int i = 0; i < n; ++i) {
+        if (peaks_idx[i] - start_idx[i] <= 1) {
+            peak_acc_rate[i] = NA_REAL;
+        } else {
+            for (int j = start_idx[i] + 1; j < peaks_idx[i]; ++j) {
+                dF = acc[j + 1] - acc[j - 1];
+                dT = 2 / samp_freq;
+                dFdT.push_back(dF / dT);
+            }
+            std::vector<double>::iterator max_rate;
+            max_rate = std::max_element(dFdT.begin(), dFdT.end());
+            peak_acc_rate[i] = *max_rate;
+            std::fill(dFdT.begin(), dFdT.end(), 0);
+        }
+    }
+
+    return peak_acc_rate;
 
 }

@@ -17,6 +17,20 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// compute_peak_acc_rate
+NumericVector compute_peak_acc_rate(NumericVector acc, NumericVector start_idx, NumericVector peaks_idx, double samp_freq);
+RcppExport SEXP _impactr_compute_peak_acc_rate(SEXP accSEXP, SEXP start_idxSEXP, SEXP peaks_idxSEXP, SEXP samp_freqSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< NumericVector >::type acc(accSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type start_idx(start_idxSEXP);
+    Rcpp::traits::input_parameter< NumericVector >::type peaks_idx(peaks_idxSEXP);
+    Rcpp::traits::input_parameter< double >::type samp_freq(samp_freqSEXP);
+    rcpp_result_gen = Rcpp::wrap(compute_peak_acc_rate(acc, start_idx, peaks_idx, samp_freq));
+    return rcpp_result_gen;
+END_RCPP
+}
 // compute_loading
 NumericVector compute_loading(List coeff, NumericVector peaks, double body_mass);
 RcppExport SEXP _impactr_compute_loading(SEXP coeffSEXP, SEXP peaksSEXP, SEXP body_massSEXP) {
@@ -46,6 +60,7 @@ END_RCPP
 
 static const R_CallMethodDef CallEntries[] = {
     {"_impactr_get_curve_start", (DL_FUNC) &_impactr_get_curve_start, 2},
+    {"_impactr_compute_peak_acc_rate", (DL_FUNC) &_impactr_compute_peak_acc_rate, 4},
     {"_impactr_compute_loading", (DL_FUNC) &_impactr_compute_loading, 3},
     {"_impactr_compute_resultant", (DL_FUNC) &_impactr_compute_resultant, 3},
     {NULL, NULL, 0}
