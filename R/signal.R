@@ -104,52 +104,91 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
   check_args_find_peaks(data, vector, min_height, min_dist)
   min_dist <- attributes(data)$samp_freq * min_dist
 
-  if (grepl("resultant", vector, ignore.case = TRUE)) {
-    acc_resultant <- as.numeric(data[["acc_R"]])
-    p_resultant <- scipy$signal$find_peaks(
-      acc_resultant, height = min_height, distance = min_dist
+  if (!grepl("both", vector, ignore.case = TRUE)) {
+    if (grepl("vertical", vector, ignore.case = TRUE)) {
+      acc <- as.numeric(data[["acc_Y"]]) * - 1
+      var_name <- "vertical_peak_acc"
+    } else if (grepl("resultant", vector, ignore.case = TRUE)) {
+      acc <- as.numeric(data[["acc_R"]])
+      var_name <- "resultant_peak_acc"
+    }
+    peaks <- scipy$signal$find_peaks(
+      acc, height = min_height, distance = min_dist
     )
     peaks <- list(
-      resultant = list(
-        height = as.numeric(p_resultant[[2]][[1]]),
-        idx = as.numeric(p_resultant[[1]] + 1)
-      )
+      height = as.numeric(peaks[[2]][[1]]),
+      idx = as.numeric(peaks[[1]] + 1)
     )
-  } else if (grepl("vertical", vector, ignore.case = TRUE)) {
-    acc_vertical <- as.numeric(data[["acc_Y"]]) * - 1
-    p_vertical <- scipy$signal$find_peaks(
-      acc_vertical, height = min_height, distance = min_dist
-    )
-    peaks <- list(
-      vertical = list(
-        height = as.numeric(p_vertical[[2]][[1]]),
-        idx = as.numeric(p_vertical[[1]] + 1)
-      )
-    )
-  } else if (grepl("both", vector, ignore.case = TRUE)) {
-    acc_resultant <- as.numeric(data[["acc_R"]])
-    acc_vertical <- as.numeric(data[["acc_Y"]]) * - 1
-    p_resultant <- scipy$signal$find_peaks(
-      acc_resultant, height = min_height, distance = min_dist
-    )
-    p_vertical <- scipy$signal$find_peaks(
-      acc_vertical, height = min_height, distance = min_dist
-    )
-    peaks <- list(
-      resultant = list(
-        height = as.numeric(p_resultant[[2]][[1]]),
-        idx = as.numeric(p_resultant[[1]] + 1)
-      ),
-      vertical = list(
-        height = as.numeric(p_vertical[[2]][[1]]),
-        idx = as.numeric(p_vertical[[1]] + 1)
-      )
-    )
-  }
 
-  attributes(data)$peaks <- peaks
-  row.names(data) <- NULL
-  data
+    impactr_peaks <- tibble::tibble(
+      timestamp = data$timestamp[peaks$idx],
+      peak_acc = peaks$height
+    )
+    impactr_peaks <- new_impactr_peaks(
+      impactr_peaks,
+      start_date_time = attributes(data)$start_date_time,
+      samp_freq = attributes(data)$samp_freq,
+      acc_placement = attributes(data)$acc_placement,
+      subj_body_mass = attributes(data)$subj_body_mass,
+      filter_type = attributes(data)$filter_type,
+      peaks_idx = peaks$idx
+    )
+    names(impactr_peaks)[2] <- var_name
+    return(impactr_peaks)
+  } else if (grepl("both", vector, ignore.case = TRUE)) {
+    acc_vertical <- as.numeric(data[["acc_Y"]]) * - 1
+    acc_resultant <- as.numeric(data[["acc_R"]])
+    p_vertical <- scipy$signal$find_peaks(
+      acc_vertical, height = min_height, distance = min_dist
+    )
+    p_resultant <- scipy$signal$find_peaks(
+      acc_resultant, height = min_height, distance = min_dist
+    )
+    peaks <- list(
+      vertical = list(
+        height = as.numeric(p_vertical[[2]][[1]]),
+        idx = as.numeric(p_vertical[[1]] + 1)
+      ),
+      resultant = list(
+        height = as.numeric(p_resultant[[2]][[1]]),
+        idx = as.numeric(p_resultant[[1]] + 1)
+      )
+    )
+
+    total_peaks_idx <- sort(union(peaks$vertical$idx, peaks$resultant$idx))
+    impactr_peaks <- tibble::tibble(
+      timestamp = data$timestamp[total_peaks_idx],
+      vertical_peak_acc = purrr::map_dbl(
+        seq_along(total_peaks_idx),
+        ~ get_peaks_vector(total_peaks_idx, peaks, "vertical", .x)
+      ),
+      resultant_peak_acc = purrr::map_dbl(
+        seq_along(total_peaks_idx),
+        ~ get_peaks_vector(total_peaks_idx, peaks, "resultant", .x)
+      )
+    )
+    impactr_peaks <- new_impactr_peaks(
+      impactr_peaks,
+      start_date_time = attributes(data)$start_date_time,
+      samp_freq = attributes(data)$samp_freq,
+      acc_placement = attributes(data)$acc_placement,
+      subj_body_mass = attributes(data)$subj_body_mass,
+      filter_type = attributes(data)$filter_type,
+      peaks_idx = list(
+        vertical = peaks$vertical$idx,
+        resultant = peaks$resultant$idx
+      )
+    )
+    return(impactr_peaks)
+  }
+}
+
+get_peaks_vector <- function(total_peaks_idx, peaks, vector, i) {
+  ifelse(
+    total_peaks_idx[i] %in% peaks[[vector]]$idx,
+    peaks[[vector]]$height[which(peaks[[vector]]$idx == total_peaks_idx[i])],
+    NA
+  )
 }
 
 #' @importFrom lvmisc %!in%
