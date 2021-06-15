@@ -14,8 +14,7 @@ new_impactr_data <- function(x,
                              samp_freq,
                              acc_placement,
                              subj_body_mass,
-                             filter_type,
-                             peaks) {
+                             filter_type) {
   stopifnot(is.data.frame(x))
   n_row <- nrow(x)
   tibble::new_tibble(
@@ -25,9 +24,30 @@ new_impactr_data <- function(x,
     acc_placement = acc_placement,
     subj_body_mass = subj_body_mass,
     filter_type = filter_type,
-    peaks = peaks,
     nrow = n_row,
     class = "impactr_data"
+  )
+}
+
+new_impactr_peaks <- function(x,
+                             start_date_time,
+                             samp_freq,
+                             acc_placement,
+                             subj_body_mass,
+                             filter_type,
+                             peaks_idx) {
+  stopifnot(is.data.frame(x))
+  n_row <- nrow(x)
+  tibble::new_tibble(
+    x,
+    start_date_time = start_date_time,
+    samp_freq = samp_freq,
+    acc_placement = acc_placement,
+    subj_body_mass = subj_body_mass,
+    filter_type = filter_type,
+    peaks_idx = peaks_idx,
+    nrow = n_row,
+    class = c("impactr_peaks", "impactr_data")
   )
 }
 
@@ -53,23 +73,6 @@ tbl_sum.impactr_data <- function(x) {
       is.na(attributes(x)$filter_type),
       "No filter applied",
       attributes(x)$filter_type
-    ),
-    "Peaks" = ifelse(
-      all(is.na(attributes(x)$peaks)),
-      "Not detected",
-      ifelse(
-        length(attributes(x)$peaks) == 1,
-        paste0(
-          formatC(length(attributes(x)$peaks[[1]][["idx"]]), big.mark = ","),
-          " peaks (", names(attributes(x)$peaks), ")"
-        ),
-        paste0(
-          formatC(length(attributes(x)$peaks[[1]][["idx"]]), big.mark = ","),
-          " peaks (", names(attributes(x)$peaks)[[1]], ") / ",
-          formatC(length(attributes(x)$peaks[[2]][["idx"]]), big.mark = ","),
-          " peaks (", names(attributes(x)$peaks)[[2]], ")"
-        )
-      )
     ),
     "Data dimensions" = dim_desc(x)
   )
