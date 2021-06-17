@@ -35,7 +35,8 @@ new_impactr_peaks <- function(x,
                              acc_placement,
                              subj_body_mass,
                              filter_type,
-                             peaks_idx) {
+                             peaks_idx,
+                             acc_signal) {
   stopifnot(is.data.frame(x))
   n_row <- nrow(x)
   tibble::new_tibble(
@@ -46,6 +47,7 @@ new_impactr_peaks <- function(x,
     subj_body_mass = subj_body_mass,
     filter_type = filter_type,
     peaks_idx = peaks_idx,
+    acc_signal = acc_signal,
     nrow = n_row,
     class = c("impactr_peaks", "impactr_data")
   )
