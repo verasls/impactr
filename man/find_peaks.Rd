@@ -18,8 +18,8 @@ find the peaks. Can be "resultant", "vertical" or "both".}
 \item{min_dist}{The minimum horizontal distance between peaks (in seconds).}
 }
 \value{
-An object of class \code{impactr_data} with the peaks height and
-indices stored as the \code{peaks} attribute.
+An object of class \code{impactr_peaks} with the peaks magnitude
+stored in the columns.
 }
 \description{
 Find peaks in the acceleration signal.
@@ -28,6 +28,10 @@ Find peaks in the acceleration signal.
 The default values of the filter parameters are matching the filter
 used in the paper by Veras et al. that developed the mechanical loading
 prediction equations (see References).
+When the \code{vector} parameter is set to "both", there may contain
+\code{NA} values in the \code{resultant_peak_acc} and/or
+\code{vertical_peak_acc} at the timestamps in which a peak value for that
+vector could not be identified.
 
 The default values of \code{min_height} and \code{min_dist} are
 matching the criteria used in the paper by Veras et al. that developed the
