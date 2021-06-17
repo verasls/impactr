@@ -1,6 +1,6 @@
 #' Predict mechanical loading
 #'
-#' Predict either ground reaction force or loding rate, or both, based on the
+#' Predict either ground reaction force or loding rate, or both, based on
 #' accelerometer data.
 #'
 #' @param data An \code{impactr_data} object, as obtained with
@@ -13,10 +13,8 @@
 #' @param equation A character string indicating which equation to use to make
 #'   the predictions. The only value supported, currently, is "walking/running".
 #'
-#' @return If \code{outcome} is "grf" or "lf", a numeric vector with the
-#'   predicted mechanical loading. If \code{outcome} is "both", it returns a
-#'   named list with the corresponding predicted mechanical loading variable
-#'   values.
+#' @return An object of class \code{impactr_peaks} with the ground reaction
+#'   force and/or loading rate peaks magnitude stored in the columns.
 #'
 #' @export
 #'
