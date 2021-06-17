@@ -22,5 +22,5 @@ data timestamp.
 }
 \examples{
 data <- read_acc(impactr_example("hip-imu.csv"))
-define_region(data, start = "15:08:00", end = "15:45:00")
+define_region(data, start = "15:45:00", end = "15:46:00")
 }

@@ -74,7 +74,7 @@ check_args_specify_parameters <- function(acc_placement, subj_body_mass) {
 #'
 #' @examples
 #' data <- read_acc(impactr_example("hip-imu.csv"))
-#' define_region(data, start = "15:08:00", end = "15:45:00")
+#' define_region(data, start = "15:45:00", end = "15:46:00")
 define_region <- function(data, start, end) {
   check_args_define_region(data, start, end)
 
