@@ -57,13 +57,11 @@ predict_lr <- function(data, vector, equation) {
   samp_freq <- attributes(data)$samp_freq
   coeff <- get_lr_coefficients(attributes(data)$acc_placement, vector, equation)
   body_mass <- attributes(data)$subj_body_mass
-  peaks_idx <- attributes(data)$peaks[[vector]]$idx
-
-  if (grepl("resultant", vector)) {
-    acc_vector <- as.numeric(data[["acc_R"]])
-  } else if (grepl("vertical", vector)) {
-    acc_vector <- as.numeric(data[["acc_Y"]]) * -1
+  peaks_idx <- attributes(data)$peaks_idx
+  if (!grepl("both", vector)) {
+    acc_vector <- attributes(data)$acc_signal
   }
+
   start_idx <- get_curve_start(acc_vector, peaks_idx)
   peaks <- compute_peak_acc_rate(acc_vector, start_idx, peaks_idx, samp_freq)
   compute_loading(coeff, peaks, body_mass)
