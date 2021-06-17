@@ -19,10 +19,10 @@
 #' @export
 #'
 #' @examples
-#' data <- read_acc(impactr_example("hip-imu.csv")) %>%
-#'   specify_parameters(acc_placement = "hip", subj_body_mass = 78) %>%
-#'   use_resultant() %>%
-#'   find_peaks("resultant") %>%
+#' data <- read_acc(impactr_example("hip-imu.csv")) |>
+#'   specify_parameters(acc_placement = "hip", subj_body_mass = 78) |>
+#'   use_resultant() |>
+#'   find_peaks("resultant") |>
 #'   predict_loading(
 #'     outcome = "grf",
 #'     vector = "resultant",
