@@ -32,11 +32,11 @@
 #'   )
 #' head(data)
 predict_loading <- function(data, outcome, vector, equation) {
-  if (grepl("grf", outcome)) {
+  if (grepl("grf", outcome, ignore.case = TRUE)) {
     predict_grf(data, vector, equation)
-  } else if (grepl("lr", outcome)) {
+  } else if (grepl("lr", outcome, ignore.case = TRUE)) {
     predict_lr(data, vector, equation)
-  } else if (grepl("both", outcome)) {
+  } else if (grepl("both", outcome, ignore.case = TRUE)) {
     list(
       grf = predict_grf(data, vector, equation),
       lr = predict_lr(data, vector, equation)
@@ -49,7 +49,7 @@ predict_grf <- function(data, vector, equation) {
     attributes(data)$acc_placement, vector, equation
   )
   body_mass <- attributes(data)$subj_body_mass
-  peaks <- attributes(data)$peaks[[vector]]$height
+  peaks <- data[[paste0(vector, "_peak_acc")]]
   compute_loading(coeff, peaks, body_mass)
 }
 
