@@ -135,7 +135,8 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
       acc_placement = attributes(data)$acc_placement,
       subj_body_mass = attributes(data)$subj_body_mass,
       filter_type = attributes(data)$filter_type,
-      peaks_idx = peaks$idx
+      peaks_idx = peaks$idx,
+      acc_signal = acc
     )
     names(impactr_peaks)[2] <- var_name
     return(impactr_peaks)
@@ -181,6 +182,10 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
       peaks_idx = list(
         vertical = peaks$vertical$idx,
         resultant = peaks$resultant$idx
+      ),
+      acc_signal = list(
+        vertical = acc_vertical,
+        resultant = acc_resultant
       )
     )
     return(impactr_peaks)
