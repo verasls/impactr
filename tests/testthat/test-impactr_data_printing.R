@@ -13,7 +13,7 @@ test_that("printing from filter_acc() works", {
 })
 
 test_that("printing from find_peaks() works", {
-  data <- read_acc(test_path("test-data-hip-imu.csv"))
+  data <- read_acc(impactr_example("hip-imu.csv"))
   data <- use_resultant(data)
   expect_snapshot(find_peaks(data, "vertical"))
   expect_snapshot(find_peaks(data, "resultant"))
