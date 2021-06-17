@@ -37,10 +37,11 @@ predict_loading <- function(data, outcome, vector, equation) {
   } else if (grepl("lr", outcome, ignore.case = TRUE)) {
     predict_lr(data, vector, equation)
   } else if (grepl("both", outcome, ignore.case = TRUE)) {
-    list(
-      grf = predict_grf(data, vector, equation),
-      lr = predict_lr(data, vector, equation)
-    )
+    impactr_peaks <- predict_grf(data, vector, equation)
+    lr <- predict_lr(data, vector, equation)
+    var_name <- names(lr)[3]
+    impactr_peaks[var_name] <- lr[var_name]
+    impactr_peaks
   }
 }
 
@@ -50,7 +51,10 @@ predict_grf <- function(data, vector, equation) {
   )
   body_mass <- attributes(data)$subj_body_mass
   peaks <- data[[paste0(vector, "_peak_acc")]]
-  compute_loading(coeff, peaks, body_mass)
+  data[[paste0(vector, "_peak_grf")]] <- compute_loading(
+    coeff, peaks, body_mass
+  )
+  data
 }
 
 predict_lr <- function(data, vector, equation) {
@@ -64,7 +68,10 @@ predict_lr <- function(data, vector, equation) {
 
   start_idx <- get_curve_start(acc_vector, peaks_idx)
   peaks <- compute_peak_acc_rate(acc_vector, start_idx, peaks_idx, samp_freq)
-  compute_loading(coeff, peaks, body_mass)
+  data[[paste0(vector, "_peak_lr")]] <- compute_loading(
+    coeff, peaks, body_mass
+  )
+  data
 }
 
 get_grf_coefficients <- function(acc_placement, vector, equation) {
