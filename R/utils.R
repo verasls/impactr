@@ -24,6 +24,7 @@ specify_parameters <- function(data, acc_placement, subj_body_mass) {
   acc_placement <- get_acc_placement(acc_placement)
   attributes(data)$acc_placement <- acc_placement
   attributes(data)$subj_body_mass <- subj_body_mass
+  row.names(data) <- NULL
   data
 }
 
