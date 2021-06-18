@@ -30,11 +30,11 @@
 #'   )
 #' head(data)
 predict_loading <- function(data, outcome, vector, equation) {
-  if (grepl("grf", outcome, ignore.case = TRUE)) {
+  if (grepl("\\bgrf\\b", outcome, ignore.case = TRUE)) {
     predict_grf(data, vector, equation)
-  } else if (grepl("lr", outcome, ignore.case = TRUE)) {
+  } else if (grepl("\\blr\\b", outcome, ignore.case = TRUE)) {
     predict_lr(data, vector, equation)
-  } else if (grepl("both", outcome, ignore.case = TRUE)) {
+  } else if (grepl("\\bboth\\b", outcome, ignore.case = TRUE)) {
     impactr_peaks <- predict_grf(data, vector, equation)
     lr <- predict_lr(data, vector, equation)
     var_name <- names(lr)[3]
@@ -60,7 +60,7 @@ predict_lr <- function(data, vector, equation) {
   coeff <- get_lr_coefficients(attributes(data)$acc_placement, vector, equation)
   body_mass <- attributes(data)$subj_body_mass
   peaks_idx <- attributes(data)$peaks_idx
-  if (!grepl("both", vector)) {
+  if (!grepl("\\bboth\\b", vector)) {
     acc_vector <- attributes(data)$acc_signal
   }
 

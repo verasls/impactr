@@ -44,7 +44,7 @@ filter_acc <- function(data, order = 4, cutoff = 20, type = "lowpass") {
 
 get_filter_type <- function(order, cutoff, type) {
   order <- toOrdinal::toOrdinal(order)
-  if (grepl("lowpass", type)) {
+  if (grepl("\\blowpass\\b", type)) {
     type <- "low-pass"
   }
   cutoff <- paste0(cutoff, "Hz")
@@ -108,11 +108,11 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
   check_args_find_peaks(data, vector, min_height, min_dist)
   min_dist <- attributes(data)$samp_freq * min_dist
 
-  if (!grepl("both", vector, ignore.case = TRUE)) {
-    if (grepl("vertical", vector, ignore.case = TRUE)) {
+  if (!grepl("\\bboth\\b", vector, ignore.case = TRUE)) {
+    if (grepl("\\bvertical\\b", vector, ignore.case = TRUE)) {
       acc <- as.numeric(data[["acc_Y"]]) * - 1
       var_name <- "vertical_peak_acc"
-    } else if (grepl("resultant", vector, ignore.case = TRUE)) {
+    } else if (grepl("\\bresultant\\b", vector, ignore.case = TRUE)) {
       acc <- as.numeric(data[["acc_R"]])
       var_name <- "resultant_peak_acc"
     }
@@ -140,7 +140,7 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
     )
     names(impactr_peaks)[2] <- var_name
     return(impactr_peaks)
-  } else if (grepl("both", vector, ignore.case = TRUE)) {
+  } else if (grepl("\\bboth\\b", vector, ignore.case = TRUE)) {
     acc_vertical <- as.numeric(data[["acc_Y"]]) * - 1
     acc_resultant <- as.numeric(data[["acc_R"]])
     p_vertical <- scipy$signal$find_peaks(

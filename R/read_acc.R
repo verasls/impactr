@@ -78,9 +78,9 @@ check_metadata <- function(file) {
 }
 
 has_header <- function(header) {
- if (any(grepl("ActiGraph", header[1, ]))) {
+ if (any(grepl("\\bActiGraph\\b", header[1, ]))) {
     TRUE
- } else if (any(grepl("GENEActiv", header[1, ]))) {
+ } else if (any(grepl("\\bGENEActiv\\b", header[1, ]))) {
     TRUE
  } else {
     FALSE
@@ -88,7 +88,7 @@ has_header <- function(header) {
 }
 
 is_actigraph <- function(header) {
-  any(grepl("ActiGraph", header[1, ]))
+  any(grepl("\\bActiGraph\\b", header[1, ]))
 }
 
 is_raw_data <- function(header) {
