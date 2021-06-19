@@ -30,7 +30,7 @@
 #'   )
 #' head(data)
 predict_loading <- function(data, outcome, vector, model) {
-  check_data(data, vector)
+  check_args_compute_loading(data, outcome, vector, model)
   if (grepl("\\bgrf\\b", outcome, ignore.case = TRUE)) {
     data <- predict_grf(data, vector, model)
   } else if (grepl("\\blr\\b", outcome, ignore.case = TRUE)) {
@@ -192,6 +192,7 @@ get_lr_coefficients <- function(acc_placement, vector, model) {
   }
 }
 
+#' @importFrom lvmisc %!in%
 check_data <- function(data, vector) {
   if (
     grepl("\\bvertical\\b", vector) &
@@ -199,8 +200,8 @@ check_data <- function(data, vector) {
   ) {
     rlang::abort(
       glue::glue(
-        "Column `vertical_peak_acc` is missing from `data`; consider \\
-        running find_peaks() with vector argument set as `vertical` or `all`."
+        "Column `vertical_peak_acc` is missing from `data`. Please, \\
+        run find_peaks() with vector argument set as `vertical` or `all`."
       )
     )
   } else if (
@@ -209,8 +210,8 @@ check_data <- function(data, vector) {
   ) {
     rlang::abort(
       glue::glue(
-        "Column `resultant_peak_acc` is missing from `data`; consider \\
-        running find_peaks() with vector argument set as `resultant` or `all`."
+        "Column `resultant_peak_acc` is missing from `data`. Please, \\
+        run find_peaks() with vector argument set as `resultant` or `all`."
       )
     )
   } else if (
@@ -219,8 +220,8 @@ check_data <- function(data, vector) {
   ) {
     rlang::abort(
       glue::glue(
-        "Column `vertical_peak_acc` is missing from `data`; consider \\
-        running find_peaks() with vector argument set as `all`."
+        "Column `vertical_peak_acc` is missing from `data`. Please, \\
+        run find_peaks() with vector argument set as `all`."
       )
     )
   } else if (
@@ -229,8 +230,8 @@ check_data <- function(data, vector) {
   ) {
     rlang::abort(
       glue::glue(
-        "Column `resultant_peak_acc` is missing from `data`; consider \\
-        running find_peaks() with vector argument set as `all`."
+        "Column `resultant_peak_acc` is missing from `data`. Please, \\
+        run find_peaks() with vector argument set as `all`."
       )
     )
   }
@@ -263,4 +264,27 @@ check_output <- function(data, vector) {
     data <- data
   }
   data[rowSums(is.na(data[, -1])) != ncol(data[, -1]), ]
+}
+
+#' @importFrom lvmisc %!in%
+check_args_compute_loading <- function(data, outcome, vector, model) {
+  valid_outcome <- c("grf", "lr", "all")
+  if (outcome %!in% valid_outcome) {
+    lvmisc::abort_argument_value("outcome", valid_outcome)
+  }
+
+  valid_model <- c("walking/running")
+  if (model %!in% valid_model) {
+    lvmisc::abort_argument_value("model", valid_model)
+  }
+
+  if (!is.character(vector)) {
+    lvmisc::abort_argument_type("vector", must = "be character", not = vector)
+  }
+  valid_vector <- c("resultant", "vertical", "all")
+  if (vector %!in% valid_vector) {
+    lvmisc::abort_argument_value("vector", valid_vector)
+  }
+
+  check_data(data, vector)
 }
