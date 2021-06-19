@@ -11,7 +11,7 @@ find_peaks(data, vector, min_height = 1.3, min_dist = 0.4)
 \link[=read_acc]{read_acc()}.}
 
 \item{vector}{A character string indicating in which acceleration vector to
-find the peaks. Can be "resultant", "vertical" or "both".}
+find the peaks. Can be "resultant", "vertical" or "all".}
 
 \item{min_height}{The minimum height of the peaks (in \emph{g}).}
 
@@ -28,7 +28,7 @@ Find peaks in the acceleration signal.
 The default values of the filter parameters are matching the filter
 used in the paper by Veras et al. that developed the mechanical loading
 prediction equations (see References).
-When the \code{vector} parameter is set to "both", there may contain
+When the \code{vector} parameter is set to "all", there may contain
 \code{NA} values in the \code{resultant_peak_acc} and/or
 \code{vertical_peak_acc} at the timestamps in which a peak value for that
 vector could not be identified.

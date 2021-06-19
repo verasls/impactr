@@ -126,7 +126,7 @@
 ---
 
     Code
-      find_peaks(data, "both")
+      find_peaks(data, "all")
     Output
       # Start time:              2021-04-06 15:43:00
       # Sampling frequency:      100Hz

@@ -6,10 +6,10 @@
 #' @param data An \code{impactr_data} object, as obtained with
 #'   \link[=read_acc]{read_acc()}.
 #' @param outcome A character string. Can be either "grf" (for ground reaction
-#'   force), or "lr" (for loading rate) or "both" (for both mechanical loading
+#'   force), or "lr" (for loading rate) or "all" (for both mechanical loading
 #'   variables).
 #' @param vector A character string indicating in which acceleration vector to
-#'   find the peaks. Can be "resultant", "vertical" or "both".
+#'   find the peaks. Can be "resultant", "vertical" or "all".
 #' @param equation A character string indicating which equation to use to make
 #'   the predictions. The only value supported, currently, is "walking/running".
 #'
@@ -34,7 +34,7 @@ predict_loading <- function(data, outcome, vector, equation) {
     data <- predict_grf(data, vector, equation)
   } else if (grepl("\\blr\\b", outcome, ignore.case = TRUE)) {
     data <- predict_lr(data, vector, equation)
-  } else if (grepl("\\bboth\\b", outcome, ignore.case = TRUE)) {
+  } else if (grepl("\\ball\\b", outcome, ignore.case = TRUE)) {
     impactr_peaks <- predict_grf(data, vector, equation)
     lr <- predict_lr(data, vector, equation)
     var_name <- names(lr)[3]
@@ -46,7 +46,7 @@ predict_loading <- function(data, outcome, vector, equation) {
 
 predict_grf <- function(data, vector, equation) {
   body_mass <- attributes(data)$subj_body_mass
-  if (!grepl("\\bboth\\b", vector)) {
+  if (!grepl("\\ball\\b", vector)) {
     coeff <- get_grf_coefficients(
       attributes(data)$acc_placement, vector, equation
     )
@@ -54,7 +54,7 @@ predict_grf <- function(data, vector, equation) {
     data[[paste0(vector, "_peak_grf")]] <- compute_loading(
       coeff, peaks, body_mass
     )
-  } else if (grepl("\\bboth\\b", vector)) {
+  } else if (grepl("\\ball\\b", vector)) {
     coeff <- list(
       vertical = get_grf_coefficients(
         attributes(data)$acc_placement, "vertical", equation
@@ -80,7 +80,7 @@ predict_grf <- function(data, vector, equation) {
 predict_lr <- function(data, vector, equation) {
   samp_freq <- attributes(data)$samp_freq
   body_mass <- attributes(data)$subj_body_mass
-  if (!grepl("\\bboth\\b", vector)) {
+  if (!grepl("\\ball\\b", vector)) {
     coeff <- get_lr_coefficients(
       attributes(data)$acc_placement, vector, equation
     )
@@ -107,7 +107,7 @@ predict_lr <- function(data, vector, equation) {
     data[[paste0(vector, "_peak_lr")]][nonNA_idx] <- compute_loading(
       coeff, peaks, body_mass
     )
-  } else if (grepl("\\bboth\\b", vector)) {
+  } else if (grepl("\\ball\\b", vector)) {
     coeff <- list(
       vertical = get_lr_coefficients(
         attributes(data)$acc_placement, "vertical", equation

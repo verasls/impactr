@@ -71,7 +71,7 @@ check_args_filter_acc <- function(order, cutoff, type) {
 #' @param data An \code{impactr_data} object, as obtained with
 #'   \link[=read_acc]{read_acc()}.
 #' @param vector A character string indicating in which acceleration vector to
-#'   find the peaks. Can be "resultant", "vertical" or "both".
+#'   find the peaks. Can be "resultant", "vertical" or "all".
 #' @param min_height The minimum height of the peaks (in \emph{g}).
 #' @param min_dist The minimum horizontal distance between peaks (in seconds).
 #'
@@ -81,7 +81,7 @@ check_args_filter_acc <- function(order, cutoff, type) {
 #' @details The default values of the filter parameters are matching the filter
 #'   used in the paper by Veras et al. that developed the mechanical loading
 #'   prediction equations (see References).
-#'   When the \code{vector} parameter is set to "both", there may contain
+#'   When the \code{vector} parameter is set to "all", there may contain
 #'   \code{NA} values in the \code{resultant_peak_acc} and/or
 #'   \code{vertical_peak_acc} at the timestamps in which a peak value for that
 #'   vector could not be identified.
@@ -108,7 +108,7 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
   check_args_find_peaks(data, vector, min_height, min_dist)
   min_dist <- attributes(data)$samp_freq * min_dist
 
-  if (!grepl("\\bboth\\b", vector, ignore.case = TRUE)) {
+  if (!grepl("\\ball\\b", vector, ignore.case = TRUE)) {
     if (grepl("\\bvertical\\b", vector, ignore.case = TRUE)) {
       acc <- as.numeric(data[["acc_Y"]]) * - 1
       var_name <- "vertical_peak_acc"
@@ -140,7 +140,7 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
     )
     names(impactr_peaks)[2] <- var_name
     return(impactr_peaks)
-  } else if (grepl("\\bboth\\b", vector, ignore.case = TRUE)) {
+  } else if (grepl("\\ball\\b", vector, ignore.case = TRUE)) {
     acc_vertical <- as.numeric(data[["acc_Y"]]) * - 1
     acc_resultant <- as.numeric(data[["acc_R"]])
     p_vertical <- scipy$signal$find_peaks(
@@ -215,11 +215,11 @@ check_args_find_peaks <- function(data, vector, min_height, min_dist) {
       "min_dist", must = "be numeric", not = min_dist
     )
   }
-  valid_values <- c("resultant", "vertical", "both")
+  valid_values <- c("resultant", "vertical", "all")
   if (vector %!in% valid_values) {
     lvmisc::abort_argument_value("vector", valid_values)
   }
-  if (vector %in% c("resultant", "both")) {
+  if (vector %in% c("resultant", "all")) {
     if ("acc_R" %!in% names(data)) {
       rlang::abort(
         glue::glue(

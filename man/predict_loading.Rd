@@ -11,11 +11,11 @@ predict_loading(data, outcome, vector, equation)
 \link[=read_acc]{read_acc()}.}
 
 \item{outcome}{A character string. Can be either "grf" (for ground reaction
-force), or "lr" (for loading rate) or "both" (for both mechanical loading
+force), or "lr" (for loading rate) or "all" (for both mechanical loading
 variables).}
 
 \item{vector}{A character string indicating in which acceleration vector to
-find the peaks. Can be "resultant", "vertical" or "both".}
+find the peaks. Can be "resultant", "vertical" or "all".}
 
 \item{equation}{A character string indicating which equation to use to make
 the predictions. The only value supported, currently, is "walking/running".}

@@ -62,7 +62,7 @@ test_that("find_peaks() error handling works", {
   )
   expect_error(
     find_peaks(data, "total"),
-    "`vector` must be one of \"resultant\", \"vertical\" or \"both\"."
+    "`vector` must be one of \"resultant\", \"vertical\" or \"all\"."
   )
   expect_error(find_peaks(data, "resultant"))
 })

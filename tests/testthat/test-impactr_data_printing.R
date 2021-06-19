@@ -17,5 +17,5 @@ test_that("printing from find_peaks() works", {
   data <- use_resultant(data)
   expect_snapshot(find_peaks(data, "vertical"))
   expect_snapshot(find_peaks(data, "resultant"))
-  expect_snapshot(find_peaks(data, "both"))
+  expect_snapshot(find_peaks(data, "all"))
 })
