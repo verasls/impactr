@@ -9,7 +9,7 @@
 #'   force), or "lr" (for loading rate) or "both" (for both mechanical loading
 #'   variables).
 #' @param vector A character string indicating in which acceleration vector to
-#'   find the peaks. Can be "resultant" or "vertical".
+#'   find the peaks. Can be "resultant", "vertical" or "both".
 #' @param equation A character string indicating which equation to use to make
 #'   the predictions. The only value supported, currently, is "walking/running".
 #'
@@ -44,31 +44,107 @@ predict_loading <- function(data, outcome, vector, equation) {
 }
 
 predict_grf <- function(data, vector, equation) {
-  coeff <- get_grf_coefficients(
-    attributes(data)$acc_placement, vector, equation
-  )
   body_mass <- attributes(data)$subj_body_mass
-  peaks <- data[[paste0(vector, "_peak_acc")]]
-  data[[paste0(vector, "_peak_grf")]] <- compute_loading(
-    coeff, peaks, body_mass
-  )
+  if (!grepl("\\bboth\\b", vector)) {
+    coeff <- get_grf_coefficients(
+      attributes(data)$acc_placement, vector, equation
+    )
+    peaks <- data[[paste0(vector, "_peak_acc")]]
+    data[[paste0(vector, "_peak_grf")]] <- compute_loading(
+      coeff, peaks, body_mass
+    )
+  } else if (grepl("\\bboth\\b", vector)) {
+    coeff <- list(
+      vertical = get_grf_coefficients(
+        attributes(data)$acc_placement, "vertical", equation
+      ),
+      resultant = get_grf_coefficients(
+        attributes(data)$acc_placement, "resultant", equation
+      )
+    )
+    peaks <- list(
+      vertical = data[["vertical_peak_acc"]],
+      resultant = data[["resultant_peak_acc"]]
+    )
+    data[["vertical_peak_grf"]] <- compute_loading(
+      coeff$vertical, peaks$vertical, body_mass
+    )
+    data[["resultant_peak_grf"]] <- compute_loading(
+      coeff$resultant, peaks$resultant, body_mass
+    )
+  }
   data
 }
 
 predict_lr <- function(data, vector, equation) {
   samp_freq <- attributes(data)$samp_freq
-  coeff <- get_lr_coefficients(attributes(data)$acc_placement, vector, equation)
   body_mass <- attributes(data)$subj_body_mass
-  peaks_idx <- attributes(data)$peaks_idx
   if (!grepl("\\bboth\\b", vector)) {
-    acc_vector <- attributes(data)$acc_signal
-  }
+    coeff <- get_lr_coefficients(
+      attributes(data)$acc_placement, vector, equation
+    )
+    peaks_idx <- if (is.list(attributes(data)$peaks_idx)) {
+      attributes(data)$peaks_idx[[vector]]
+    } else {
+      attributes(data)$peaks_idx
+    }
+    acc_vector <- if (is.list(attributes(data)$acc_signal)) {
+      attributes(data)$acc_signal[[vector]]
+    } else {
+      attributes(data)$acc_signal
+    }
 
-  start_idx <- get_curve_start(acc_vector, peaks_idx)
-  peaks <- compute_peak_acc_rate(acc_vector, start_idx, peaks_idx, samp_freq)
-  data[[paste0(vector, "_peak_lr")]] <- compute_loading(
-    coeff, peaks, body_mass
+    start_idx <- get_curve_start(acc_vector, peaks_idx)
+    peaks <- compute_peak_acc_rate(acc_vector, start_idx, peaks_idx, samp_freq)
+
+    data[[paste0(vector, "_peak_lr")]] <- compute_loading(
+      coeff, peaks, body_mass
+    )
+  } else if (grepl("\\bboth\\b", vector)) {
+    coeff <- list(
+      vertical = get_lr_coefficients(
+        attributes(data)$acc_placement, "vertical", equation
+      ),
+      resultant = get_lr_coefficients(
+        attributes(data)$acc_placement, "resultant", equation
+      )
+    )
+    peaks_idx <- list(
+      vertical = attributes(data)$peaks_idx[["vertical"]],
+      resultant = attributes(data)$peaks_idx[["resultant"]]
+    )
+    acc_vector <- list(
+      vertical = attributes(data)$acc_signal[["vertical"]],
+      resultant = attributes(data)$acc_signal[["resultant"]]
+    )
+
+    start_idx <- list(
+      vertical = get_curve_start(acc_vector$vertical, peaks_idx$vertical),
+      resultant = get_curve_start(acc_vector$resultant, peaks_idx$resultant)
+    )
+    peaks <- list(
+      vertical = compute_peak_acc_rate(
+        acc_vector$vertical, start_idx$vertical, peaks_idx$vertical, samp_freq
+      ),
+      resultant = compute_peak_acc_rate(
+        acc_vector$resultant, start_idx$resultant,
+        peaks_idx$resultant, samp_freq
+      )
+    )
+
+  data[["vertical_peak_lr"]] <- vector(
+    "numeric", length(data[["vertical_peak_acc"]])
   )
+  data[["vertical_peak_lr"]][which(is.na(data[["vertical_peak_acc"]]))] <- NA
+  data[["vertical_peak_lr"]][which(!is.na(data[["vertical_peak_acc"]]))] <-
+    compute_loading(coeff$vertical, peaks$vertical, body_mass)
+  data[["resultant_peak_lr"]] <- vector(
+    "numeric", length(data[["resultant_peak_acc"]])
+  )
+  data[["resultant_peak_lr"]][which(is.na(data[["resultant_peak_acc"]]))] <- NA
+  data[["resultant_peak_lr"]][which(!is.na(data[["resultant_peak_acc"]]))] <-
+    compute_loading(coeff$resultant, peaks$resultant, body_mass)
+  }
   data
 }
 

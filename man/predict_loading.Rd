@@ -15,7 +15,7 @@ force), or "lr" (for loading rate) or "both" (for both mechanical loading
 variables).}
 
 \item{vector}{A character string indicating in which acceleration vector to
-find the peaks. Can be "resultant" or "vertical".}
+find the peaks. Can be "resultant", "vertical" or "both".}
 
 \item{equation}{A character string indicating which equation to use to make
 the predictions. The only value supported, currently, is "walking/running".}
