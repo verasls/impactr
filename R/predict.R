@@ -31,16 +31,17 @@
 #' head(data)
 predict_loading <- function(data, outcome, vector, equation) {
   if (grepl("\\bgrf\\b", outcome, ignore.case = TRUE)) {
-    predict_grf(data, vector, equation)
+    data <- predict_grf(data, vector, equation)
   } else if (grepl("\\blr\\b", outcome, ignore.case = TRUE)) {
-    predict_lr(data, vector, equation)
+    data <- predict_lr(data, vector, equation)
   } else if (grepl("\\bboth\\b", outcome, ignore.case = TRUE)) {
     impactr_peaks <- predict_grf(data, vector, equation)
     lr <- predict_lr(data, vector, equation)
     var_name <- names(lr)[3]
     impactr_peaks[var_name] <- lr[var_name]
-    impactr_peaks
+    data <- impactr_peaks
   }
+  check_output(data, vector)
 }
 
 predict_grf <- function(data, vector, equation) {
@@ -97,7 +98,13 @@ predict_lr <- function(data, vector, equation) {
     start_idx <- get_curve_start(acc_vector, peaks_idx)
     peaks <- compute_peak_acc_rate(acc_vector, start_idx, peaks_idx, samp_freq)
 
-    data[[paste0(vector, "_peak_lr")]] <- compute_loading(
+    data[[paste0(vector, "_peak_lr")]] <- vector(
+      "numeric", length(data[[paste0(vector, "_peak_acc")]])
+    )
+    NA_idx <- which(is.na(data[[paste0(vector, "_peak_acc")]]))
+    nonNA_idx <- which(!is.na(data[[paste0(vector, "_peak_acc")]]))
+    data[[paste0(vector, "_peak_lr")]][NA_idx] <- NA
+    data[[paste0(vector, "_peak_lr")]][nonNA_idx] <- compute_loading(
       coeff, peaks, body_mass
     )
   } else if (grepl("\\bboth\\b", vector)) {
@@ -182,4 +189,26 @@ get_lr_coefficients <- function(acc_placement, vector, equation) {
       list(b0 = 5343.980, b1 = - 89.984, b2 = 3.49, b3 = 4.808)
     }
   }
+}
+
+check_output <- function(data, vector) {
+  if (grepl("\\bvertical\\b", vector) &
+    any(grepl("resultant_", names(data)))
+  ) {
+    data <- data[, -which(grepl("resultant_", names(data)))]
+    rlang::warn(
+      "Columns referring to the resultant vector were removed as predict_loading() vector argument was set to `vertical`"
+    )
+  } else if(
+    grepl("\\bresultant\\b", vector) &
+    any(grepl("vertical_", names(data)))
+  ) {
+    data <- data[, -which(grepl("vertical_", names(data)))]
+    rlang::warn(
+      "Columns referring to the vertical vector were removed as predict_loading() vector argument was set to `resultant`"
+    )
+  } else {
+    data <- data
+  }
+  data[rowSums(is.na(data[, -1])) != ncol(data[, -1]), ]
 }
