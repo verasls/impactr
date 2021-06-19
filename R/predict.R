@@ -30,6 +30,7 @@
 #'   )
 #' head(data)
 predict_loading <- function(data, outcome, vector, model) {
+  check_data(data, vector)
   if (grepl("\\bgrf\\b", outcome, ignore.case = TRUE)) {
     data <- predict_grf(data, vector, model)
   } else if (grepl("\\blr\\b", outcome, ignore.case = TRUE)) {
@@ -191,13 +192,61 @@ get_lr_coefficients <- function(acc_placement, vector, model) {
   }
 }
 
+check_data <- function(data, vector) {
+  if (
+    grepl("\\bvertical\\b", vector) &
+    "vertical_peak_acc" %!in% names(data)
+  ) {
+    rlang::abort(
+      glue::glue(
+        "Column `vertical_peak_acc` is missing from `data`; consider \\
+        running find_peaks() with vector argument set as `vertical` or `all`."
+      )
+    )
+  } else if (
+    grepl("\\bresultant\\b", vector) &
+    "resultant_peak_acc" %!in% names(data)
+  ) {
+    rlang::abort(
+      glue::glue(
+        "Column `resultant_peak_acc` is missing from `data`; consider \\
+        running find_peaks() with vector argument set as `resultant` or `all`."
+      )
+    )
+  } else if (
+    grepl("\\ball\\b", vector) &
+    "vertical_peak_acc" %!in% names(data)
+  ) {
+    rlang::abort(
+      glue::glue(
+        "Column `vertical_peak_acc` is missing from `data`; consider \\
+        running find_peaks() with vector argument set as `all`."
+      )
+    )
+  } else if (
+    grepl("\\ball\\b", vector) &
+    "resultant_peak_acc" %!in% names(data)
+  ) {
+    rlang::abort(
+      glue::glue(
+        "Column `resultant_peak_acc` is missing from `data`; consider \\
+        running find_peaks() with vector argument set as `all`."
+      )
+    )
+  }
+}
+
 check_output <- function(data, vector) {
-  if (grepl("\\bvertical\\b", vector) &
+  if (
+    grepl("\\bvertical\\b", vector) &
     any(grepl("resultant_", names(data)))
   ) {
     data <- data[, -which(grepl("resultant_", names(data)))]
     rlang::warn(
-      "Columns referring to the resultant vector were removed as predict_loading() vector argument was set to `vertical`"
+      glue::glue(
+        "Columns referring to the resultant vector were removed as \\
+        predict_loading() vector argument was set to `vertical`."
+      )
     )
   } else if(
     grepl("\\bresultant\\b", vector) &
@@ -205,7 +254,10 @@ check_output <- function(data, vector) {
   ) {
     data <- data[, -which(grepl("vertical_", names(data)))]
     rlang::warn(
-      "Columns referring to the vertical vector were removed as predict_loading() vector argument was set to `resultant`"
+      glue::glue(
+        "Columns referring to the vertical vector were removed as \\
+        predict_loading() vector argument was set to `resultant`."
+      )
     )
   } else {
     data <- data
