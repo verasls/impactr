@@ -10,7 +10,7 @@
 #'   variables).
 #' @param vector A character string indicating in which acceleration vector to
 #'   find the peaks. Can be "resultant", "vertical" or "all".
-#' @param equation A character string indicating which equation to use to make
+#' @param model A character string indicating which model to use to make
 #'   the predictions. The only value supported, currently, is "walking/running".
 #'
 #' @return An object of class \code{impactr_peaks} with the ground reaction
@@ -26,17 +26,17 @@
 #'   predict_loading(
 #'     outcome = "grf",
 #'     vector = "resultant",
-#'     equation = "walking/running"
+#'     model = "walking/running"
 #'   )
 #' head(data)
-predict_loading <- function(data, outcome, vector, equation) {
+predict_loading <- function(data, outcome, vector, model) {
   if (grepl("\\bgrf\\b", outcome, ignore.case = TRUE)) {
-    data <- predict_grf(data, vector, equation)
+    data <- predict_grf(data, vector, model)
   } else if (grepl("\\blr\\b", outcome, ignore.case = TRUE)) {
-    data <- predict_lr(data, vector, equation)
+    data <- predict_lr(data, vector, model)
   } else if (grepl("\\ball\\b", outcome, ignore.case = TRUE)) {
-    impactr_peaks <- predict_grf(data, vector, equation)
-    lr <- predict_lr(data, vector, equation)
+    impactr_peaks <- predict_grf(data, vector, model)
+    lr <- predict_lr(data, vector, model)
     var_name <- names(lr)[3]
     impactr_peaks[var_name] <- lr[var_name]
     data <- impactr_peaks
@@ -44,11 +44,11 @@ predict_loading <- function(data, outcome, vector, equation) {
   check_output(data, vector)
 }
 
-predict_grf <- function(data, vector, equation) {
+predict_grf <- function(data, vector, model) {
   body_mass <- attributes(data)$subj_body_mass
   if (!grepl("\\ball\\b", vector)) {
     coeff <- get_grf_coefficients(
-      attributes(data)$acc_placement, vector, equation
+      attributes(data)$acc_placement, vector, model
     )
     peaks <- data[[paste0(vector, "_peak_acc")]]
     data[[paste0(vector, "_peak_grf")]] <- compute_loading(
@@ -57,10 +57,10 @@ predict_grf <- function(data, vector, equation) {
   } else if (grepl("\\ball\\b", vector)) {
     coeff <- list(
       vertical = get_grf_coefficients(
-        attributes(data)$acc_placement, "vertical", equation
+        attributes(data)$acc_placement, "vertical", model
       ),
       resultant = get_grf_coefficients(
-        attributes(data)$acc_placement, "resultant", equation
+        attributes(data)$acc_placement, "resultant", model
       )
     )
     peaks <- list(
@@ -77,12 +77,12 @@ predict_grf <- function(data, vector, equation) {
   data
 }
 
-predict_lr <- function(data, vector, equation) {
+predict_lr <- function(data, vector, model) {
   samp_freq <- attributes(data)$samp_freq
   body_mass <- attributes(data)$subj_body_mass
   if (!grepl("\\ball\\b", vector)) {
     coeff <- get_lr_coefficients(
-      attributes(data)$acc_placement, vector, equation
+      attributes(data)$acc_placement, vector, model
     )
     peaks_idx <- if (is.list(attributes(data)$peaks_idx)) {
       attributes(data)$peaks_idx[[vector]]
@@ -110,10 +110,10 @@ predict_lr <- function(data, vector, equation) {
   } else if (grepl("\\ball\\b", vector)) {
     coeff <- list(
       vertical = get_lr_coefficients(
-        attributes(data)$acc_placement, "vertical", equation
+        attributes(data)$acc_placement, "vertical", model
       ),
       resultant = get_lr_coefficients(
-        attributes(data)$acc_placement, "resultant", equation
+        attributes(data)$acc_placement, "resultant", model
       )
     )
     peaks_idx <- list(
@@ -155,8 +155,8 @@ predict_lr <- function(data, vector, equation) {
   data
 }
 
-get_grf_coefficients <- function(acc_placement, vector, equation) {
-  if (equation == "walking/running") {
+get_grf_coefficients <- function(acc_placement, vector, model) {
+  if (model == "walking/running") {
     if (acc_placement == "ankle" & vector == "resultant") {
       list(b0 = 1026.046, b1 = - 153.073, b2 = 6.641, b3 = 2.097)
     } else if (acc_placement == "back" & vector == "resultant") {
@@ -173,8 +173,8 @@ get_grf_coefficients <- function(acc_placement, vector, equation) {
   }
 }
 
-get_lr_coefficients <- function(acc_placement, vector, equation) {
-  if (equation == "walking/running") {
+get_lr_coefficients <- function(acc_placement, vector, model) {
+  if (model == "walking/running") {
     if (acc_placement == "ankle" & vector == "resultant") {
       list(b0 = 6534.981, b1 = - 15.738, b2 = - 76.433, b3 = 4.258)
     } else if (acc_placement == "back" & vector == "resultant") {

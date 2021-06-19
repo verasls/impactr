@@ -4,7 +4,7 @@
 \alias{predict_loading}
 \title{Predict mechanical loading}
 \usage{
-predict_loading(data, outcome, vector, equation)
+predict_loading(data, outcome, vector, model)
 }
 \arguments{
 \item{data}{An \code{impactr_data} object, as obtained with
@@ -17,7 +17,7 @@ variables).}
 \item{vector}{A character string indicating in which acceleration vector to
 find the peaks. Can be "resultant", "vertical" or "all".}
 
-\item{equation}{A character string indicating which equation to use to make
+\item{model}{A character string indicating which model to use to make
 the predictions. The only value supported, currently, is "walking/running".}
 }
 \value{
@@ -36,7 +36,7 @@ data <- read_acc(impactr_example("hip-imu.csv")) |>
   predict_loading(
     outcome = "grf",
     vector = "resultant",
-    equation = "walking/running"
+    model = "walking/running"
   )
 head(data)
 }
