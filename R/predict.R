@@ -249,7 +249,7 @@ check_output <- function(data, vector) {
         predict_loading() vector argument was set to `vertical`."
       )
     )
-  } else if(
+  } else if (
     grepl("\\bresultant\\b", vector) &
     any(grepl("vertical_", names(data)))
   ) {
@@ -278,10 +278,7 @@ check_args_compute_loading <- function(data, outcome, vector, model) {
     lvmisc::abort_argument_value("model", valid_model)
   }
 
-  if (!is.character(vector)) {
-    lvmisc::abort_argument_type("vector", must = "be character", not = vector)
-  }
-  valid_vector <- c("resultant", "vertical", "all")
+  valid_vector <- c("vertical", "resultant", "all")
   if (vector %!in% valid_vector) {
     lvmisc::abort_argument_value("vector", valid_vector)
   }
