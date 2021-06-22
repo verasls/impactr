@@ -17,8 +17,11 @@ test_that("filter_acc() error handling works", {
   )
   expect_error(
     filter_acc(data, type = 4),
-    "`type` must be character; not double.",
-    class = "error_argument_type"
+    unclass(glue::glue(
+      "`type` must be one of \"lowpass\", \"highpass\", \\
+      \"bandpass\" or \"bandstop\"."
+    )),
+    class = "error_argument_value"
   )
 })
 

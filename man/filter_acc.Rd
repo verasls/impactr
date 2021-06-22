@@ -12,9 +12,12 @@ filter_acc(data, order = 4, cutoff = 20, type = "lowpass")
 
 \item{order}{The order of the filter. Defaults to 4.}
 
-\item{cutoff}{The filter cut-off frequency in Hz. Defaults to 20.}
+\item{cutoff}{The filter cut-off frequency in Hz. Defaults to 20. For
+low- and high-pass filters, must be a scalar. For band-pass and band-
+stop, a vector of length two.}
 
-\item{type}{The type of filter. Defaults to "lowpass".}
+\item{type}{The type of filter. Defaults to "lowpass". Can be "lowpass",
+"highpass", "bandpass" or "bandstop".}
 }
 \value{
 An object of class \code{impactr_data}.

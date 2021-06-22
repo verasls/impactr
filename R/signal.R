@@ -5,8 +5,11 @@
 #' @param data An \code{impactr_data} object, as obtained with
 #'   \link[=read_acc]{read_acc()}.
 #' @param order The order of the filter. Defaults to 4.
-#' @param cutoff The filter cut-off frequency in Hz. Defaults to 20.
-#' @param type The type of filter. Defaults to "lowpass".
+#' @param cutoff The filter cut-off frequency in Hz. Defaults to 20. For
+#'   low- and high-pass filters, must be a scalar. For band-pass and band-
+#'   stop, a vector of length two.
+#' @param type The type of filter. Defaults to "lowpass". Can be "lowpass",
+#'   "highpass", "bandpass" or "bandstop".
 #'
 #' @return An object of class \code{impactr_data}.
 #'
@@ -46,6 +49,12 @@ get_filter_type <- function(order, cutoff, type) {
   order <- toOrdinal::toOrdinal(order)
   if (type == "lowpass") {
     type <- "low-pass"
+  } else if (type == "highpass") {
+    type <- "high-pass"
+  } else if (type == "bandpass") {
+    type <- "band-pass"
+  } else if (type == "bandstop") {
+    type <- "band-stop"
   }
   cutoff <- paste0(cutoff, "Hz")
 
@@ -59,8 +68,24 @@ check_args_filter_acc <- function(order, cutoff, type) {
   if (!is.numeric(cutoff)) {
     lvmisc::abort_argument_type("cutoff", must = "be numeric", not = cutoff)
   }
-  if (!is.character(type)) {
-    lvmisc::abort_argument_type("type", must = "be character", not = type)
+  valid_type <- c("lowpass", "highpass", "bandpass", "bandstop")
+  if (type %!in% valid_type) {
+    lvmisc::abort_argument_value("type", valid_type)
+  }
+  if (
+    type %in% c("lowpass", "highpass") &
+    length(cutoff) != 1
+  ) {
+    lvmisc::abort_argument_length(
+      "cutoff", must = "have length 1", not = cutoff
+    )
+  } else if (
+    type %in% c("bandpass", "bandstop") &
+    length(cutoff) != 2
+  ) {
+    lvmisc::abort_argument_length(
+      "cutoff", must = "have length 2", not = cutoff
+    )
   }
 }
 
