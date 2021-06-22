@@ -79,3 +79,22 @@ tbl_sum.impactr_data <- function(x) {
     "Data dimensions" = dim_desc(x)
   )
 }
+
+#' Test if the object is from the impactr package
+#'
+#' @name is_impactr
+#'
+#' @param x An object.
+#'
+#' @return `TRUE` if the object inherits the class being evaluated.
+#'
+#' @export
+is_impactr_data <- function(x) {
+  inherits(x, "impactr_data") & !inherits(x, "impactr_peaks")
+}
+
+#' @rdname is_impactr
+#' @export
+is_impactr_peaks <- function(x) {
+  inherits(x, "impactr_peaks")
+}
