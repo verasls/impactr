@@ -29,11 +29,11 @@ specify_parameters <- function(data, acc_placement, subj_body_mass) {
 }
 
 get_acc_placement <- function(acc_placement) {
-  if (grepl("\\bankle\\b", acc_placement, ignore.case = TRUE)) {
+  if (acc_placement == "ankle") {
     "ankle"
-  } else if (grepl("\\bback\\b", acc_placement, ignore.case = TRUE)) {
+  } else if (acc_placement == "back") {
     "back"
-  } else if (grepl("\\bhip\\b", acc_placement, ignore.case = TRUE)) {
+  } else if (acc_placement == "hip") {
     "hip"
   } else {
     acc_placement

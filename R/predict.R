@@ -31,11 +31,11 @@
 #' head(data)
 predict_loading <- function(data, outcome, vector, model) {
   check_args_compute_loading(data, outcome, vector, model)
-  if (grepl("\\bgrf\\b", outcome, ignore.case = TRUE)) {
+  if (outcome == "grf") {
     data <- predict_grf(data, vector, model)
-  } else if (grepl("\\blr\\b", outcome, ignore.case = TRUE)) {
+  } else if (outcome == "lr") {
     data <- predict_lr(data, vector, model)
-  } else if (grepl("\\ball\\b", outcome, ignore.case = TRUE)) {
+  } else if (outcome == "all") {
     impactr_peaks <- predict_grf(data, vector, model)
     lr <- predict_lr(data, vector, model)
     var_name <- names(lr)[3]
@@ -47,7 +47,7 @@ predict_loading <- function(data, outcome, vector, model) {
 
 predict_grf <- function(data, vector, model) {
   body_mass <- attributes(data)$subj_body_mass
-  if (!grepl("\\ball\\b", vector)) {
+  if (vector != "all") {
     coeff <- get_grf_coefficients(
       attributes(data)$acc_placement, vector, model
     )
@@ -55,7 +55,7 @@ predict_grf <- function(data, vector, model) {
     data[[paste0(vector, "_peak_grf")]] <- compute_loading(
       coeff, peaks, body_mass
     )
-  } else if (grepl("\\ball\\b", vector)) {
+  } else {
     coeff <- list(
       vertical = get_grf_coefficients(
         attributes(data)$acc_placement, "vertical", model
@@ -81,7 +81,7 @@ predict_grf <- function(data, vector, model) {
 predict_lr <- function(data, vector, model) {
   samp_freq <- attributes(data)$samp_freq
   body_mass <- attributes(data)$subj_body_mass
-  if (!grepl("\\ball\\b", vector)) {
+  if (vector != "all") {
     coeff <- get_lr_coefficients(
       attributes(data)$acc_placement, vector, model
     )
@@ -108,7 +108,7 @@ predict_lr <- function(data, vector, model) {
     data[[paste0(vector, "_peak_lr")]][nonNA_idx] <- compute_loading(
       coeff, peaks, body_mass
     )
-  } else if (grepl("\\ball\\b", vector)) {
+  } else {
     coeff <- list(
       vertical = get_lr_coefficients(
         attributes(data)$acc_placement, "vertical", model
@@ -195,7 +195,7 @@ get_lr_coefficients <- function(acc_placement, vector, model) {
 #' @importFrom lvmisc %!in%
 check_data <- function(data, vector) {
   if (
-    grepl("\\bvertical\\b", vector) &
+    vector == "vertical" &
     "vertical_peak_acc" %!in% names(data)
   ) {
     rlang::abort(
@@ -205,7 +205,7 @@ check_data <- function(data, vector) {
       )
     )
   } else if (
-    grepl("\\bresultant\\b", vector) &
+    vector == "resultant" &
     "resultant_peak_acc" %!in% names(data)
   ) {
     rlang::abort(
@@ -215,7 +215,7 @@ check_data <- function(data, vector) {
       )
     )
   } else if (
-    grepl("\\ball\\b", vector) &
+    vector == "all" &
     "vertical_peak_acc" %!in% names(data)
   ) {
     rlang::abort(
@@ -225,7 +225,7 @@ check_data <- function(data, vector) {
       )
     )
   } else if (
-    grepl("\\ball\\b", vector) &
+    vector == "all" &
     "resultant_peak_acc" %!in% names(data)
   ) {
     rlang::abort(
@@ -239,7 +239,7 @@ check_data <- function(data, vector) {
 
 check_output <- function(data, vector) {
   if (
-    grepl("\\bvertical\\b", vector) &
+    vector == "vertical" &
     any(grepl("resultant_", names(data)))
   ) {
     data <- data[, -which(grepl("resultant_", names(data)))]
@@ -250,7 +250,7 @@ check_output <- function(data, vector) {
       )
     )
   } else if (
-    grepl("\\bresultant\\b", vector) &
+    vector == "resultant" &
     any(grepl("vertical_", names(data)))
   ) {
     data <- data[, -which(grepl("vertical_", names(data)))]
