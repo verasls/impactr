@@ -23,9 +23,4 @@ scipy <- NULL
 
   # Initialize scipy module .onLoad
   scipy <<- reticulate::import("scipy", delay_load = TRUE)
-
-  # Define functions from python script at package load time
-  module_path <- system.file("python", package = pkgname)
-  filter <- reticulate::import_from_path("filter", module_path)
-  filter_signal <<- filter$filter_signal
 }
