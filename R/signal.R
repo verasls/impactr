@@ -45,6 +45,23 @@ filter_acc <- function(data, order = 4, cutoff = 20, type = "lowpass") {
   data
 }
 
+#' Filter a signal
+#'
+#' Apply a butterworth digital filter to a signal.
+#'
+#' @param signal A numeric vector.
+#' @param n The order of the filter.
+#' @param wn The critical frequency or frequencies.
+#' @param type The type of the filter.
+#'
+#' @return A numeric vector with the filtered signal.
+#'
+#' @export
+filter_signal <- function(signal, n, wn, type) {
+  ba <- scipy$signal$butter(n, wn, type)
+  scipy$signal$filtfilt(ba[[1]], ba[[2]], signal)
+}
+
 get_filter_type <- function(order, cutoff, type) {
   order <- toOrdinal::toOrdinal(order)
   if (type == "lowpass") {
