@@ -14,23 +14,56 @@ coverage](https://codecov.io/gh/verasls/impactr/branch/main/graph/badge.svg)](ht
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 <!-- badges: end -->
 
+`impactr` is a package with functions to read, process and analyse raw
+accelerometer data related to mechanical loading variables. You can
+learn more about this package features and how to use in
+`vignette("impactr")`.
+
 ## Installation
 
-You can install the released version of impactr from
-[CRAN](https://CRAN.R-project.org) with:
+To install the latest stable version of impactr from
+[CRAN](https://CRAN.R-project.org), run:
 
 ``` r
-# Currently not available
 install.packages("impactr")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+You can also install the development version from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("verasls/impactr")
 ```
 
-## Example
+Some key functions for signal processing depend on the Python module
+SciPy. To install it, use the `install_scipy()` function:
 
-Soon…
+``` r
+library(impactr)
+install_scipy()
+```
+
+## Usage
+
+``` r
+library(impactr)
+
+read_acc(impactr_example("hip-imu.csv")) |>
+ define_region(
+    start_time = "15:45:00",
+    end_time = "15:45:30"
+  ) |>
+  specify_parameters(
+    acc_placement = "hip",
+    subj_body_mass = 78
+  ) |>
+  filter_acc() |>
+  use_resultant() |>
+  find_peaks(vector = "resultant") |>
+  predict_loading(
+    outcome = "grf",
+    vector = "resultant",
+    model = "walking/running"
+  )
+```
