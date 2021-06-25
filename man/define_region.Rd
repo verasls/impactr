@@ -4,13 +4,13 @@
 \alias{define_region}
 \title{Define region of interest}
 \usage{
-define_region(data, start, end)
+define_region(data, start_time, end_time)
 }
 \arguments{
 \item{data}{An \code{impactr_data} object, as obtained with
 \link[=read_acc]{read_acc()}.}
 
-\item{start, end}{A character string with the start and end times of the
+\item{start_time, end_time}{A character string with the start and end times of the
 region of interest in the "HH:MM:SS" format.}
 }
 \value{
@@ -22,5 +22,5 @@ data timestamp.
 }
 \examples{
 data <- read_acc(impactr_example("hip-imu.csv"))
-define_region(data, start = "15:45:00", end = "15:46:00")
+define_region(data, start_time = "15:45:00", end_time = "15:46:00")
 }

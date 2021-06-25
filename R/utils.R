@@ -66,7 +66,7 @@ check_args_specify_parameters <- function(acc_placement, subj_body_mass) {
 #'
 #' @param data An \code{impactr_data} object, as obtained with
 #'   \link[=read_acc]{read_acc()}.
-#' @param start,end A character string with the start and end times of the
+#' @param start_time,end_time A character string with the start and end times of the
 #'   region of interest in the "HH:MM:SS" format.
 #'
 #' @return An object of class \code{impactr_data}.
@@ -75,16 +75,16 @@ check_args_specify_parameters <- function(acc_placement, subj_body_mass) {
 #'
 #' @examples
 #' data <- read_acc(impactr_example("hip-imu.csv"))
-#' define_region(data, start = "15:45:00", end = "15:46:00")
-define_region <- function(data, start, end) {
-  check_args_define_region(data, start, end)
+#' define_region(data, start_time = "15:45:00", end_time = "15:46:00")
+define_region <- function(data, start_time, end_time) {
+  check_args_define_region(data, start_time, end_time)
 
   samp_freq <- attributes(data)$samp_freq
   start_date_time <- attributes(data)$start_date_time
   start_date <- as.Date(start_date_time)
   tz <- format(start_date_time, format = "%Z")
-  start_roi <- as.POSIXct(paste(start_date, start), tz = tz)
-  end_roi <- as.POSIXct(paste(start_date, end), tz = tz)
+  start_roi <- as.POSIXct(paste(start_date, start_time), tz = tz)
+  end_roi <- as.POSIXct(paste(start_date, end_time), tz = tz)
 
   duration_start <- lubridate::interval(start_date_time, start_roi)
   duration_start <- lubridate::as.duration(duration_start)
@@ -101,39 +101,39 @@ define_region <- function(data, start, end) {
   data[start_idx:end_idx, ]
 }
 
-check_args_define_region <- function(data, start, end) {
-  if (!is.character(start)) {
-    lvmisc::abort_argument_type("start", must = "be character", not = start)
+check_args_define_region <- function(data, start_time, end_time) {
+  if (!is.character(start_time)) {
+    lvmisc::abort_argument_type("start_time", must = "be character", not = start_time)
   }
-  if (!is.character(end)) {
-    lvmisc::abort_argument_type("end", must = "be character", not = end)
+  if (!is.character(end_time)) {
+    lvmisc::abort_argument_type("end_time", must = "be character", not = end_time)
   }
-  if (!grepl("^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$", start)) {
-    rlang::abort("`start` must be in the `HH:MM:SS` format.")
+  if (!grepl("^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$", start_time)) {
+    rlang::abort("`start_time` must be in the `HH:MM:SS` format.")
   }
-  if (!grepl("^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$", end)) {
-    rlang::abort("`end` must be in the `HH:MM:SS` format.")
+  if (!grepl("^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$", end_time)) {
+    rlang::abort("`end_time` must be in the `HH:MM:SS` format.")
   }
 
   start_date_time <- attributes(data)$start_date_time
   start_date <- as.Date(start_date_time)
   tz <- format(start_date_time, format = "%Z")
-  start_roi <- as.POSIXct(paste(start_date, start), tz = tz)
+  start_roi <- as.POSIXct(paste(start_date, start_time), tz = tz)
   if (start_roi < start_date_time) {
-    rlang::abort("`start` must not be before `data` Start time")
+    rlang::abort("`start_time` must not be before `data` Start time")
   }
 
   samp_freq <- attributes(data)$samp_freq
   end_date_time <- start_date_time + lubridate::seconds(nrow(data) / samp_freq)
-  end_roi <- as.POSIXct(paste(start_date, end), tz = tz)
+  end_roi <- as.POSIXct(paste(start_date, end_time), tz = tz)
   if (end_roi > end_date_time) {
-    rlang::abort("`end` must not be after the last `data` timestamp")
+    rlang::abort("`end_time` must not be after the last `data` timestamp")
   }
 
-  start_time_arg <- as.POSIXct(start, format = "%H:%M:%S")
-  end_time_arg <- as.POSIXct(end, format = "%H:%M:%S")
+  start_time_arg <- as.POSIXct(start_time, format = "%H:%M:%S")
+  end_time_arg <- as.POSIXct(end_time, format = "%H:%M:%S")
   if (end_time_arg < start_time_arg) {
-    rlang::abort("`end` must not be before `start`.")
+    rlang::abort("`end_time` must not be before `start_time`.")
   }
 }
 
