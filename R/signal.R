@@ -58,6 +58,11 @@ filter_acc <- function(data, order = 4, cutoff = 20, type = "lowpass") {
 #'
 #' @export
 filter_signal <- function(signal, n, wn, type) {
+  if (!reticulate::py_module_available("scipy")) {
+    rlang::abort(
+      "Python module SciPy not available. Please, run install_scipy()."
+    )
+  }
   ba <- scipy$signal$butter(n, wn, type)
   scipy$signal$filtfilt(ba[[1]], ba[[2]], signal)
 }
@@ -147,6 +152,11 @@ check_args_filter_acc <- function(order, cutoff, type) {
 #' data <- use_resultant(data)
 #' find_peaks(data, vector = "resultant")
 find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
+  if (!reticulate::py_module_available("scipy")) {
+    rlang::abort(
+      "Python module SciPy not available. Please, run install_scipy()."
+    )
+  }
   check_args_find_peaks(data, vector, min_height, min_dist)
   min_dist <- attributes(data)$samp_freq * min_dist
 
