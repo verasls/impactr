@@ -58,4 +58,23 @@ read_acc(impactr_example("hip-imu.csv")) |>
     vector = "resultant",
     model = "walking/running"
   )
+#> # Start time:              2021-04-06 15:43:00
+#> # Sampling frequency:      100Hz
+#> # Accelerometer placement: Hip
+#> # Subject body mass:       78kg
+#> # Filter:                  Butterworth (4th-ord, low-pass, 20Hz)
+#> # Data dimensions:         26 × 3
+#>    timestamp           resultant_peak_acc resultant_peak_grf
+#>    <dttm>                           <dbl>              <dbl>
+#>  1 2021-04-06 15:45:00               1.34              1389.
+#>  2 2021-04-06 15:45:01               1.40              1398.
+#>  3 2021-04-06 15:45:04               1.32              1386.
+#>  4 2021-04-06 15:45:04               2.47              1541.
+#>  5 2021-04-06 15:45:05               1.54              1416.
+#>  6 2021-04-06 15:45:06               1.83              1456.
+#>  7 2021-04-06 15:45:06               1.54              1417.
+#>  8 2021-04-06 15:45:07               2.11              1494.
+#>  9 2021-04-06 15:45:08               1.40              1398.
+#> 10 2021-04-06 15:45:08               2.04              1484.
+#> # … with 16 more rows
 ```

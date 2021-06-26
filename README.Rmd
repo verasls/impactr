@@ -40,7 +40,7 @@ devtools::install_github("verasls/impactr")
 
 ## Usage
 
-``` r
+``` {r example}
 library(impactr)
 
 read_acc(impactr_example("hip-imu.csv")) |>
