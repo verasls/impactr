@@ -1,8 +1,6 @@
 # filter_acc() tests ------------------------------------------------------
 
 test_that("filter_acc() error handling works", {
-  skip_if_no_scipy()
-
   data <- read_acc(test_path("test-data-hip-imu.csv"))
 
   expect_error(
@@ -26,20 +24,15 @@ test_that("filter_acc() error handling works", {
 })
 
 test_that("default filtering works", {
-  skip_if_no_scipy()
-
   data <- data.frame(acc_X = 1:16, acc_Y = 17:32, acc_Z = 33:48)
   attributes(data)$samp_freq <- 100
 
   out <- filter_acc(data)[1:5, ]
   expect <- data.frame(
-    acc_X = c(1.000387653, 1.999833278, 2.999745298, 3.999947004, 5.000076399),
-    acc_Y = c(17.000388, 17.999833, 18.999745, 19.999947, 21.000076),
-    acc_Z = c(33.000388, 33.999833, 34.999745, 35.999947, 37.000076)
+    acc_X = c(0.9165122, 1.9171296, 3.0198027, 4.0638896, 5.0100178),
+    acc_Y = c(12.1254049, 17.8774066, 20.3506784, 20.5725831, 20.6257695),
+    acc_Z = c(23.334298, 33.837684, 37.681554, 37.081277, 36.2415221)
   )
-  dim(expect$acc_X) <- 5
-  dim(expect$acc_Y) <- 5
-  dim(expect$acc_Z) <- 5
 
   expect_equal(out$acc_X, expect$acc_X)
   expect_equal(out$acc_Y, expect$acc_Y)

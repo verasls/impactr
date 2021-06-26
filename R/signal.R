@@ -32,16 +32,25 @@
 #' filter_acc(data)
 filter_acc <- function(data, order = 4, cutoff = 20, type = "lowpass") {
   check_args_filter_acc(order, cutoff, type)
-
-  fnyq <- attributes(data)$samp_freq / 2
-  wn <- cutoff / fnyq
-
-  data$acc_X <- filter_signal(data$acc_X, order, wn, type)
-  data$acc_Y <- filter_signal(data$acc_Y, order, wn, type)
-  data$acc_Z <- filter_signal(data$acc_Z, order, wn, type)
-
   filter_type <- get_filter_type(order, cutoff, type)
   attributes(data)$filter_type <- filter_type
+
+  if (type == "lowpass") {
+    type <- "low"
+  } else if (type == "highpass") {
+    type <- "high"
+  } else if (type == "bandpass") {
+    type <- "pass"
+  } else if (type == "bandstop") {
+    type <- "stop"
+  }
+
+  fnyq <- attributes(data)$samp_freq / 2
+  w <- cutoff / fnyq
+
+  data$acc_X <- filter_signal(data$acc_X, order, w, type)
+  data$acc_Y <- filter_signal(data$acc_Y, order, w, type)
+  data$acc_Z <- filter_signal(data$acc_Z, order, w, type)
   data
 }
 
@@ -51,20 +60,15 @@ filter_acc <- function(data, order = 4, cutoff = 20, type = "lowpass") {
 #'
 #' @param signal A numeric vector.
 #' @param n The order of the filter.
-#' @param wn The critical frequency or frequencies.
+#' @param w The critical frequency or frequencies.
 #' @param type The type of the filter.
 #'
 #' @return A numeric vector with the filtered signal.
 #'
 #' @export
-filter_signal <- function(signal, n, wn, type) {
-  if (!reticulate::py_module_available("scipy")) {
-    rlang::abort(
-      "Python module SciPy not available. Please, run install_scipy()."
-    )
-  }
-  ba <- scipy$signal$butter(n, wn, type)
-  scipy$signal$filtfilt(ba[[1]], ba[[2]], signal)
+filter_signal <- function(signal, n, w, type) {
+  ba <- signal::butter(n, w, type)
+  signal::filtfilt(ba, signal)
 }
 
 get_filter_type <- function(order, cutoff, type) {
@@ -152,11 +156,6 @@ check_args_filter_acc <- function(order, cutoff, type) {
 #' data <- use_resultant(data)
 #' find_peaks(data, vector = "resultant")
 find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
-  if (!reticulate::py_module_available("scipy")) {
-    rlang::abort(
-      "Python module SciPy not available. Please, run install_scipy()."
-    )
-  }
   check_args_find_peaks(data, vector, min_height, min_dist)
   min_dist <- attributes(data)$samp_freq * min_dist
 
@@ -168,12 +167,14 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
       acc <- as.numeric(data[["acc_R"]])
       var_name <- "resultant_peak_acc"
     }
-    peaks <- scipy$signal$find_peaks(
-      acc, height = min_height, distance = min_dist
+    peaks <- pracma::findpeaks(
+      acc, minpeakheight = min_height, minpeakdistance = min_dist
     )
+    peaks <- as.data.frame(peaks)
+    peaks <- peaks[order(peaks[, 2]), ]
     peaks <- list(
-      height = as.numeric(peaks[[2]][[1]]),
-      idx = as.numeric(peaks[[1]] + 1)
+      height = peaks[, 1],
+      idx = peaks[, 2]
     )
 
     impactr_peaks <- tibble::tibble(
@@ -195,23 +196,26 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
   } else {
     acc_vertical <- as.numeric(data[["acc_Y"]]) * - 1
     acc_resultant <- as.numeric(data[["acc_R"]])
-    p_vertical <- scipy$signal$find_peaks(
-      acc_vertical, height = min_height, distance = min_dist
+    p_vertical <- pracma::findpeaks(
+      acc_vertical, minpeakheight = min_height, minpeakdistance = min_dist
     )
-    p_resultant <- scipy$signal$find_peaks(
-      acc_resultant, height = min_height, distance = min_dist
+    p_resultant <- pracma::findpeaks(
+      acc_resultant, minpeakheight = min_height, minpeakdistance = min_dist
     )
+    p_vertical <- as.data.frame(p_vertical)
+    p_vertical <- p_vertical[order(p_vertical[, 2]), ]
+    p_resultant <- as.data.frame(p_resultant)
+    p_resultant <- p_resultant[order(p_resultant[, 2]), ]
     peaks <- list(
       vertical = list(
-        height = as.numeric(p_vertical[[2]][[1]]),
-        idx = as.numeric(p_vertical[[1]] + 1)
+        height = p_vertical[, 1],
+        idx = p_vertical[, 2]
       ),
       resultant = list(
-        height = as.numeric(p_resultant[[2]][[1]]),
-        idx = as.numeric(p_resultant[[1]] + 1)
+        height = p_resultant[, 1],
+        idx = p_resultant[, 2]
       )
     )
-
     total_peaks_idx <- sort(union(peaks$vertical$idx, peaks$resultant$idx))
     impactr_peaks <- tibble::tibble(
       timestamp = data$timestamp[total_peaks_idx],

@@ -37,12 +37,6 @@ You can also install the development version from [GitHub](https://github.com/) 
 # install.packages("devtools")
 devtools::install_github("verasls/impactr")
 ```
-Some key functions for signal processing depend on the Python module SciPy. To install it, use the `install_scipy()` function:
-
-``` r
-library(impactr)
-install_scipy()
-```
 
 ## Usage
 

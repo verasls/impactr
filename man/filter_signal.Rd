@@ -4,14 +4,14 @@
 \alias{filter_signal}
 \title{Filter a signal}
 \usage{
-filter_signal(signal, n, wn, type)
+filter_signal(signal, n, w, type)
 }
 \arguments{
 \item{signal}{A numeric vector.}
 
 \item{n}{The order of the filter.}
 
-\item{wn}{The critical frequency or frequencies.}
+\item{w}{The critical frequency or frequencies.}
 
 \item{type}{The type of the filter.}
 }
