@@ -1,0 +1,14 @@
+destination: docs
+
+url: https://lveras.com/impactr/
+
+template:
+  params:
+    bootswatch: flatly
+
+development:
+  mode: auto
+
+authors:
+  Lucas Veras:
+    href: https://lveras.com
