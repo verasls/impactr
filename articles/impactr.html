@@ -136,7 +136,7 @@
 <span class="co">#&gt;  9 2021-04-06 15:43:00 0.363 -1.02  0.168</span>
 <span class="co">#&gt; 10 2021-04-06 15:43:00 0.418 -0.996 0.387</span>
 <span class="co">#&gt; # … with 29,990 more rows</span></code></pre></div>
-<p>It shows the data with four columns – one for the timestamp and one for each of the accelerometer axes (<em>X</em>, <em>Y</em> and <em>Z</em>) – and a 6-line header with metadata. Among this metadata is the accelerometer data start time and sampling frequency, extracted from the csv file header, and also information about the accelerometer placement and the subject body mass, that are needed for applying the mechanical loading prediction models. It also shows information about the filter applied to the accelerometer signal and the data dimentions (30000 rows and 4 columns in this case).</p>
+<p>It shows the data with four columns – one for the timestamp and one for each of the accelerometer axes (<em>X</em>, <em>Y</em> and <em>Z</em>) – and a 6-line header with metadata. Among this metadata is the accelerometer data start time and sampling frequency, extracted from the csv file header, and also information about the accelerometer placement and the subject body mass, that are needed for applying the mechanical loading prediction models. It also shows information about the filter applied to the accelerometer signal and the data dimensions (30000 rows and 4 columns in this case).</p>
 <p>Remember that, when using this function to read your own data, you need to specify the correct path to it. For example, if you have a file named <code>id_001_raw_acceleration.csv</code> inside the <code>accelerometer_data</code> folder in your <code>Desktop</code>, you need to write the path to it:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For macOS or Linux</span>
@@ -285,7 +285,7 @@
 <span class="co">#&gt;  9 2021-04-06 15:45:08               1.37</span>
 <span class="co">#&gt; 10 2021-04-06 15:45:08               1.86</span>
 <span class="co">#&gt; # … with 22 more rows</span></code></pre></div>
-<p>As with <code><a href="../reference/filter_acc.html">filter_acc()</a></code>, <code><a href="../reference/find_peaks.html">find_peaks()</a></code> default values of the minimun height (<code>min_height</code>) and distance (<code>min_dist</code>) of the peaks are set to replicate the values used in the calibration study. You should only change them if you have a strong reason to.</p>
+<p>As with <code><a href="../reference/filter_acc.html">filter_acc()</a></code>, <code><a href="../reference/find_peaks.html">find_peaks()</a></code> default values of the minimum height (<code>min_height</code>) and distance (<code>min_dist</code>) of the peaks are set to replicate the values used in the calibration study. You should only change them if you have a strong reason to.</p>
 </div>
 <div id="predict_loading" class="section level3">
 <h3 class="hasAnchor">
