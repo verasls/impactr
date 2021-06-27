@@ -39,6 +39,8 @@ The first step is to read the raw accelerometer data into R. We do it by using t
 read_acc("path/to/file")
 ```
 
+Remember that currently impactr only accepts raw data from triaxial ActiGraph accelerometers. In the raw data, acceleration values are stored as gravitational acceleration units (1*g* = 9.81m·s^-2^).
+
 To show the package functionalities, impactr provides some short example files. The name of these files are shown when running:
 
 ```{r impacr_example}
@@ -139,6 +141,8 @@ predict_loading(
   model = "walking/running"
 )
 ```
+
+As can be seen above, `predict_loading()` adds columns to the supplied `data` corresponding to the `outcome` and `vector` specified in the arguments. Note that GRF are expressed as newton (N) and LR as newton per second (N·s^-1^)
 
 ## Wrap up
 
