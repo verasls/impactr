@@ -12,3 +12,19 @@ development:
 authors:
   Lucas Veras:
     href: https://lveras.com
+
+reference:
+- title: Main functions
+  contents:
+    - read_acc
+    - define_region
+    - specify_parameters
+    - filter_acc
+    - use_resultant
+    - find_peaks
+    - predict_loading
+
+- title: Other functions
+  contents:
+    - impactr_example
+    - starts_with("is_")
