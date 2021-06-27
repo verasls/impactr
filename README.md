@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5035522.svg)](https://doi.org/10.5281/zenodo.5035522)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/impactr)](https://CRAN.R-project.org/package=impactr)
 [![R-CMD-check](https://github.com/verasls/impactr/workflows/R-CMD-check/badge.svg)](https://github.com/verasls/impactr/actions)
