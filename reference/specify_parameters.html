@@ -158,27 +158,27 @@ in kilograms.</p></td>
 as attributes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_acc.html'>read_acc</a></span><span class='op'>(</span><span class='fu'><a href='impactr_example.html'>impactr_example</a></span><span class='op'>(</span><span class='st'>"hip-imu.csv"</span><span class='op'>)</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_acc.html'>read_acc</a></span><span class='op'>(</span><span class='fu'><a href='impactr_example.html'>impactr_example</a></span><span class='op'>(</span><span class='st'>"hip-raw.csv"</span><span class='op'>)</span><span class='op'>)</span>
 <span class='fu'>specify_parameters</span><span class='op'>(</span><span class='va'>data</span>, acc_placement <span class='op'>=</span> <span class='st'>"hip"</span>, subj_body_mass <span class='op'>=</span> <span class='fl'>79.2</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span style='color: #949494;'># Start time:              2021-04-06 15:43:00</span>
 #&gt; <span style='color: #949494;'># Sampling frequency:      100Hz</span>
 #&gt; <span style='color: #949494;'># Accelerometer placement: Hip</span>
 #&gt; <span style='color: #949494;'># Subject body mass:       79.2kg</span>
 #&gt; <span style='color: #949494;'># Filter:                  No filter applied</span>
-#&gt; <span style='color: #949494;'># Data dimensions:         29,900 × 4</span>
-#&gt;    timestamp             acc_X  acc_Y  acc_Z
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>                <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>  0.259  -<span style='color: #BB0000;'>0.807</span> 0.031<span style='text-decoration: underline;'>7</span>
-#&gt; <span style='color: #BCBCBC;'> 2</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>  0.267  -<span style='color: #BB0000;'>0.889</span> 0.299 
-#&gt; <span style='color: #BCBCBC;'> 3</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>  0.260  -<span style='color: #BB0000;'>0.930</span> 0.420 
-#&gt; <span style='color: #BCBCBC;'> 4</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>  0.306  -<span style='color: #BB0000;'>0.938</span> 0.276 
-#&gt; <span style='color: #BCBCBC;'> 5</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>  0.354  -<span style='color: #BB0000;'>0.943</span> 0.156 
-#&gt; <span style='color: #BCBCBC;'> 6</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>  0.313  -<span style='color: #BB0000;'>0.871</span> 0.188 
-#&gt; <span style='color: #BCBCBC;'> 7</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>  0.354  -<span style='color: #BB0000;'>1.04</span>  0.096<span style='text-decoration: underline;'>7</span>
-#&gt; <span style='color: #BCBCBC;'> 8</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>  0.405  -<span style='color: #BB0000;'>1.09</span>  0.245 
-#&gt; <span style='color: #BCBCBC;'> 9</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>  0.479  -<span style='color: #BB0000;'>0.956</span> 0.422 
-#&gt; <span style='color: #BCBCBC;'>10</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> -<span style='color: #BB0000;'>0.063</span><span style='color: #BB0000; text-decoration: underline;'>5</span> -<span style='color: #BB0000;'>0.931</span> 0.401 
-#&gt; <span style='color: #949494;'># … with 29,890 more rows</span></div></pre>
+#&gt; <span style='color: #949494;'># Data dimensions:         30,000 × 4</span>
+#&gt;    timestamp           acc_X  acc_Y acc_Z
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>              <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>  <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> 0.262 -<span style='color: #BB0000;'>0.688</span> 0.063
+#&gt; <span style='color: #BCBCBC;'> 2</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> 0.25  -<span style='color: #BB0000;'>0.727</span> 0.039
+#&gt; <span style='color: #BCBCBC;'> 3</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> 0.254 -<span style='color: #BB0000;'>0.816</span> 0.191
+#&gt; <span style='color: #BCBCBC;'> 4</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> 0.258 -<span style='color: #BB0000;'>0.891</span> 0.367
+#&gt; <span style='color: #BCBCBC;'> 5</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> 0.281 -<span style='color: #BB0000;'>0.914</span> 0.344
+#&gt; <span style='color: #BCBCBC;'> 6</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> 0.316 -<span style='color: #BB0000;'>0.922</span> 0.23 
+#&gt; <span style='color: #BCBCBC;'> 7</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> 0.32  -<span style='color: #BB0000;'>0.891</span> 0.203
+#&gt; <span style='color: #BCBCBC;'> 8</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> 0.332 -<span style='color: #BB0000;'>0.926</span> 0.109
+#&gt; <span style='color: #BCBCBC;'> 9</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> 0.363 -<span style='color: #BB0000;'>1.02</span>  0.168
+#&gt; <span style='color: #BCBCBC;'>10</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span> 0.418 -<span style='color: #BB0000;'>0.996</span> 0.387
+#&gt; <span style='color: #949494;'># … with 29,990 more rows</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

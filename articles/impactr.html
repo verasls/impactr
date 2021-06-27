@@ -105,13 +105,14 @@
 <p>The first step is to read the raw accelerometer data into R. We do it by using the <code><a href="../reference/read_acc.html">read_acc()</a></code> function specifying the path to the csv file containing the raw accelerometer data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="st">"path/to/file"</span><span class="op">)</span></code></pre></div>
+<p>Remember that currently impactr only accepts raw data from triaxial ActiGraph accelerometers. In the raw data, acceleration values are stored as gravitational acceleration units (1<em>g</em> = 9.81m·s<sup>-2</sup>).</p>
 <p>To show the package functionalities, impactr provides some short example files. The name of these files are shown when running:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] "hip-imu.csv" "hip-raw.csv"</span></code></pre></div>
+<span class="co">#&gt; [1] "hip-raw.csv"</span></code></pre></div>
 <p>When entering one of these file names as an argument to the <code><a href="../reference/impactr_example.html">impactr_example()</a></code> function, we obtain the path to the example data, and can pass it to <code><a href="../reference/read_acc.html">read_acc()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-imu.csv"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-raw.csv"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The output of this function was assigned to the <code>acc_data</code> object with the R’s assignment operator (<code><a href="https://rdrr.io/r/base/assignOps.html">&lt;-</a></code>).</p>
 <p>We can, then, inspect this object.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -121,21 +122,21 @@
 <span class="co">#&gt; # Accelerometer placement: Non-specified</span>
 <span class="co">#&gt; # Subject body mass:       Non-specified</span>
 <span class="co">#&gt; # Filter:                  No filter applied</span>
-<span class="co">#&gt; # Data dimensions:         29,900 × 4</span>
-<span class="co">#&gt;    timestamp             acc_X  acc_Y  acc_Z</span>
-<span class="co">#&gt;    &lt;dttm&gt;                &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2021-04-06 15:43:00  0.259  -0.807 0.0317</span>
-<span class="co">#&gt;  2 2021-04-06 15:43:00  0.267  -0.889 0.299 </span>
-<span class="co">#&gt;  3 2021-04-06 15:43:00  0.260  -0.930 0.420 </span>
-<span class="co">#&gt;  4 2021-04-06 15:43:00  0.306  -0.938 0.276 </span>
-<span class="co">#&gt;  5 2021-04-06 15:43:00  0.354  -0.943 0.156 </span>
-<span class="co">#&gt;  6 2021-04-06 15:43:00  0.313  -0.871 0.188 </span>
-<span class="co">#&gt;  7 2021-04-06 15:43:00  0.354  -1.04  0.0967</span>
-<span class="co">#&gt;  8 2021-04-06 15:43:00  0.405  -1.09  0.245 </span>
-<span class="co">#&gt;  9 2021-04-06 15:43:00  0.479  -0.956 0.422 </span>
-<span class="co">#&gt; 10 2021-04-06 15:43:00 -0.0635 -0.931 0.401 </span>
-<span class="co">#&gt; # … with 29,890 more rows</span></code></pre></div>
-<p>It shows the data with four columns – one for the timestamp and one for each of the accelerometer axes (<em>X</em>, <em>Y</em> and <em>Z</em>) – and a 6-line header with metadata. Among this metadata is the accelerometer data start time and sampling frequency, extracted from the csv file header, and also information about the accelerometer placement and the subject body mass, that are needed for applying the mechanical loading prediction models. It also shows information about the filter applied to the accelerometer signal and the data dimentions (29900 rows and 4 columns in this case).</p>
+<span class="co">#&gt; # Data dimensions:         30,000 × 4</span>
+<span class="co">#&gt;    timestamp           acc_X  acc_Y acc_Z</span>
+<span class="co">#&gt;    &lt;dttm&gt;              &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 2021-04-06 15:43:00 0.262 -0.688 0.063</span>
+<span class="co">#&gt;  2 2021-04-06 15:43:00 0.25  -0.727 0.039</span>
+<span class="co">#&gt;  3 2021-04-06 15:43:00 0.254 -0.816 0.191</span>
+<span class="co">#&gt;  4 2021-04-06 15:43:00 0.258 -0.891 0.367</span>
+<span class="co">#&gt;  5 2021-04-06 15:43:00 0.281 -0.914 0.344</span>
+<span class="co">#&gt;  6 2021-04-06 15:43:00 0.316 -0.922 0.23 </span>
+<span class="co">#&gt;  7 2021-04-06 15:43:00 0.32  -0.891 0.203</span>
+<span class="co">#&gt;  8 2021-04-06 15:43:00 0.332 -0.926 0.109</span>
+<span class="co">#&gt;  9 2021-04-06 15:43:00 0.363 -1.02  0.168</span>
+<span class="co">#&gt; 10 2021-04-06 15:43:00 0.418 -0.996 0.387</span>
+<span class="co">#&gt; # … with 29,990 more rows</span></code></pre></div>
+<p>It shows the data with four columns – one for the timestamp and one for each of the accelerometer axes (<em>X</em>, <em>Y</em> and <em>Z</em>) – and a 6-line header with metadata. Among this metadata is the accelerometer data start time and sampling frequency, extracted from the csv file header, and also information about the accelerometer placement and the subject body mass, that are needed for applying the mechanical loading prediction models. It also shows information about the filter applied to the accelerometer signal and the data dimentions (30000 rows and 4 columns in this case).</p>
 <p>Remember that, when using this function to read your own data, you need to specify the correct path to it. For example, if you have a file named <code>id_001_raw_acceleration.csv</code> inside the <code>accelerometer_data</code> folder in your <code>Desktop</code>, you need to write the path to it:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># For macOS or Linux</span>
@@ -158,18 +159,18 @@
 <span class="co">#&gt; # Subject body mass:       Non-specified</span>
 <span class="co">#&gt; # Filter:                  No filter applied</span>
 <span class="co">#&gt; # Data dimensions:         6,000 × 4</span>
-<span class="co">#&gt;    timestamp              acc_X acc_Y acc_Z</span>
-<span class="co">#&gt;    &lt;dttm&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2021-04-06 15:45:00 -0.0371  -1.12 0.248</span>
-<span class="co">#&gt;  2 2021-04-06 15:45:00 -0.0146  -1.14 0.263</span>
-<span class="co">#&gt;  3 2021-04-06 15:45:00 -0.00928 -1.12 0.230</span>
-<span class="co">#&gt;  4 2021-04-06 15:45:00  0.00195 -1.09 0.175</span>
-<span class="co">#&gt;  5 2021-04-06 15:45:00  0.0278  -1.04 0.124</span>
-<span class="co">#&gt;  6 2021-04-06 15:45:00  0.00830 -1.06 0.123</span>
-<span class="co">#&gt;  7 2021-04-06 15:45:00  0.0103  -1.16 0.167</span>
-<span class="co">#&gt;  8 2021-04-06 15:45:00  0.0317  -1.22 0.180</span>
-<span class="co">#&gt;  9 2021-04-06 15:45:00  0.118   -1.26 0.225</span>
-<span class="co">#&gt; 10 2021-04-06 15:45:00  0.248   -1.28 0.314</span>
+<span class="co">#&gt;    timestamp            acc_X acc_Y acc_Z</span>
+<span class="co">#&gt;    &lt;dttm&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 2021-04-06 15:45:00 -0.148 -1.05 0.094</span>
+<span class="co">#&gt;  2 2021-04-06 15:45:00 -0.098 -1.08 0.176</span>
+<span class="co">#&gt;  3 2021-04-06 15:45:00 -0.055 -1.11 0.234</span>
+<span class="co">#&gt;  4 2021-04-06 15:45:00 -0.035 -1.12 0.254</span>
+<span class="co">#&gt;  5 2021-04-06 15:45:00 -0.02  -1.11 0.23 </span>
+<span class="co">#&gt;  6 2021-04-06 15:45:00 -0.004 -1.09 0.184</span>
+<span class="co">#&gt;  7 2021-04-06 15:45:00  0.004 -1.06 0.152</span>
+<span class="co">#&gt;  8 2021-04-06 15:45:00 -0.004 -1.08 0.152</span>
+<span class="co">#&gt;  9 2021-04-06 15:45:00  0.008 -1.15 0.176</span>
+<span class="co">#&gt; 10 2021-04-06 15:45:00  0.039 -1.20 0.195</span>
 <span class="co">#&gt; # … with 5,990 more rows</span></code></pre></div>
 </div>
 <div id="specify_parameters" class="section level3">
@@ -187,18 +188,18 @@
 <span class="co">#&gt; # Subject body mass:       78kg</span>
 <span class="co">#&gt; # Filter:                  No filter applied</span>
 <span class="co">#&gt; # Data dimensions:         6,000 × 4</span>
-<span class="co">#&gt;    timestamp              acc_X acc_Y acc_Z</span>
-<span class="co">#&gt;    &lt;dttm&gt;                 &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2021-04-06 15:45:00 -0.0371  -1.12 0.248</span>
-<span class="co">#&gt;  2 2021-04-06 15:45:00 -0.0146  -1.14 0.263</span>
-<span class="co">#&gt;  3 2021-04-06 15:45:00 -0.00928 -1.12 0.230</span>
-<span class="co">#&gt;  4 2021-04-06 15:45:00  0.00195 -1.09 0.175</span>
-<span class="co">#&gt;  5 2021-04-06 15:45:00  0.0278  -1.04 0.124</span>
-<span class="co">#&gt;  6 2021-04-06 15:45:00  0.00830 -1.06 0.123</span>
-<span class="co">#&gt;  7 2021-04-06 15:45:00  0.0103  -1.16 0.167</span>
-<span class="co">#&gt;  8 2021-04-06 15:45:00  0.0317  -1.22 0.180</span>
-<span class="co">#&gt;  9 2021-04-06 15:45:00  0.118   -1.26 0.225</span>
-<span class="co">#&gt; 10 2021-04-06 15:45:00  0.248   -1.28 0.314</span>
+<span class="co">#&gt;    timestamp            acc_X acc_Y acc_Z</span>
+<span class="co">#&gt;    &lt;dttm&gt;               &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 2021-04-06 15:45:00 -0.148 -1.05 0.094</span>
+<span class="co">#&gt;  2 2021-04-06 15:45:00 -0.098 -1.08 0.176</span>
+<span class="co">#&gt;  3 2021-04-06 15:45:00 -0.055 -1.11 0.234</span>
+<span class="co">#&gt;  4 2021-04-06 15:45:00 -0.035 -1.12 0.254</span>
+<span class="co">#&gt;  5 2021-04-06 15:45:00 -0.02  -1.11 0.23 </span>
+<span class="co">#&gt;  6 2021-04-06 15:45:00 -0.004 -1.09 0.184</span>
+<span class="co">#&gt;  7 2021-04-06 15:45:00  0.004 -1.06 0.152</span>
+<span class="co">#&gt;  8 2021-04-06 15:45:00 -0.004 -1.08 0.152</span>
+<span class="co">#&gt;  9 2021-04-06 15:45:00  0.008 -1.15 0.176</span>
+<span class="co">#&gt; 10 2021-04-06 15:45:00  0.039 -1.20 0.195</span>
 <span class="co">#&gt; # … with 5,990 more rows</span></code></pre></div>
 <p>The supported accelerometer placements are “ankle”, “back” or “hip” and the body mass must be given as kilograms. Notice that these informations are added to the data header.</p>
 </div>
@@ -215,18 +216,18 @@
 <span class="co">#&gt; # Subject body mass:       78kg</span>
 <span class="co">#&gt; # Filter:                  Butterworth (4th-ord, low-pass, 20Hz)</span>
 <span class="co">#&gt; # Data dimensions:         6,000 × 4</span>
-<span class="co">#&gt;    timestamp              acc_X  acc_Y acc_Z</span>
-<span class="co">#&gt;    &lt;dttm&gt;                 &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2021-04-06 15:45:00 -0.0229  -0.797 0.184</span>
-<span class="co">#&gt;  2 2021-04-06 15:45:00 -0.0223  -1.13  0.253</span>
-<span class="co">#&gt;  3 2021-04-06 15:45:00 -0.00689 -1.21  0.244</span>
-<span class="co">#&gt;  4 2021-04-06 15:45:00  0.0113  -1.11  0.184</span>
-<span class="co">#&gt;  5 2021-04-06 15:45:00  0.0157  -1.03  0.131</span>
-<span class="co">#&gt;  6 2021-04-06 15:45:00  0.00602 -1.05  0.118</span>
-<span class="co">#&gt;  7 2021-04-06 15:45:00  0.00652 -1.14  0.144</span>
-<span class="co">#&gt;  8 2021-04-06 15:45:00  0.0469  -1.23  0.191</span>
-<span class="co">#&gt;  9 2021-04-06 15:45:00  0.130   -1.27  0.247</span>
-<span class="co">#&gt; 10 2021-04-06 15:45:00  0.221   -1.28  0.298</span>
+<span class="co">#&gt;    timestamp               acc_X  acc_Y  acc_Z</span>
+<span class="co">#&gt;    &lt;dttm&gt;                  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 2021-04-06 15:45:00 -0.0900   -0.742 0.0878</span>
+<span class="co">#&gt;  2 2021-04-06 15:45:00 -0.102    -1.08  0.171 </span>
+<span class="co">#&gt;  3 2021-04-06 15:45:00 -0.0768   -1.20  0.235 </span>
+<span class="co">#&gt;  4 2021-04-06 15:45:00 -0.0375   -1.16  0.253 </span>
+<span class="co">#&gt;  5 2021-04-06 15:45:00 -0.00870  -1.09  0.229 </span>
+<span class="co">#&gt;  6 2021-04-06 15:45:00  0.000810 -1.06  0.188 </span>
+<span class="co">#&gt;  7 2021-04-06 15:45:00 -0.00329  -1.07  0.156 </span>
+<span class="co">#&gt;  8 2021-04-06 15:45:00 -0.00753  -1.10  0.148 </span>
+<span class="co">#&gt;  9 2021-04-06 15:45:00  0.00602  -1.14  0.166 </span>
+<span class="co">#&gt; 10 2021-04-06 15:45:00  0.0510   -1.19  0.206 </span>
 <span class="co">#&gt; # … with 5,990 more rows</span></code></pre></div>
 <p>This function lets you select the order, cut-off frequency and type of the Butterworth filter (more details in the function documentation <code><a href="../reference/filter_acc.html">help(filter_acc)</a></code>). To better reproduce the conditions in which the models validation were performed, we suggest you not to change the default values of <code>order</code>, <code>cutoff</code> and <code>type</code> arguments, unless you have a strong reason to do so.</p>
 </div>
@@ -243,18 +244,18 @@
 <span class="co">#&gt; # Subject body mass:       78kg</span>
 <span class="co">#&gt; # Filter:                  Butterworth (4th-ord, low-pass, 20Hz)</span>
 <span class="co">#&gt; # Data dimensions:         6,000 × 5</span>
-<span class="co">#&gt;    timestamp              acc_X  acc_Y acc_Z acc_R</span>
-<span class="co">#&gt;    &lt;dttm&gt;                 &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2021-04-06 15:45:00 -0.0229  -0.797 0.184 0.818</span>
-<span class="co">#&gt;  2 2021-04-06 15:45:00 -0.0223  -1.13  0.253 1.16 </span>
-<span class="co">#&gt;  3 2021-04-06 15:45:00 -0.00689 -1.21  0.244 1.23 </span>
-<span class="co">#&gt;  4 2021-04-06 15:45:00  0.0113  -1.11  0.184 1.13 </span>
-<span class="co">#&gt;  5 2021-04-06 15:45:00  0.0157  -1.03  0.131 1.04 </span>
-<span class="co">#&gt;  6 2021-04-06 15:45:00  0.00602 -1.05  0.118 1.06 </span>
-<span class="co">#&gt;  7 2021-04-06 15:45:00  0.00652 -1.14  0.144 1.15 </span>
-<span class="co">#&gt;  8 2021-04-06 15:45:00  0.0469  -1.23  0.191 1.24 </span>
-<span class="co">#&gt;  9 2021-04-06 15:45:00  0.130   -1.27  0.247 1.30 </span>
-<span class="co">#&gt; 10 2021-04-06 15:45:00  0.221   -1.28  0.298 1.33 </span>
+<span class="co">#&gt;    timestamp               acc_X  acc_Y  acc_Z acc_R</span>
+<span class="co">#&gt;    &lt;dttm&gt;                  &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 2021-04-06 15:45:00 -0.0900   -0.742 0.0878 0.753</span>
+<span class="co">#&gt;  2 2021-04-06 15:45:00 -0.102    -1.08  0.171  1.10 </span>
+<span class="co">#&gt;  3 2021-04-06 15:45:00 -0.0768   -1.20  0.235  1.22 </span>
+<span class="co">#&gt;  4 2021-04-06 15:45:00 -0.0375   -1.16  0.253  1.18 </span>
+<span class="co">#&gt;  5 2021-04-06 15:45:00 -0.00870  -1.09  0.229  1.11 </span>
+<span class="co">#&gt;  6 2021-04-06 15:45:00  0.000810 -1.06  0.188  1.07 </span>
+<span class="co">#&gt;  7 2021-04-06 15:45:00 -0.00329  -1.07  0.156  1.08 </span>
+<span class="co">#&gt;  8 2021-04-06 15:45:00 -0.00753  -1.10  0.148  1.11 </span>
+<span class="co">#&gt;  9 2021-04-06 15:45:00  0.00602  -1.14  0.166  1.15 </span>
+<span class="co">#&gt; 10 2021-04-06 15:45:00  0.0510   -1.19  0.206  1.21 </span>
 <span class="co">#&gt; # … with 5,990 more rows</span></code></pre></div>
 <p>This function add a new column <code>acc_R</code> with the resultant acceleration values. We suggest to utilise this function after <code><a href="../reference/filter_acc.html">filter_acc()</a></code>, otherwise the resultant vector computation will use the non-filtered acceleration signal.</p>
 </div>
@@ -273,16 +274,16 @@
 <span class="co">#&gt; # Data dimensions:         32 × 2</span>
 <span class="co">#&gt;    timestamp           resultant_peak_acc</span>
 <span class="co">#&gt;    &lt;dttm&gt;                           &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2021-04-06 15:45:00               1.34</span>
-<span class="co">#&gt;  2 2021-04-06 15:45:01               1.40</span>
-<span class="co">#&gt;  3 2021-04-06 15:45:04               1.32</span>
-<span class="co">#&gt;  4 2021-04-06 15:45:04               2.47</span>
-<span class="co">#&gt;  5 2021-04-06 15:45:05               1.54</span>
-<span class="co">#&gt;  6 2021-04-06 15:45:06               1.83</span>
-<span class="co">#&gt;  7 2021-04-06 15:45:06               1.54</span>
-<span class="co">#&gt;  8 2021-04-06 15:45:07               2.11</span>
-<span class="co">#&gt;  9 2021-04-06 15:45:08               1.40</span>
-<span class="co">#&gt; 10 2021-04-06 15:45:08               2.04</span>
+<span class="co">#&gt;  1 2021-04-06 15:45:00               1.32</span>
+<span class="co">#&gt;  2 2021-04-06 15:45:01               1.36</span>
+<span class="co">#&gt;  3 2021-04-06 15:45:04               1.30</span>
+<span class="co">#&gt;  4 2021-04-06 15:45:04               2.32</span>
+<span class="co">#&gt;  5 2021-04-06 15:45:05               1.50</span>
+<span class="co">#&gt;  6 2021-04-06 15:45:06               1.68</span>
+<span class="co">#&gt;  7 2021-04-06 15:45:06               1.51</span>
+<span class="co">#&gt;  8 2021-04-06 15:45:07               1.96</span>
+<span class="co">#&gt;  9 2021-04-06 15:45:08               1.37</span>
+<span class="co">#&gt; 10 2021-04-06 15:45:08               1.86</span>
 <span class="co">#&gt; # … with 22 more rows</span></code></pre></div>
 <p>As with <code><a href="../reference/filter_acc.html">filter_acc()</a></code>, <code><a href="../reference/find_peaks.html">find_peaks()</a></code> default values of the minimun height (<code>min_height</code>) and distance (<code>min_dist</code>) of the peaks are set to replicate the values used in the calibration study. You should only change them if you have a strong reason to.</p>
 </div>
@@ -305,17 +306,18 @@
 <span class="co">#&gt; # Data dimensions:         32 × 3</span>
 <span class="co">#&gt;    timestamp           resultant_peak_acc resultant_peak_grf</span>
 <span class="co">#&gt;    &lt;dttm&gt;                           &lt;dbl&gt;              &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 2021-04-06 15:45:00               1.34              1389.</span>
-<span class="co">#&gt;  2 2021-04-06 15:45:01               1.40              1398.</span>
-<span class="co">#&gt;  3 2021-04-06 15:45:04               1.32              1386.</span>
-<span class="co">#&gt;  4 2021-04-06 15:45:04               2.47              1541.</span>
-<span class="co">#&gt;  5 2021-04-06 15:45:05               1.54              1416.</span>
-<span class="co">#&gt;  6 2021-04-06 15:45:06               1.83              1456.</span>
-<span class="co">#&gt;  7 2021-04-06 15:45:06               1.54              1417.</span>
-<span class="co">#&gt;  8 2021-04-06 15:45:07               2.11              1494.</span>
-<span class="co">#&gt;  9 2021-04-06 15:45:08               1.40              1398.</span>
-<span class="co">#&gt; 10 2021-04-06 15:45:08               2.04              1484.</span>
+<span class="co">#&gt;  1 2021-04-06 15:45:00               1.32              1387.</span>
+<span class="co">#&gt;  2 2021-04-06 15:45:01               1.36              1392.</span>
+<span class="co">#&gt;  3 2021-04-06 15:45:04               1.30              1384.</span>
+<span class="co">#&gt;  4 2021-04-06 15:45:04               2.32              1521.</span>
+<span class="co">#&gt;  5 2021-04-06 15:45:05               1.50              1412.</span>
+<span class="co">#&gt;  6 2021-04-06 15:45:06               1.68              1435.</span>
+<span class="co">#&gt;  7 2021-04-06 15:45:06               1.51              1412.</span>
+<span class="co">#&gt;  8 2021-04-06 15:45:07               1.96              1473.</span>
+<span class="co">#&gt;  9 2021-04-06 15:45:08               1.37              1393.</span>
+<span class="co">#&gt; 10 2021-04-06 15:45:08               1.86              1459.</span>
 <span class="co">#&gt; # … with 22 more rows</span></code></pre></div>
+<p>As can be seen above, <code><a href="../reference/predict_loading.html">predict_loading()</a></code> adds columns to the supplied <code>data</code> corresponding to the <code>outcome</code> and <code>vector</code> specified in the arguments. Note that GRF are expressed as newton (N) and LR as newton per second (N·s<sup>-1</sup>)</p>
 </div>
 </div>
 <div id="wrap-up" class="section level2">
@@ -324,7 +326,7 @@
 <p>impactr helps you to move from the raw accelerometer data to discrete estimates of mechanical loading variables in an easy way. All the functions necessary to this analysis are described above in a step-by-step manner. These functions were also designed to be used with pipe operators (either of the <a href="https://magrittr.tidyverse.org"><code>magrittr</code></a> package or the base R package for R version &gt;= 4.1.0). By using the pipe, the output of a function call is passed directly to the next, avoiding nested function calls or the need to assign local variables. Below are examples the whole analysis assigning local variables in intermediate steps and using the base R pipe:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Using intermediate steps</span>
-<span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-imu.csv"</span><span class="op">)</span><span class="op">)</span>
+<span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-raw.csv"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/specify_parameters.html">specify_parameters</a></span><span class="op">(</span>
   data <span class="op">=</span> <span class="va">acc_data</span>, acc_placement <span class="op">=</span> <span class="st">"hip"</span>, subj_body_mass <span class="op">=</span> <span class="fl">78</span>
 <span class="op">)</span>
@@ -339,7 +341,7 @@
 <span class="op">)</span>
 
 <span class="co"># Using the base R pipe operator</span>
-<span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-imu.csv"</span><span class="op">)</span><span class="op">)</span> |&gt;
+<span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-raw.csv"</span><span class="op">)</span><span class="op">)</span> |&gt;
   <span class="fu"><a href="../reference/specify_parameters.html">specify_parameters</a></span><span class="op">(</span>acc_placement <span class="op">=</span> <span class="st">"hip"</span>, subj_body_mass <span class="op">=</span> <span class="fl">78</span><span class="op">)</span> |&gt;
   <span class="fu"><a href="../reference/filter_acc.html">filter_acc</a></span><span class="op">(</span><span class="op">)</span> |&gt;
   <span class="fu"><a href="../reference/use_resultant.html">use_resultant</a></span><span class="op">(</span><span class="op">)</span> |&gt;
