@@ -3,7 +3,6 @@
 S3method(tbl_sum,impactr_data)
 export(define_region)
 export(filter_acc)
-export(filter_signal)
 export(find_peaks)
 export(impactr_example)
 export(is_impactr_data)

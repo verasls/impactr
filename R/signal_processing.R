@@ -64,8 +64,6 @@ filter_acc <- function(data, order = 4, cutoff = 20, type = "lowpass") {
 #' @param type The type of the filter.
 #'
 #' @return A numeric vector with the filtered signal.
-#'
-#' @export
 filter_signal <- function(signal, n, w, type) {
   ba <- signal::butter(n, w, type)
   signal::filtfilt(ba, signal)
