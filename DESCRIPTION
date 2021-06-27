@@ -1,5 +1,5 @@
 Package: impactr
-Title: Mechanical loading prediction through accelerometer data
+Title: Mechanical Loading Prediction Through Accelerometer Data
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Lucas",
@@ -8,7 +8,9 @@ Authors@R:
            email = "lucasdsveras@gmail.com",
            comment = c(ORCID = "0000-0003-0562-5803"))
 Description: Functions to read, process and analyse accelerometer
-    data related to mechanical loading variables.
+    data related to mechanical loading variables. This package is
+    developed and tested for use with raw accelerometer data from
+    triaxial ActiGraph <https://actigraphcorp.com> accelerometers.
 License: MIT + file LICENSE
 BugReports: https://github.com/verasls/impactr/issues
 Encoding: UTF-8
