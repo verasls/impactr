@@ -25,7 +25,7 @@ An object of class \code{impactr_peaks} with the ground reaction
 force and/or loading rate peaks magnitude stored in the columns.
 }
 \description{
-Predict either ground reaction force or loding rate, or both, based on
+Predict either ground reaction force or loading rate, or both, based on
 accelerometer data.
 }
 \examples{

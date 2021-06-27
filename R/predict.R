@@ -1,6 +1,6 @@
 #' Predict mechanical loading
 #'
-#' Predict either ground reaction force or loding rate, or both, based on
+#' Predict either ground reaction force or loading rate, or both, based on
 #' accelerometer data.
 #'
 #' @param data An \code{impactr_data} object, as obtained with

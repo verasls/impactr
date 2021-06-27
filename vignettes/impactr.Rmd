@@ -61,7 +61,7 @@ We can, then, inspect this object.
 acc_data
 ```
 
-It shows the data with four columns -- one for the timestamp and one for each of the accelerometer axes (*X*, *Y* and *Z*) -- and a 6-line header with metadata. Among this metadata is the accelerometer data start time and sampling frequency, extracted from the csv file header, and also information about the accelerometer placement and the subject body mass, that are needed for applying the mechanical loading prediction models. It also shows information about the filter applied to the accelerometer signal and the data dimentions (`r nrow(acc_data)` rows and `r ncol(acc_data)` columns in this case).
+It shows the data with four columns -- one for the timestamp and one for each of the accelerometer axes (*X*, *Y* and *Z*) -- and a 6-line header with metadata. Among this metadata is the accelerometer data start time and sampling frequency, extracted from the csv file header, and also information about the accelerometer placement and the subject body mass, that are needed for applying the mechanical loading prediction models. It also shows information about the filter applied to the accelerometer signal and the data dimensions (`r nrow(acc_data)` rows and `r ncol(acc_data)` columns in this case).
 
 Remember that, when using this function to read your own data, you need to specify the correct path to it. For example, if you have a file named `id_001_raw_acceleration.csv` inside the `accelerometer_data` folder in your `Desktop`, you need to write the path to it:
 
@@ -127,7 +127,7 @@ acc_data <- find_peaks(data = acc_data, vector = "resultant")
 acc_data
 ```
 
-As with `filter_acc()`, `find_peaks()` default values of the minimun height (`min_height`) and distance (`min_dist`) of the peaks are set to replicate the values used in the calibration study. You should only change them if you have a strong reason to.
+As with `filter_acc()`, `find_peaks()` default values of the minimum height (`min_height`) and distance (`min_dist`) of the peaks are set to replicate the values used in the calibration study. You should only change them if you have a strong reason to.
 
 ### predict_loading()
 
