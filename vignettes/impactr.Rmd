@@ -1,0 +1,174 @@
+---
+title: "Introduction to impactr"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction to impactr}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+```
+
+impactr is an [R](https://www.r-project.org) package whose main goal is to process raw accelerometer data into mechanical loading-related variables. It contains functions to read the raw data, process the accelerometer signal and to predict some mechanical loading variables such as ground reaction force (GRF) and loading rate (LR). Currently it only works with raw accelerometer data from triaxial ActiGraph accelerometers stored as csv files, but with plans to expand the support for more accelerometer brands and file types.
+
+This vignette provides a short introduction on how to use impactr, guiding you through each of the functions necessary to operate it. If anything is not clear in the package documentation, please let us know by creating an issue in GitHub following this [link](https://github.com/verasls/impactr/issues).
+
+## Walkthrough
+
+Before we begin, the package needs to be installed and then loaded into your R session.
+
+If you don't have much experience using R, we recommend you to install the latest impactr release from [CRAN](https://cran.r-project.org), by running:
+
+```{r install, eval = FALSE}
+install.packages("impactr")
+```
+
+After the package is installed, it should be loaded into your R session:
+
+```{r library}
+library(impactr)
+```
+
+### read_acc()
+
+The first step is to read the raw accelerometer data into R. We do it by using the `read_acc()` function specifying the path to the csv file containing the raw accelerometer data:
+
+```{r read_acc, eval = FALSE}
+read_acc("path/to/file")
+```
+
+To show the package functionalities, impactr provides some short example files. The name of these files are shown when running:
+
+```{r impacr_example}
+impactr_example()
+```
+
+When entering one of these file names as an argument to the `impactr_example()` function, we obtain the path to the example data, and can pass it to `read_acc()`:
+
+```{r read_example_data}
+acc_data <- read_acc(impactr_example("hip-imu.csv"))
+```
+
+The output of this function was assigned to the `acc_data` object with the R's assignment operator (`<-`).
+
+We can, then, inspect this object.
+
+```{r acc_data}
+acc_data
+```
+
+It shows the data with four columns -- one for the timestamp and one for each of the accelerometer axes (*X*, *Y* and *Z*) -- and a 6-line header with metadata. Among this metadata is the accelerometer data start time and sampling frequency, extracted from the csv file header, and also information about the accelerometer placement and the subject body mass, that are needed for applying the mechanical loading prediction models. It also shows information about the filter applied to the accelerometer signal and the data dimentions (`r nrow(acc_data)` rows and `r ncol(acc_data)` columns in this case).
+
+Remember that, when using this function to read your own data, you need to specify the correct path to it. For example, if you have a file named `id_001_raw_acceleration.csv` inside the `accelerometer_data` folder in your `Desktop`, you need to write the path to it:
+
+```{r path_example, eval = FALSE}
+# For macOS or Linux
+read_acc("~/Desktop/accelerometer_data/id_001_raw_acceleration.csv")
+# For Windows
+read_acc("C:/Users/username/Desktop/accelerometer_data/id_001_raw_acceleration.csv")
+```
+
+### define_region()
+
+`define_region()` is an optional function to be used when you only want to analyse a specify portion of your data. To use it, you must specify the start and end time of your region of interest to the `start_time` and `end_time` arguments, along with the data read by the `read_acc()` function to the `data` argument:
+
+```{r define_region}
+acc_data <- define_region(
+  data = acc_data, start_time = "15:45:00", end_time = "15:46:00"
+)
+acc_data
+```
+
+### specify_parameters()
+
+Apart from the raw accelerometer data, the mechanical loading prediction models need informations regarding the accelerometer body placement and the subject body mass. These informations are provided to impactr by the function `specify_parameters()`:
+
+```{r specify_parameters}
+acc_data <- specify_parameters(
+  data = acc_data, acc_placement = "hip", subj_body_mass = 78
+)
+acc_data
+```
+
+The supported accelerometer placements are "ankle", "back" or "hip" and the body mass must be given as kilograms. Notice that these informations are added to the data header. 
+
+### filter_acc()
+
+The raw accelerometer data can be digitally filtered to reduce noise. The `filter_acc()` function does it by getting the coefficients of a Butterworth digital filter and applying it twice (forwards and backwards) to the acceleration signal. The simplest way to use it is to call the `filter_acc()` function supplying only the accelerometer data:
+
+```{r filter_acc}
+acc_data <- filter_acc(data = acc_data)
+acc_data
+```
+
+This function lets you select the order, cut-off frequency and type of the Butterworth filter (more details in the function documentation `help(filter_acc)`). To better reproduce the conditions in which the models validation were performed, we suggest you not to change the default values of `order`, `cutoff` and `type` arguments, unless you have a strong reason to do so.
+
+### use_resultant()
+
+The mechanical loading prediction models included in impactr work with either the acceleration vertical vector or the resultant vector computed as the Euclidean norm of the three vectors $(r = \sqrt{X^2 + Y^2 + Z^2})$. To compute the resultant you can use the `use_resultant()` function:
+
+```{r use_resultant}
+acc_data <- use_resultant(data = acc_data)
+acc_data
+```
+
+This function add a new column `acc_R` with the resultant acceleration values. We suggest to utilise this function after `filter_acc()`, otherwise the resultant vector computation will use the non-filtered acceleration signal.
+
+### find_peaks()
+
+To apply the prediction models, the peaks in the acceleration signal should be found. The `find_peaks()` function does it and returns the timestamp of the peak in a column and its magnitude in another. The `vector` argument controls in which vector the peaks should be found and can be set to either `vertical`, `resultant` or `all`.
+
+```{r find_peaks}
+acc_data <- find_peaks(data = acc_data, vector = "resultant")
+acc_data
+```
+
+As with `filter_acc()`, `find_peaks()` default values of the minimun height (`min_height`) and distance (`min_dist`) of the peaks are set to replicate the values used in the calibration study. You should only change them if you have a strong reason to.
+
+### predict_loading()
+
+Finally, the `predict_loading()` is used to predict the mechanical loading variables based on the acceleration signal. Currently, impactr provides models to predict ground reaction force (GRF) and loading rate (LR) of the resultant vector and its vertical component with a models validated in walking and running activities. The `outcome`, `vector` and `model` arguments are used to control this parameters. More details regarding the values accepted by these paremeters can be found in the function documentation (`help(predict_loading)`).
+
+```{r predict_loading}
+predict_loading(
+  data = acc_data,
+  outcome = "grf",
+  vector = "resultant",
+  model = "walking/running"
+)
+```
+
+## Wrap up
+
+impactr helps you to move from the raw accelerometer data to discrete estimates of mechanical loading variables in an easy way. All the functions necessary to this analysis are described above in a step-by-step manner. These functions were also designed to be used with pipe operators (either of the [`magrittr`](https://magrittr.tidyverse.org) package or the base R package for R version >= 4.1.0). By using the pipe, the output of a function call is passed directly to the next, avoiding nested function calls or the need to assign local variables. Below are examples the whole analysis assigning local variables in intermediate steps and using the base R pipe:
+
+```{r wrap-up, eval = FALSE}
+# Using intermediate steps
+acc_data <- read_acc(impactr_example("hip-imu.csv"))
+acc_data <- specify_parameters(
+  data = acc_data, acc_placement = "hip", subj_body_mass = 78
+)
+acc_data <- filter_acc(data = acc_data)
+acc_data <- use_resultant(data = acc_data)
+acc_data <- find_peaks(data = acc_data, vector = "resultant")
+acc_data <- predict_loading(
+  data = acc_data,
+  outcome = "grf",
+  vector = "resultant",
+  model = "walking/running"
+)
+
+# Using the base R pipe operator
+read_acc(impactr_example("hip-imu.csv")) |>
+  specify_parameters(acc_placement = "hip", subj_body_mass = 78) |>
+  filter_acc() |>
+  use_resultant() |>
+  find_peaks(vector = "resultant") |>
+  predict_loading(
+    outcome = "grf",
+    vector = "resultant",
+    model = "walking/running"
+  )
+```
