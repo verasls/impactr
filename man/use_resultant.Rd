@@ -17,6 +17,6 @@ containing the acceleration resultant vector.
 Computes the acceleration resultant vector.
 }
 \examples{
-data <- read_acc(impactr_example("hip-imu.csv"))
+data <- read_acc(impactr_example("hip-raw.csv"))
 use_resultant(data)
 }

@@ -50,7 +50,7 @@ impactr_example()
 When entering one of these file names as an argument to the `impactr_example()` function, we obtain the path to the example data, and can pass it to `read_acc()`:
 
 ```{r read_example_data}
-acc_data <- read_acc(impactr_example("hip-imu.csv"))
+acc_data <- read_acc(impactr_example("hip-raw.csv"))
 ```
 
 The output of this function was assigned to the `acc_data` object with the R's assignment operator (`<-`).
@@ -150,7 +150,7 @@ impactr helps you to move from the raw accelerometer data to discrete estimates 
 
 ```{r wrap-up, eval = FALSE}
 # Using intermediate steps
-acc_data <- read_acc(impactr_example("hip-imu.csv"))
+acc_data <- read_acc(impactr_example("hip-raw.csv"))
 acc_data <- specify_parameters(
   data = acc_data, acc_placement = "hip", subj_body_mass = 78
 )
@@ -165,7 +165,7 @@ acc_data <- predict_loading(
 )
 
 # Using the base R pipe operator
-read_acc(impactr_example("hip-imu.csv")) |>
+read_acc(impactr_example("hip-raw.csv")) |>
   specify_parameters(acc_placement = "hip", subj_body_mass = 78) |>
   filter_acc() |>
   use_resultant() |>

@@ -16,7 +16,7 @@
 #' @export
 #'
 #' @examples
-#' data <- read_acc(impactr_example("hip-imu.csv"))
+#' data <- read_acc(impactr_example("hip-raw.csv"))
 #' specify_parameters(data, acc_placement = "hip", subj_body_mass = 79.2)
 specify_parameters <- function(data, acc_placement, subj_body_mass) {
   check_args_specify_parameters(acc_placement, subj_body_mass)
@@ -74,7 +74,7 @@ check_args_specify_parameters <- function(acc_placement, subj_body_mass) {
 #' @export
 #'
 #' @examples
-#' data <- read_acc(impactr_example("hip-imu.csv"))
+#' data <- read_acc(impactr_example("hip-raw.csv"))
 #' define_region(data, start_time = "15:45:00", end_time = "15:46:00")
 define_region <- function(data, start_time, end_time) {
   check_args_define_region(data, start_time, end_time)
@@ -149,7 +149,7 @@ check_args_define_region <- function(data, start_time, end_time) {
 #' @export
 #'
 #' @examples
-#' data <- read_acc(impactr_example("hip-imu.csv"))
+#' data <- read_acc(impactr_example("hip-raw.csv"))
 #' use_resultant(data)
 use_resultant <- function(data) {
   data$acc_R <- compute_resultant(data$acc_X, data$acc_Y, data$acc_Z)

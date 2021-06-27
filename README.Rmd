@@ -43,7 +43,7 @@ devtools::install_github("verasls/impactr")
 ``` {r example}
 library(impactr)
 
-read_acc(impactr_example("hip-imu.csv")) |>
+read_acc(impactr_example("hip-raw.csv")) |>
  define_region(
     start_time = "15:45:00",
     end_time = "15:45:30"

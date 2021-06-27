@@ -21,6 +21,6 @@ Define the region of interest for data analysis based on the accelerometer
 data timestamp.
 }
 \examples{
-data <- read_acc(impactr_example("hip-imu.csv"))
+data <- read_acc(impactr_example("hip-raw.csv"))
 define_region(data, start_time = "15:45:00", end_time = "15:46:00")
 }

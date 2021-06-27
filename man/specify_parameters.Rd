@@ -25,6 +25,6 @@ Specify the accelerometer placement used and the subject body mass. These
 data is needed in order to use the mechanical loading prediction models.
 }
 \examples{
-data <- read_acc(impactr_example("hip-imu.csv"))
+data <- read_acc(impactr_example("hip-raw.csv"))
 specify_parameters(data, acc_placement = "hip", subj_body_mass = 79.2)
 }

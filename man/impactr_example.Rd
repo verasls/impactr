@@ -21,5 +21,5 @@ access.
 }
 \examples{
 impactr_example()
-impactr_example("hip-imu.csv")
+impactr_example("hip-raw.csv")
 }

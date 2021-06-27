@@ -29,7 +29,7 @@ Predict either ground reaction force or loding rate, or both, based on
 accelerometer data.
 }
 \examples{
-data <- read_acc(impactr_example("hip-imu.csv"))
+data <- read_acc(impactr_example("hip-raw.csv"))
 data <- specify_parameters(data, acc_placement = "hip", subj_body_mass = 78)
 data <- find_peaks(data, vector = "vertical")
 predict_loading(

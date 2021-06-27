@@ -16,5 +16,5 @@ An object of class \code{impactr_data}.
 Reads raw accelerometer data files into an \code{impactr_data} object.
 }
 \examples{
-read_acc(impactr_example("hip-imu.csv"))
+read_acc(impactr_example("hip-raw.csv"))
 }

@@ -31,7 +31,7 @@ used in the paper by Veras et al. that developed the mechanical loading
 prediction equations (see References).
 }
 \examples{
-data <- read_acc(impactr_example("hip-imu.csv"))
+data <- read_acc(impactr_example("hip-raw.csv"))
 filter_acc(data)
 }
 \references{

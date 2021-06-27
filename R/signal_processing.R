@@ -28,7 +28,7 @@
 #' @export
 #'
 #' @examples
-#' data <- read_acc(impactr_example("hip-imu.csv"))
+#' data <- read_acc(impactr_example("hip-raw.csv"))
 #' filter_acc(data)
 filter_acc <- function(data, order = 4, cutoff = 20, type = "lowpass") {
   check_args_filter_acc(order, cutoff, type)
@@ -140,7 +140,7 @@ check_args_filter_acc <- function(order, cutoff, type) {
 #' @export
 #'
 #' @examples
-#' data <- read_acc(impactr_example("hip-imu.csv"))
+#' data <- read_acc(impactr_example("hip-raw.csv"))
 #' data <- use_resultant(data)
 #' find_peaks(data, vector = "resultant")
 find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {

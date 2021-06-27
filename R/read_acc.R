@@ -9,7 +9,7 @@
 #' @export
 #'
 #' @examples
-#' read_acc(impactr_example("hip-imu.csv"))
+#' read_acc(impactr_example("hip-raw.csv"))
 read_acc <- function(file) {
   metadata <- get_metadata(file)
   x <- vroom::vroom(
