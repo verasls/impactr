@@ -19,16 +19,15 @@
 #' @export
 #'
 #' @examples
-#' data <- read_acc(impactr_example("hip-imu.csv")) |>
-#'   specify_parameters(acc_placement = "hip", subj_body_mass = 78) |>
-#'   use_resultant() |>
-#'   find_peaks("resultant") |>
-#'   predict_loading(
-#'     outcome = "grf",
-#'     vector = "resultant",
-#'     model = "walking/running"
-#'   )
-#' head(data)
+#' data <- read_acc(impactr_example("hip-imu.csv"))
+#' data <- specify_parameters(data, acc_placement = "hip", subj_body_mass = 78)
+#' data <- find_peaks(data, vector = "vertical")
+#' predict_loading(
+#'   data,
+#'   outcome = "grf",
+#'   vector = "vertical",
+#'   model = "walking/running"
+#' )
 predict_loading <- function(data, outcome, vector, model) {
   check_args_compute_loading(data, outcome, vector, model)
   if (outcome == "grf") {
