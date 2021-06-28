@@ -17,7 +17,7 @@ maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www
 
 `impactr` is a package with functions to read, process and analyse raw
 accelerometer data related to mechanical loading variables. You can
-learn more about this package features and how to use in
+learn more about this package features and how to use it in
 `vignette("impactr")`.
 
 ## Installation
