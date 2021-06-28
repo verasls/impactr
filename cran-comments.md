@@ -1,6 +1,7 @@
 ## Release summary
 
 This is the first submission
+This is a resubmission. In this version I have corrected the URLs in README.md.
 
 ## Test environments
 
