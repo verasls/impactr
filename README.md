@@ -12,7 +12,7 @@ status](https://www.r-pkg.org/badges/version/impactr)](https://CRAN.R-project.or
 [![Codecov test
 coverage](https://codecov.io/gh/verasls/impactr/branch/main/graph/badge.svg)](https://codecov.io/gh/verasls/impactr?branch=main)
 [![Lifecycle:
-maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
 
 `impactr` is a package with functions to read, process and analyse raw
