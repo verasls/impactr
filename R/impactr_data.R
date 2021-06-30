@@ -7,6 +7,8 @@
 #' @param subj_body_mass A numerical scalar
 #' @param filter_type A character scalar
 #'
+#' @return An object of the `impactr_data` class.
+#'
 #' @export
 #' @keywords internal
 new_impactr_data <- function(x,
@@ -29,6 +31,20 @@ new_impactr_data <- function(x,
   )
 }
 
+#' Constructor for impactr_peaks object
+#'
+#' @param x A data frame.
+#' @param start_date_time A scalar of class \code{POSIXct}.
+#' @param samp_freq A numerical scalar
+#' @param subj_body_mass A numerical scalar
+#' @param acc_placement A character scalar
+#' @param filter_type A character scalar
+#' @param acc_signal: A numeric vector.
+#'
+#' @return An object of the `impactr_peaks` class.
+#'
+#' @export
+#' @keywords internal
 new_impactr_peaks <- function(x,
                              start_date_time,
                              samp_freq,
