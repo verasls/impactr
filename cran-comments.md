@@ -1,7 +1,10 @@
 ## Release summary
 
 This is the first submission
-This is a resubmission. In this version I have corrected the URLs in README.md.
+This is a resubmission. In this version I have:
+* Put the ActiGraph name in single quotes in the description.
+* Document the return object of new_impactr_data function.
+* Document the new_impactr_peaks function.
 
 ## Test environments
 
