@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Constructor for impactr_data object — new_impactr_data • impactr</title>
+<title>Constructor for impactr_peaks object — new_impactr_peaks • impactr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Constructor for impactr_data object — new_impactr_data" />
-<meta property="og:description" content="Constructor for impactr_data object" />
+<meta property="og:title" content="Constructor for impactr_peaks object — new_impactr_peaks" />
+<meta property="og:description" content="Constructor for impactr_peaks object" />
 <meta property="og:image" content="https://lveras.com/impactr/logo.png" />
 
 
@@ -119,22 +119,24 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Constructor for impactr_data object</h1>
+    <h1>Constructor for impactr_peaks object</h1>
     <small class="dont-index">Source: <a href='https://github.com/verasls/impactr/blob/master/R/impactr_data.R'><code>R/impactr_data.R</code></a></small>
-    <div class="hidden name"><code>new_impactr_data.Rd</code></div>
+    <div class="hidden name"><code>new_impactr_peaks.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Constructor for impactr_data object</p>
+    <p>Constructor for impactr_peaks object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>new_impactr_data</span><span class='op'>(</span>
+    <pre class="usage"><span class='fu'>new_impactr_peaks</span><span class='op'>(</span>
   <span class='va'>x</span>,
   <span class='va'>start_date_time</span>,
   <span class='va'>samp_freq</span>,
   <span class='va'>acc_placement</span>,
   <span class='va'>subj_body_mass</span>,
-  <span class='va'>filter_type</span>
+  <span class='va'>filter_type</span>,
+  <span class='va'>peaks_idx</span>,
+  <span class='va'>acc_signal</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -164,11 +166,15 @@
       <th>filter_type</th>
       <td><p>A character scalar</p></td>
     </tr>
+    <tr>
+      <th>acc_signal:</th>
+      <td><p>A numeric vector.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>An object of the <code>impactr_data</code> class.</p>
+    <p>An object of the <code>impactr_peaks</code> class.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
