@@ -52,8 +52,8 @@ test_that("output attributes are correct", {
     "names", "row.names", "start_date_time", "samp_freq",
     "acc_placement", "subj_body_mass", "filter_type", "class"
   )
-  expect_equal(names(attributes(test_imu)), attr_names)
-  expect_equal(names(attributes(test_raw)), attr_names)
+  expect_true(all(attr_names %in% names(attributes(test_imu))))
+  expect_true(all(attr_names %in% names(attributes(test_raw))))
 
   # Attributes class/type
   expect_s3_class(attributes(test_imu)$start_date_time, "POSIXct")
