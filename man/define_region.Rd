@@ -10,8 +10,8 @@ define_region(data, start_time, end_time)
 \item{data}{An \code{impactr_data} object, as obtained with
 \link[=read_acc]{read_acc()}.}
 
-\item{start_time, end_time}{A character string with the start and end times of the
-region of interest in the "HH:MM:SS" format.}
+\item{start_time, end_time}{A character string with the start and end times
+of the region of interest in the "YYYY-MM-DD HH:MM:SS" format.}
 }
 \value{
 An object of class \code{impactr_data}.
@@ -22,5 +22,7 @@ data timestamp.
 }
 \examples{
 data <- read_acc(impactr_example("hip-raw.csv"))
-define_region(data, start_time = "15:45:00", end_time = "15:46:00")
+define_region(
+  data, start_time = "2021-04-06 15:45:00", end_time = "2021-04-06 15:46:00"
+)
 }

@@ -66,8 +66,8 @@ check_args_specify_parameters <- function(acc_placement, subj_body_mass) {
 #'
 #' @param data An \code{impactr_data} object, as obtained with
 #'   \link[=read_acc]{read_acc()}.
-#' @param start_time,end_time A character string with the start and end times of the
-#'   region of interest in the "HH:MM:SS" format.
+#' @param start_time,end_time A character string with the start and end times
+#'   of the region of interest in the "YYYY-MM-DD HH:MM:SS" format.
 #'
 #' @return An object of class \code{impactr_data}.
 #'
@@ -75,24 +75,25 @@ check_args_specify_parameters <- function(acc_placement, subj_body_mass) {
 #'
 #' @examples
 #' data <- read_acc(impactr_example("hip-raw.csv"))
-#' define_region(data, start_time = "15:45:00", end_time = "15:46:00")
+#' define_region(
+#'   data, start_time = "2021-04-06 15:45:00", end_time = "2021-04-06 15:46:00"
+#' )
 define_region <- function(data, start_time, end_time) {
   check_args_define_region(data, start_time, end_time)
 
   samp_freq <- attributes(data)$samp_freq
   start_date_time <- attributes(data)$start_date_time
-  start_date <- as.Date(start_date_time)
   tz <- format(start_date_time, format = "%Z")
-  start_roi <- as.POSIXct(paste(start_date, start_time), tz = tz)
-  end_roi <- as.POSIXct(paste(start_date, end_time), tz = tz)
+  start_time <- as.POSIXct(start_time, tz = tz)
+  end_time <- as.POSIXct(end_time, tz = tz)
 
-  duration_start <- lubridate::interval(start_date_time, start_roi)
+  duration_start <- lubridate::interval(start_date_time, start_time)
   duration_start <- lubridate::as.duration(duration_start)
   n_sec_start <- as.numeric(duration_start, "seconds")
   n_rows_start <- n_sec_start * samp_freq
   start_idx <- n_rows_start + 1
 
-  duration_end <- lubridate::interval(start_roi, end_roi)
+  duration_end <- lubridate::interval(start_time, end_time)
   duration_end <- lubridate::as.duration(duration_end)
   n_sec_end <- as.numeric(duration_end, "seconds")
   n_rows_end <- n_sec_end * samp_freq
@@ -103,30 +104,34 @@ define_region <- function(data, start_time, end_time) {
 
 check_args_define_region <- function(data, start_time, end_time) {
   if (!is.character(start_time)) {
-    lvmisc::abort_argument_type("start_time", must = "be character", not = start_time)
+    lvmisc::abort_argument_type(
+      "start_time", must = "be character", not = start_time
+    )
   }
   if (!is.character(end_time)) {
-    lvmisc::abort_argument_type("end_time", must = "be character", not = end_time)
+    lvmisc::abort_argument_type(
+      "end_time", must = "be character", not = end_time
+    )
   }
-  if (!grepl("^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$", start_time)) {
-    rlang::abort("`start_time` must be in the `HH:MM:SS` format.")
+  iso8601 <- "^\\d{4}-\\d{2}-\\d{2} (?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$"
+  if (!grepl(iso8601, start_time)) {
+    rlang::abort("`start_time` must be in the `YYYY-MM-DD HH:MM:SS` format.")
   }
-  if (!grepl("^(?:2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9]$", end_time)) {
-    rlang::abort("`end_time` must be in the `HH:MM:SS` format.")
+  if (!grepl(iso8601, end_time)) {
+    rlang::abort("`end_time` must be in the `YYYY-MM-DD HH:MM:SS` format.")
   }
 
   start_date_time <- attributes(data)$start_date_time
-  start_date <- as.Date(start_date_time)
   tz <- format(start_date_time, format = "%Z")
-  start_roi <- as.POSIXct(paste(start_date, start_time), tz = tz)
-  if (start_roi < start_date_time) {
+  start_time <- as.POSIXct(start_time, tz = tz)
+  end_time <- as.POSIXct(end_time, tz = tz)
+
+  if (start_time < start_date_time) {
     rlang::abort("`start_time` must not be before `data` Start time")
   }
 
-  samp_freq <- attributes(data)$samp_freq
-  end_date_time <- start_date_time + lubridate::seconds(nrow(data) / samp_freq)
-  end_roi <- as.POSIXct(paste(start_date, end_time), tz = tz)
-  if (end_roi > end_date_time) {
+  end_date_time <- data[[nrow(data), 1]]
+  if (end_time > end_date_time) {
     rlang::abort("`end_time` must not be after the last `data` timestamp")
   }
 
