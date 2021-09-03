@@ -19,18 +19,17 @@
 #' data <- read_acc(impactr_example("hip-raw.csv"))
 #' specify_parameters(data, acc_placement = "hip", subj_body_mass = 79.2)
 specify_parameters <- function(data, acc_placement, subj_body_mass) {
-  check_args_specify_parameters(acc_placement, subj_body_mass)
-
   old_acc_placement <- attributes(data)$acc_placement
   old_subj_body_mass <- attributes(data)$subj_body_mass
   if (!is.na(old_acc_placement) & !is.na(old_subj_body_mass)) {
-    rlang::warn(
+    rlang::abort(
       glue::glue(
         "`Accelerometer placement` and `Subject body mass` attributes were \\
         updated by a second call of specify_parameters()"
       )
     )
   }
+  check_args_specify_parameters(acc_placement, subj_body_mass)
 
   acc_placement <- get_acc_placement(acc_placement)
   attributes(data)$acc_placement <- acc_placement
