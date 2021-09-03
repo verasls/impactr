@@ -44,8 +44,8 @@ library(impactr)
 
 read_acc(impactr_example("hip-raw.csv")) |>
  define_region(
-    start_time = "15:45:00",
-    end_time = "15:45:30"
+    start_time = "2021-04-06 15:45:00",
+    end_time = "2021-04-06 15:45:30"
   ) |>
   specify_parameters(
     acc_placement = "hip",
