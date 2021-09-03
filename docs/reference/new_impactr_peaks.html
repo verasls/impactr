@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Test if the object is from the impactr package — is_impactr • impactr</title>
+<title>Constructor for impactr_peaks object — new_impactr_peaks • impactr</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Test if the object is from the impactr package — is_impactr" />
-<meta property="og:description" content="Test if the object is from the impactr package" />
+<meta property="og:title" content="Constructor for impactr_peaks object — new_impactr_peaks" />
+<meta property="og:description" content="Constructor for impactr_peaks object" />
 <meta property="og:image" content="https://lveras.com/impactr/logo.png" />
 
 
@@ -122,31 +122,62 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Test if the object is from the impactr package</h1>
+    <h1>Constructor for impactr_peaks object</h1>
     <small class="dont-index">Source: <a href='https://github.com/verasls/impactr/blob/master/R/impactr_data.R'><code>R/impactr_data.R</code></a></small>
-    <div class="hidden name"><code>is_impactr.Rd</code></div>
+    <div class="hidden name"><code>new_impactr_peaks.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Test if the object is from the impactr package</p>
+    <p>Constructor for impactr_peaks object</p>
     </div>
 
-    <pre class="usage"><span class='fu'>is_impactr_data</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='fu'>is_impactr_peaks</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>new_impactr_peaks</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  <span class='va'>start_date_time</span>,
+  <span class='va'>samp_freq</span>,
+  <span class='va'>acc_placement</span>,
+  <span class='va'>subj_body_mass</span>,
+  <span class='va'>filter_type</span>,
+  <span class='va'>peaks_idx</span>,
+  <span class='va'>acc_signal</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>An object.</p></td>
+      <td><p>A data frame.</p></td>
+    </tr>
+    <tr>
+      <th>start_date_time</th>
+      <td><p>A scalar of class <code>POSIXct</code>.</p></td>
+    </tr>
+    <tr>
+      <th>samp_freq</th>
+      <td><p>A numerical scalar</p></td>
+    </tr>
+    <tr>
+      <th>acc_placement</th>
+      <td><p>A character scalar</p></td>
+    </tr>
+    <tr>
+      <th>subj_body_mass</th>
+      <td><p>A numerical scalar</p></td>
+    </tr>
+    <tr>
+      <th>filter_type</th>
+      <td><p>A character scalar</p></td>
+    </tr>
+    <tr>
+      <th>acc_signal:</th>
+      <td><p>A numeric vector.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>TRUE</code> if the object inherits the class being evaluated.</p>
+    <p>An object of the <code>impactr_peaks</code> class.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
