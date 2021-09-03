@@ -31,6 +31,12 @@
 #' data <- read_acc(impactr_example("hip-raw.csv"))
 #' filter_acc(data)
 filter_acc <- function(data, order = 4, cutoff = 20, type = "lowpass") {
+  current_filter_type <- attributes(data)$filter_type
+  if (!is.na(current_filter_type)) {
+    rlang::abort(
+      "A filter was already applied to `data`."
+    )
+  }
   check_args_filter_acc(order, cutoff, type)
   filter_type <- get_filter_type(order, cutoff, type)
   attributes(data)$filter_type <- filter_type

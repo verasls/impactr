@@ -21,11 +21,18 @@ test_that("filter_acc() error handling works", {
     )),
     class = "error_argument_value"
   )
+  expect_error(
+    data |>
+      filter_acc() |>
+      filter_acc(),
+    "A filter was already applied to `data`."
+  )
 })
 
 test_that("default filtering works", {
   data <- data.frame(acc_X = 1:16, acc_Y = 17:32, acc_Z = 33:48)
   attributes(data)$samp_freq <- 100
+  attributes(data)$filter_type <- NA
 
   out <- filter_acc(data)[1:5, ]
   expect <- data.frame(
