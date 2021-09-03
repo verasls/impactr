@@ -267,6 +267,26 @@ check_output <- function(data, vector) {
 
 #' @importFrom lvmisc %!in%
 check_args_compute_loading <- function(data, outcome, vector, model) {
+  acc_placement <- attributes(data)$acc_placement
+  if (is.na(acc_placement)) {
+    rlang::abort(
+      glue::glue(
+        "No accelerometer placement was informed. Please, use \\
+        specify_parameters() to define it."
+      )
+    )
+  }
+
+  subj_body_mass <- attributes(data)$subj_body_mass
+  if (is.na(subj_body_mass)) {
+    rlang::abort(
+      glue::glue(
+        "No subject body mass was informed. Please, use \\
+        specify_parameters() to define it."
+      )
+    )
+  }
+
   valid_outcome <- c("grf", "lr", "all")
   if (outcome %!in% valid_outcome) {
     lvmisc::abort_argument_value("outcome", valid_outcome)
