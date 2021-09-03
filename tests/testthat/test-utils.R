@@ -18,6 +18,15 @@ test_that("specify_parameters() error handling works", {
     "`acc_placement` must be one of \"ankle\", \"back\" or \"hip\"",
     class = "error_argument_value"
   )
+  expect_warning(
+    data |>
+      specify_parameters("hip", 78) |>
+      specify_parameters("hip", 78),
+    glue::glue(
+      "`Accelerometer placement` and `Subject body mass` attributes were \\
+      updated by a second call of specify_parameters()"
+    )
+  )
 })
 
 test_that("attributes have the correct values", {

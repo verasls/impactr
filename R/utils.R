@@ -21,6 +21,17 @@
 specify_parameters <- function(data, acc_placement, subj_body_mass) {
   check_args_specify_parameters(acc_placement, subj_body_mass)
 
+  old_acc_placement <- attributes(data)$acc_placement
+  old_subj_body_mass <- attributes(data)$subj_body_mass
+  if (!is.na(old_acc_placement) & !is.na(old_subj_body_mass)) {
+    rlang::warn(
+      glue::glue(
+        "`Accelerometer placement` and `Subject body mass` attributes were \\
+        updated by a second call of specify_parameters()"
+      )
+    )
+  }
+
   acc_placement <- get_acc_placement(acc_placement)
   attributes(data)$acc_placement <- acc_placement
   attributes(data)$subj_body_mass <- subj_body_mass
@@ -29,11 +40,11 @@ specify_parameters <- function(data, acc_placement, subj_body_mass) {
 }
 
 get_acc_placement <- function(acc_placement) {
-  if (acc_placement == "ankle") {
+  if (grepl("\\bankle\\b", acc_placement, ignore.case = TRUE)) {
     "ankle"
-  } else if (acc_placement == "back") {
+  } else if (grepl("\\bback\\b", acc_placement, ignore.case = TRUE)) {
     "back"
-  } else if (acc_placement == "hip") {
+  } else if (grepl("\\bhip\\b", acc_placement, ignore.case = TRUE)) {
     "hip"
   } else {
     acc_placement
