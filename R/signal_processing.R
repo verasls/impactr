@@ -168,7 +168,8 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
     peaks <- peaks[order(peaks[, 2]), ]
     peaks <- list(
       height = peaks[, 1],
-      idx = peaks[, 2]
+      idx = peaks[, 2],
+      curve_start = peaks[, 3]
     )
 
     impactr_peaks <- tibble::tibble(
@@ -183,6 +184,7 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
       subj_body_mass = attributes(data)$subj_body_mass,
       filter_type = attributes(data)$filter_type,
       peaks_idx = peaks$idx,
+      curve_start = peaks$curve_start,
       acc_signal = acc
     )
     names(impactr_peaks)[2] <- var_name
@@ -203,11 +205,13 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
     peaks <- list(
       vertical = list(
         height = p_vertical[, 1],
-        idx = p_vertical[, 2]
+        idx = p_vertical[, 2],
+        curve_start = p_vertical[, 3]
       ),
       resultant = list(
         height = p_resultant[, 1],
-        idx = p_resultant[, 2]
+        idx = p_resultant[, 2],
+        curve_start = p_resultant[, 3]
       )
     )
     total_peaks_idx <- sort(union(peaks$vertical$idx, peaks$resultant$idx))
@@ -232,6 +236,10 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
       peaks_idx = list(
         vertical = peaks$vertical$idx,
         resultant = peaks$resultant$idx
+      ),
+      curve_start = list(
+        vertical = peaks$vertical$curve_start,
+        resultant = peaks$resultant$curve_start
       ),
       acc_signal = list(
         vertical = acc_vertical,
