@@ -95,7 +95,7 @@ predict_lr <- function(data, vector, model) {
       attributes(data)$acc_signal
     }
 
-    start_idx <- get_curve_start(acc_vector, peaks_idx)
+    start_idx <- attributes(data)$curve_start
     peaks <- compute_peak_acc_rate(acc_vector, start_idx, peaks_idx, samp_freq)
 
     data[[paste0(vector, "_peak_lr")]] <- vector(
@@ -126,7 +126,7 @@ predict_lr <- function(data, vector, model) {
     )
 
     start_idx <- list(
-      vertical = get_curve_start(acc_vector$vertical, peaks_idx$vertical),
+      vertical = attributes(data)
       resultant = get_curve_start(acc_vector$resultant, peaks_idx$resultant)
     )
     peaks <- list(
