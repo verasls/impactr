@@ -36,10 +36,12 @@ new_impactr_data <- function(x,
 #' @param x A data frame.
 #' @param start_date_time A scalar of class \code{POSIXct}.
 #' @param samp_freq A numerical scalar
-#' @param subj_body_mass A numerical scalar
 #' @param acc_placement A character scalar
+#' @param subj_body_mass A numerical scalar
 #' @param filter_type A character scalar
-#' @param acc_signal: A numeric vector.
+#' @param peaks_idx A numerical vector
+#' @param curve_start A numerical vector
+#' @param acc_signal: A numeric vector
 #'
 #' @return An object of the `impactr_peaks` class.
 #'
@@ -52,6 +54,7 @@ new_impactr_peaks <- function(x,
                              subj_body_mass,
                              filter_type,
                              peaks_idx,
+                             curve_start,
                              acc_signal) {
   stopifnot(is.data.frame(x))
   n_row <- nrow(x)
@@ -63,6 +66,7 @@ new_impactr_peaks <- function(x,
     subj_body_mass = subj_body_mass,
     filter_type = filter_type,
     peaks_idx = peaks_idx,
+    curve_start = curve_start,
     acc_signal = acc_signal,
     nrow = n_row,
     class = c("impactr_peaks", "impactr_data")
