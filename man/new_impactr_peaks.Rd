@@ -12,6 +12,7 @@ new_impactr_peaks(
   subj_body_mass,
   filter_type,
   peaks_idx,
+  curve_start,
   acc_signal
 )
 }
@@ -28,7 +29,11 @@ new_impactr_peaks(
 
 \item{filter_type}{A character scalar}
 
-\item{acc_signal:}{A numeric vector.}
+\item{peaks_idx}{A numerical vector}
+
+\item{curve_start}{A numerical vector}
+
+\item{acc_signal:}{A numeric vector}
 }
 \value{
 An object of the \code{impactr_peaks} class.
