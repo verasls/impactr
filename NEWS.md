@@ -1,5 +1,6 @@
 # impactr 0.2.0.9000
 * `pracma::findpeaks()` is now used to get the index of the curve start.
+* Fix a bug in which predict_loading() did not return the expected columns if `outcome` is set to "all".
 
 # impactr 0.2.0
 * define_region() now works with multi-day data. See the updated documentation.
