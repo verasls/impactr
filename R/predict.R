@@ -84,6 +84,11 @@ predict_lr <- function(data, vector, model) {
     coeff <- get_lr_coefficients(
       attributes(data)$acc_placement, vector, model
     )
+    start_idx <- if (is.list(attributes(data)$curve_start)) {
+      attributes(data)$curve_start[[vector]]
+    } else {
+      attributes(data)$curve_start
+    }
     peaks_idx <- if (is.list(attributes(data)$peaks_idx)) {
       attributes(data)$peaks_idx[[vector]]
     } else {
@@ -95,7 +100,6 @@ predict_lr <- function(data, vector, model) {
       attributes(data)$acc_signal
     }
 
-    start_idx <- attributes(data)$curve_start
     peaks <- compute_peak_acc_rate(acc_vector, start_idx, peaks_idx, samp_freq)
 
     data[[paste0(vector, "_peak_lr")]] <- vector(
