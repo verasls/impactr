@@ -37,8 +37,10 @@ predict_loading <- function(data, outcome, vector, model) {
   } else if (outcome == "all") {
     impactr_peaks <- predict_grf(data, vector, model)
     lr <- predict_lr(data, vector, model)
-    var_name <- names(lr)[3]
-    impactr_peaks[var_name] <- lr[var_name]
+    impactr_peaks <- tibble::add_column(
+      impactr_peaks,
+      lr[, grep("_lr$", names(lr))]
+    )
     data <- impactr_peaks
   }
   check_output(data, vector)
