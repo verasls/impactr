@@ -164,35 +164,93 @@ predict_lr <- function(data, vector, model) {
 get_grf_coefficients <- function(acc_placement, vector, model) {
   if (model == "walking/running") {
     if (acc_placement == "ankle" & vector == "resultant") {
-      list(b0 = 1026.046, b1 = - 153.073, b2 = 6.641, b3 = 2.097)
+      list(b0 = 1026.046, b1 = - 153.073, b2 = 6.641, b3 = 2.097, b4 = 0)
     } else if (acc_placement == "back" & vector == "resultant") {
-      list(b0 = 795.173, b1 = - 258.882, b2 = 5.951, b3 = 4.903)
+      list(b0 = 795.173, b1 = - 258.882, b2 = 5.951, b3 = 4.903, b4 = 0)
     } else if (acc_placement == "hip" & vector == "resultant") {
-      list(b0 = 844.500, b1 = - 264.692, b2 = 4.677, b3 = 5.118)
+      list(b0 = 844.500, b1 = - 264.692, b2 = 4.677, b3 = 5.118, b4 = 0)
     } else if (acc_placement == "ankle" & vector == "vertical") {
-      list(b0 = 1014.045, b1 = - 226.690, b2 = 4.854, b3 = 3.562)
+      list(b0 = 1014.045, b1 = - 226.690, b2 = 4.854, b3 = 3.562, b4 = 0)
     } else if (acc_placement == "back" & vector == "vertical") {
-      list(b0 = 890.428, b1 = - 339.790, b2 = 4.533, b3 = 6.131)
+      list(b0 = 890.428, b1 = - 339.790, b2 = 4.533, b3 = 6.131, b4 = 0)
     } else if (acc_placement == "hip" & vector == "vertical") {
-      list(b0 = 908.037, b1 = - 322.843, b2 = 4.546, b3 = 5.691)
+      list(b0 = 908.037, b1 = - 322.843, b2 = 4.546, b3 = 5.691, b4 = 0)
      }
+  } else if (model == "walking") {
+    if (acc_placement == "ankle") {
+      rlang::abort(
+        glue::glue(
+          "The `ankle` accelerometer placement is not supported in this \\
+          model. Please choose between `back` or `hip` or change the model."
+        )
+      )
+    } else if (acc_placement == "back" & vector == "resultant") {
+      list(
+        b0 = - 698.7031, b1 = 1047.5129, b2 = - 345.2605,
+        b3 = 3.8294, b4 = 6.0219
+      )
+    } else if (acc_placement == "hip" & vector == "resultant") {
+      list(
+        b0 = - 300.9909, b1 = 522.6850, b2 = - 171.5606,
+        b3 = 3.9596, b4 = 5.3671
+      )
+    } else if (acc_placement == "back" & vector == "vertical") {
+      list(
+        b0 = - 776.8934, b1 = 1042.9052, b2 = - 336.2115,
+        b3 = 6.2132, b4 = 5.0805
+      )
+    } else if (acc_placement == "hip" & vector == "vertical") {
+      list(
+        b0 = - 435.7365, b1 = 586.6627, b2 = - 188.9689,
+        b3 = 5.8047, b4 = 4.9544
+      )
+    }
   }
 }
 
 get_lr_coefficients <- function(acc_placement, vector, model) {
   if (model == "walking/running") {
     if (acc_placement == "ankle" & vector == "resultant") {
-      list(b0 = 6534.981, b1 = - 15.738, b2 = - 76.433, b3 = 4.258)
+      list(b0 = 6534.981, b1 = - 15.738, b2 = - 76.433, b3 = 4.258, b4 = 0)
     } else if (acc_placement == "back" & vector == "resultant") {
-      list(b0 = 6155.636, b1 = - 81.779, b2 = - 5.500, b3 = 5.179)
+      list(b0 = 6155.636, b1 = - 81.779, b2 = - 5.500, b3 = 5.179, b4 = 0)
     } else if (acc_placement == "hip" & vector == "resultant") {
-      list(b0 = 4431.800, b1 = - 33.175, b2 = 12.632, b3 = 4.014)
+      list(b0 = 4431.800, b1 = - 33.175, b2 = 12.632, b3 = 4.014, b4 = 0)
     } else if (acc_placement == "ankle" & vector == "vertical") {
-      list(b0 = 5124.478, b1 = - 47.525, b2 = 8.344, b3 = 2.588)
+      list(b0 = 5124.478, b1 = - 47.525, b2 = 8.344, b3 = 2.588, b4 = 0)
     } else if (acc_placement == "back" & vector == "vertical") {
-      list(b0 = 6605.822, b1 = - 112.779, b2 = - 3.767, b3 = 5.061)
+      list(b0 = 6605.822, b1 = - 112.779, b2 = - 3.767, b3 = 5.061, b4 = 0)
     } else if (acc_placement == "hip" & vector == "vertical") {
-      list(b0 = 5343.980, b1 = - 89.984, b2 = 3.49, b3 = 4.808)
+      list(b0 = 5343.980, b1 = - 89.984, b2 = 3.49, b3 = 4.808, b4 = 0)
+    }
+  } else if (model == "walking") {
+    if (acc_placement == "ankle") {
+      rlang::abort(
+        glue::glue(
+          "The `ankle` accelerometer placement is not supported in this \\
+          model. Please choose between `back` or `hip` or change the model."
+        )
+      )
+    } else if (acc_placement == "back" & vector == "resultant") {
+      list(
+        b0 = - 287.0209, b1 = 572.7967, b2 = - 9.8958,
+        b3 = 18.1178, b4 = 3.4078
+      )
+    } else if (acc_placement == "hip" & vector == "resultant") {
+      list(
+        b0 = - 3510.410, b1 = 514.898, b2 = - 8.639,
+        b3 = 51.937, b4 = 2.929
+      )
+    } else if (acc_placement == "back" & vector == "vertical") {
+      list(
+        b0 = - 324.0761, b1 = 552.8242, b2 = - 11.9453,
+        b3 = 18.1405, b4 = 3.9586
+      )
+    } else if (acc_placement == "hip" & vector == "vertical") {
+      list(
+        b0 = - 2687.8662, b1 = 407.8434, b2 = - 7.6603,
+        b3 = 45.8905, b4 = 3.8995
+      )
     }
   }
 }
@@ -298,7 +356,7 @@ check_args_compute_loading <- function(data, outcome, vector, model) {
     lvmisc::abort_argument_value("outcome", valid_outcome)
   }
 
-  valid_model <- c("walking/running")
+  valid_model <- c("walking/running", "walking")
   if (model %!in% valid_model) {
     lvmisc::abort_argument_value("model", valid_model)
   }
