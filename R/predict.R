@@ -126,8 +126,8 @@ predict_lr <- function(data, vector, model) {
     )
 
     start_idx <- list(
-      vertical = attributes(data)
-      resultant = get_curve_start(acc_vector$resultant, peaks_idx$resultant)
+      vertical = attributes(data)$curve_start$vertical,
+      resultant = attributes(data)$curve_start$resultant
     )
     peaks <- list(
       vertical = compute_peak_acc_rate(
