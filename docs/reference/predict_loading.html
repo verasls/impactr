@@ -81,7 +81,7 @@ accelerometer data." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">impactr</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.3.0</span>
       </span>
     </div>
 
@@ -157,7 +157,8 @@ find the peaks. Can be "resultant", "vertical" or "all".</p></td>
     <tr>
       <th>model</th>
       <td><p>A character string indicating which model to use to make
-the predictions. The only value supported, currently, is "walking/running".</p></td>
+the predictions. The values currently supported are "walking",
+"walking/running" and "jumping".</p></td>
     </tr>
     </table>
 
@@ -167,34 +168,35 @@ the predictions. The only value supported, currently, is "walking/running".</p><
 force and/or loading rate peaks magnitude stored in the columns.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_acc.html'>read_acc</a></span><span class='op'>(</span><span class='fu'><a href='impactr_example.html'>impactr_example</a></span><span class='op'>(</span><span class='st'>"hip-raw.csv"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='specify_parameters.html'>specify_parameters</a></span><span class='op'>(</span><span class='va'>data</span>, acc_placement <span class='op'>=</span> <span class='st'>"hip"</span>, subj_body_mass <span class='op'>=</span> <span class='fl'>78</span><span class='op'>)</span>
-<span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='find_peaks.html'>find_peaks</a></span><span class='op'>(</span><span class='va'>data</span>, vector <span class='op'>=</span> <span class='st'>"vertical"</span><span class='op'>)</span>
-<span class='fu'>predict_loading</span><span class='op'>(</span>
-  <span class='va'>data</span>,
-  outcome <span class='op'>=</span> <span class='st'>"grf"</span>,
-  vector <span class='op'>=</span> <span class='st'>"vertical"</span>,
-  model <span class='op'>=</span> <span class='st'>"walking/running"</span>
-<span class='op'>)</span>
-</div><div class='output co'>#&gt; <span style='color: #949494;'># Start time:              2021-04-06 15:43:00</span>
-#&gt; <span style='color: #949494;'># Sampling frequency:      100Hz</span>
-#&gt; <span style='color: #949494;'># Accelerometer placement: Hip</span>
-#&gt; <span style='color: #949494;'># Subject body mass:       78kg</span>
-#&gt; <span style='color: #949494;'># Filter:                  No filter applied</span>
-#&gt; <span style='color: #949494;'># Data dimensions:         251 × 3</span>
-#&gt;    timestamp           vertical_peak_acc vertical_peak_grf
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>                          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>
-#&gt; <span style='color: #BCBCBC;'> 1</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>              1.83             <span style='text-decoration: underline;'>1</span>484.
-#&gt; <span style='color: #BCBCBC;'> 2</span> 2021-04-06 <span style='color: #949494;'>15:43:03</span>              1.41             <span style='text-decoration: underline;'>1</span>433.
-#&gt; <span style='color: #BCBCBC;'> 3</span> 2021-04-06 <span style='color: #949494;'>15:43:04</span>              1.59             <span style='text-decoration: underline;'>1</span>455.
-#&gt; <span style='color: #BCBCBC;'> 4</span> 2021-04-06 <span style='color: #949494;'>15:43:06</span>              1.35             <span style='text-decoration: underline;'>1</span>426.
-#&gt; <span style='color: #BCBCBC;'> 5</span> 2021-04-06 <span style='color: #949494;'>15:43:09</span>              2.61             <span style='text-decoration: underline;'>1</span>579.
-#&gt; <span style='color: #BCBCBC;'> 6</span> 2021-04-06 <span style='color: #949494;'>15:43:11</span>              1.38             <span style='text-decoration: underline;'>1</span>430.
-#&gt; <span style='color: #BCBCBC;'> 7</span> 2021-04-06 <span style='color: #949494;'>15:43:14</span>              1.42             <span style='text-decoration: underline;'>1</span>435.
-#&gt; <span style='color: #BCBCBC;'> 8</span> 2021-04-06 <span style='color: #949494;'>15:43:16</span>              1.36             <span style='text-decoration: underline;'>1</span>428.
-#&gt; <span style='color: #BCBCBC;'> 9</span> 2021-04-06 <span style='color: #949494;'>15:43:16</span>              1.46             <span style='text-decoration: underline;'>1</span>440.
-#&gt; <span style='color: #BCBCBC;'>10</span> 2021-04-06 <span style='color: #949494;'>15:43:17</span>              1.32             <span style='text-decoration: underline;'>1</span>423.
-#&gt; <span style='color: #949494;'># … with 241 more rows</span></div></pre>
+    <pre class="examples"><span class='r-in'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_acc.html'>read_acc</a></span><span class='op'>(</span><span class='fu'><a href='impactr_example.html'>impactr_example</a></span><span class='op'>(</span><span class='st'>"hip-raw.csv"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='specify_parameters.html'>specify_parameters</a></span><span class='op'>(</span><span class='va'>data</span>, acc_placement <span class='op'>=</span> <span class='st'>"hip"</span>, subj_body_mass <span class='op'>=</span> <span class='fl'>78</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>data</span> <span class='op'>&lt;-</span> <span class='fu'><a href='find_peaks.html'>find_peaks</a></span><span class='op'>(</span><span class='va'>data</span>, vector <span class='op'>=</span> <span class='st'>"vertical"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>predict_loading</span><span class='op'>(</span></span>
+<span class='r-in'>  <span class='va'>data</span>,</span>
+<span class='r-in'>  outcome <span class='op'>=</span> <span class='st'>"grf"</span>,</span>
+<span class='r-in'>  vector <span class='op'>=</span> <span class='st'>"vertical"</span>,</span>
+<span class='r-in'>  model <span class='op'>=</span> <span class='st'>"walking/running"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Start time:              2021-04-06 15:43:00</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Sampling frequency:      100Hz</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Accelerometer placement: Hip</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Subject body mass:       78kg</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Filter:                  No filter applied</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># Data dimensions:         251 × 3</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    timestamp           vertical_peak_acc vertical_peak_grf</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>    <span style='color: #949494; font-style: italic;'>&lt;dttm&gt;</span>                          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>             <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 1</span> 2021-04-06 <span style='color: #949494;'>15:43:00</span>              1.83             <span style='text-decoration: underline;'>1</span>484.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 2</span> 2021-04-06 <span style='color: #949494;'>15:43:03</span>              1.41             <span style='text-decoration: underline;'>1</span>433.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 3</span> 2021-04-06 <span style='color: #949494;'>15:43:04</span>              1.59             <span style='text-decoration: underline;'>1</span>455.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 4</span> 2021-04-06 <span style='color: #949494;'>15:43:06</span>              1.35             <span style='text-decoration: underline;'>1</span>426.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 5</span> 2021-04-06 <span style='color: #949494;'>15:43:09</span>              2.61             <span style='text-decoration: underline;'>1</span>579.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 6</span> 2021-04-06 <span style='color: #949494;'>15:43:11</span>              1.38             <span style='text-decoration: underline;'>1</span>430.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 7</span> 2021-04-06 <span style='color: #949494;'>15:43:14</span>              1.42             <span style='text-decoration: underline;'>1</span>435.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 8</span> 2021-04-06 <span style='color: #949494;'>15:43:16</span>              1.36             <span style='text-decoration: underline;'>1</span>428.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'> 9</span> 2021-04-06 <span style='color: #949494;'>15:43:16</span>              1.46             <span style='text-decoration: underline;'>1</span>440.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #BCBCBC;'>10</span> 2021-04-06 <span style='color: #949494;'>15:43:17</span>              1.32             <span style='text-decoration: underline;'>1</span>423.</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> <span style='color: #949494;'># … with 241 more rows</span></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
