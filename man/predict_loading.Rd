@@ -18,7 +18,8 @@ variables).}
 find the peaks. Can be "resultant", "vertical" or "all".}
 
 \item{model}{A character string indicating which model to use to make
-the predictions. The only value supported, currently, is "walking/running".}
+the predictions. The values currently supported are "walking",
+"walking/running" and "jumping".}
 }
 \value{
 An object of class \code{impactr_peaks} with the ground reaction

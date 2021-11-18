@@ -11,7 +11,8 @@
 #' @param vector A character string indicating in which acceleration vector to
 #'   find the peaks. Can be "resultant", "vertical" or "all".
 #' @param model A character string indicating which model to use to make
-#'   the predictions. The only value supported, currently, is "walking/running".
+#'   the predictions. The values currently supported are "walking",
+#'   "walking/running" and "jumping".
 #'
 #' @return An object of class \code{impactr_peaks} with the ground reaction
 #'   force and/or loading rate peaks magnitude stored in the columns.
@@ -205,6 +206,20 @@ get_grf_coefficients <- function(acc_placement, vector, model) {
         b3 = 5.8047, b4 = 4.9544
       )
     }
+  } else if (model == "jumping") {
+    if (acc_placement == "ankle" & vector == "resultant") {
+      list(b0 = 1551.020, b1 = - 132.384, b2 = 7.927, b3 = 2.415, b4 = 0)
+    } else if (acc_placement == "back" & vector == "resultant") {
+      list(b0 = - 350.125, b1 = 152.952, b2 = 22.618, b3 = 0.654, b4 = 0)
+    } else if (acc_placement == "hip" & vector == "resultant") {
+      list(b0 = - 493.877, b1 = 188.759, b2 = 18.008, b3 = 1.279, b4 = 0)
+    } else if (acc_placement == "ankle" & vector == "vertical") {
+      list(b0 = 1662.525, b1 = - 196.301, b2 = 8.515, b3 = 3.169, b4 = 0)
+    } else if (acc_placement == "back" & vector == "vertical") {
+      list(b0 = - 287.919, b1 = 131.396, b2 = 24.338, b3 = 0.642, b4 = 0)
+    } else if (acc_placement == "hip" & vector == "vertical") {
+      list(b0 = - 786.169, b1 = 177.403, b2 = 23.953, b3 = 1.355, b4 = 0)
+    }
   }
 }
 
@@ -251,6 +266,20 @@ get_lr_coefficients <- function(acc_placement, vector, model) {
         b0 = - 2687.8662, b1 = 407.8434, b2 = - 7.6603,
         b3 = 45.8905, b4 = 3.8995
       )
+    }
+  } else if (model == "jumping") {
+    if (acc_placement == "ankle" & vector == "resultant") {
+      list(b0 = 71932.438, b1 = - 218.268, b2 = 74.463, b3 = 3.474, b4 = 0)
+    } else if (acc_placement == "back" & vector == "resultant") {
+      list(b0 = - 1161.976, b1 = 22.804, b2 = 624.413, b3 = 2.135, b4 = 0)
+    } else if (acc_placement == "hip" & vector == "resultant") {
+      list(b0 = 5118.300, b1 = 33.054, b2 = 346.667, b3 = 2.835, b4 = 0)
+    } else if (acc_placement == "ankle" & vector == "vertical") {
+      list(b0 = 58864.225, b1 = - 194.575, b2 = 142.545, b3 = 3.733, b4 = 0)
+    } else if (acc_placement == "back" & vector == "vertical") {
+      list(b0 = 8303.550, b1 = - 19.708, b2 = 685.299, b3 = 1.900, b4 = 0)
+    } else if (acc_placement == "hip" & vector == "vertical") {
+      list(b0 = - 11471.926, b1 = 15.332, b2 = 691.269, b3 = 2.670, b4 = 0)
     }
   }
 }
@@ -356,7 +385,7 @@ check_args_compute_loading <- function(data, outcome, vector, model) {
     lvmisc::abort_argument_value("outcome", valid_outcome)
   }
 
-  valid_model <- c("walking/running", "walking")
+  valid_model <- c("walking/running", "walking", "jumping")
   if (model %!in% valid_model) {
     lvmisc::abort_argument_value("model", valid_model)
   }
