@@ -4,7 +4,7 @@
 * GitHub Actions (ubuntu-20.04): devel, release
 * GitHub Actions (Microsft Windows Server 2019 10.0.17763): release
 * GitHub Actions (macOS 10.15.7): release
-* win-builder: release
+* win-builder: devel
 
 ## R CMD check results
 
