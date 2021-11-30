@@ -43,13 +43,14 @@ remove_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
   non_wear <- rowSums(non_wear)
 
   # Stage 2
+  non_wear_original <- non_wear_final <- matrix(0, length(non_wear), 1)
   non_wear_idx <- which(non_wear >= threshold)
-  non_wear_final <- matrix(0, length(non_wear), 1)
-  non_wear_final[non_wear_idx] <- 1
+  non_wear_original[non_wear_idx] <- 1
+  non_wear_original <- c(0, non_wear_original, 0)
   non_wear_final <- c(0, non_wear_final, 0)
 
-  start_wear <- which(diff(non_wear_final) == 1) + 1
-  start_non_wear <- which(diff(non_wear_final) == - 1) + 1
+  start_wear <- which(diff(non_wear_original) == 1) + 1
+  start_non_wear <- which(diff(non_wear_original) == - 1) + 1
 
   h_crit_1 <- 1 / (window2 / window1)
   h_crit_3 <- 3 / (window2 / window1)
@@ -60,30 +61,102 @@ remove_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
     length_wear <- matrix(0, length(start_wear) - 1, 1)
     length_non_wear_after <- matrix(0, length(start_wear) - 1, 1)
     length_non_wear_before <- matrix(0, length(start_wear) - 1, 1)
+    surrounding_non_wear <- matrix(0, length(start_wear) - 1, 1)
 
-    for (i in 1:length(start_wear) - 1) {
+    for (i in 1:(length(start_wear) - 1)) {
       length_wear[i] <- abs(start_wear[i + 1] - start_non_wear[i])
-      length_non_wear_after <- abs(start_non_wear[i + 1] - start_wear[i])
-      length_non_wear_before <- abs(start_non_wear[i] - start_wear[i])
+      length_non_wear_after[i] <- abs(start_non_wear[i + 1] - start_wear[i + 1])
+      length_non_wear_before[i] <- abs(start_non_wear[i] - start_wear[i])
+      surrounding_non_wear[i] <- length_non_wear_after[i] -
+        length_non_wear_before[i]
 
       if (
-        length_wear < h_crit_6 &
-        (length_wear / (length_non_wear_after + length_non_wear_before)) < 0.3
+        length_wear[i] < h_crit_6 &
+        (length_wear[i] / surrounding_non_wear[i]) < 0.3
       ) {
         non_wear_final[start_non_wear[i]:start_wear[i + 1] - 1] <- 1
       }
       if (
-        length_wear < h_crit_3 &
-        (length_wear / (length_non_wear_after + length_non_wear_before)) < 0.8
+        length_wear[i] < h_crit_3 &
+        (length_wear[i] / surrounding_non_wear[i]) < 0.8
       ) {
         non_wear_final[start_non_wear[i]:start_wear[i + 1] - 1] <- 1
       }
-      if (start_wear > length(non_wear) - h_crit_24) {
-        if (length_wear < h_crit_3 & length_non_wear_before > h_crit_1) {
+      if (start_wear[i] > length(non_wear) - h_crit_24) {
+        if (length_wear[i] < h_crit_3 & length_non_wear_before[i] > h_crit_1) {
           non_wear_final[start_non_wear[i]:start_wear[i + 1] - 1] <- 1
         }
       }
     }
   }
+
+  if (length(start_wear) > 0) {
+    if (start_wear[1] < h_crit_3 & start_wear[1] > 1) {
+      non_wear_final[1:(start_wear[1] - 1)] <- 1
+    }
+
+    last_non_wear <- start_non_wear[length(start_non_wear)]
+    if (
+      last_non_wear > length(non_wear_final) - h_crit_3 &
+      last_non_wear != length(non_wear_final)
+    ) {
+      non_wear_final[last_non_wear:length(non_wear_final)] <- 1
+    }
+  }
+
+  non_wear_original <- non_wear_original[-c(1, length(non_wear_original))]
+  non_wear_final <- non_wear_final[-c(1, length(non_wear_final))]
+
+  for (i in 1:2) {
+    non_wear_original_b <- non_wear_final + non_wear_original
+    non_wear_original_b[which(non_wear_original_b > 1)] <- 1
+    non_wear_original_b <- c(0, non_wear_original_b, 0)
+    non_wear_final_b <- c(0, non_wear_final, 0)
+
+    start_wear_b <- which(diff(non_wear_original_b) == 1) + 1
+    start_non_wear_b <- which(diff(non_wear_original_b) == - 1) + 1
+
+    if (length(start_wear_b) > 1) {
+      length_wear_b <- matrix(0, length(start_wear_b) - 1, 1)
+      length_non_wear_after_b <- matrix(0, length(start_wear_b) - 1, 1)
+      length_non_wear_before_b <- matrix(0, length(start_wear_b) - 1, 1)
+      surrounding_non_wear_b <- matrix(0, length(start_wear_b) - 1, 1)
+
+      for (j in 1:(length(start_wear_b) - 1)) {
+        length_wear_b[i] <- abs(start_wear_b[i + 1] - start_non_wear_b[i])
+        length_non_wear_after_b[i] <- abs(
+          start_non_wear_b[i + 1] - start_wear_b[i + 1]
+        )
+        length_non_wear_before_b[i] <- abs(
+          start_non_wear_b[i] - start_wear_b[i]
+        )
+        surrounding_non_wear_b[i] <- length_non_wear_after_b[i] -
+          length_non_wear_before_b[i]
+
+        if (
+          length_wear_b[i] < h_crit_6 &
+          (length_wear_b[i] / surrounding_non_wear_b[i]) < 0.3
+        ) {
+          non_wear_final_b[start_non_wear_b[i]:start_wear_b[i + 1] - 1] <- 1
+        }
+        if (
+          length_wear_b[i] < h_crit_3 &
+          (length_wear_b[i] / surrounding_non_wear_b[i]) < 0.8
+        ) {
+          non_wear_final_b[start_non_wear_b[i]:start_wear_b[i + 1] - 1] <- 1
+        }
+        if (start_wear_b[i] > length(non_wear) - h_crit_24) {
+          if (
+            length_wear_b[i] < h_crit_3 & length_non_wear_before_b > h_crit_1
+          ) {
+            non_wear_final_b[start_non_wear_b[i]:start_wear_b[i + 1] - 1] <- 1
+          }
+        }
+      }
+    }
+    non_wear_final <- non_wear_final_b[-c(1, length(non_wear_final_b))]
+  }
+
+  non_wear_final
 
 }
