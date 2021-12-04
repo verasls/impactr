@@ -3,13 +3,19 @@ remove_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
   window1 <- window1 * 60 * attributes(data)$samp_freq
   window2 <- window2 * 60 * attributes(data)$samp_freq
 
-  n_blocks <- floor(nrow(data) / window2)
-  crit <- ((window1 / window2) / 2) + 1
+  non_wear_s1 <- nonwear_stage1(data, window1, window2, threshold)
+  non_wear_s2 <- nonwear_stage2(non_wear_s1, window1, window2)
 
+  return(list(stage1 = non_wear_s1, stage2 = non_wear_s2))
+
+}
+
+nonwear_stage1 <- function(data, window1, window2, threshold) {
   range_crit <- 0.05
   sd_crit <- 0.013
 
-  # Stage 1
+  n_blocks <- floor(nrow(data) / window2)
+  crit <- ((window1 / window2) / 2) + 1
   non_wear_s1 <- matrix(0, n_blocks, 3)
 
   for (i in 1:n_blocks) {
@@ -40,10 +46,19 @@ remove_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
       }
     }
   }
+
   non_wear_s1 <- rowSums(non_wear_s1)
   non_wear_s1[which(non_wear_s1 >= threshold)] <- 1
+  non_wear_s1
 
-  # Stage 2
+}
+
+nonwear_stage2 <- function(non_wear_s1, window1, window2) {
+  h_crit_1 <- 1 / (window2 / window1)
+  h_crit_3 <- 3 / (window2 / window1)
+  h_crit_6 <- 6 / (window2 / window1)
+  h_crit_24 <- 24 / (window2 / window1)
+
   non_wear_original <- non_wear_s2 <- matrix(0, length(non_wear_s1), 1)
   non_wear_idx <- which(non_wear_s1 == 1)
   non_wear_original[non_wear_idx] <- 1
@@ -53,10 +68,6 @@ remove_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
   start_wear <- which(diff(non_wear_original) == 1) + 1
   start_non_wear <- which(diff(non_wear_original) == - 1) + 1
 
-  h_crit_1 <- 1 / (window2 / window1)
-  h_crit_3 <- 3 / (window2 / window1)
-  h_crit_6 <- 6 / (window2 / window1)
-  h_crit_24 <- 24 / (window2 / window1)
 
   if (length(start_wear) > 1) {
     length_wear <- matrix(0, length(start_wear) - 1, 1)
@@ -157,8 +168,8 @@ remove_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
     }
     non_wear_s2 <- non_wear_s2_b[-c(1, length(non_wear_s2_b))]
   }
-  non_wear_s2[which(non_wear_s1 + non_wear_s2 == 2)] <- 0
 
-  return(list(stage1 = non_wear_s1, stage2 = non_wear_s2))
+  non_wear_s2[which(non_wear_s1 + non_wear_s2 == 2)] <- 0
+  non_wear_s2
 
 }
