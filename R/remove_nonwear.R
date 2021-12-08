@@ -1,4 +1,4 @@
-remove_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
+detect_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
 
   window1 <- window1 * 60 * attributes(data)$samp_freq
   window2 <- window2 * 60 * attributes(data)$samp_freq
@@ -6,7 +6,7 @@ remove_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
   non_wear_s1 <- nonwear_stage1(data, window1, window2, threshold)
   non_wear_s2 <- nonwear_stage2(non_wear_s1, window1, window2)
 
-  return(list(stage1 = non_wear_s1, stage2 = non_wear_s2))
+  return(list(non_wear_s1 = non_wear_s1, non_wear_s2 = non_wear_s2))
 
 }
 
