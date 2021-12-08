@@ -10,6 +10,27 @@ detect_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
 
 }
 
+delete_nonwear <- function(data, non_wear_s1, non_wear_s2, window2) {
+  # window2 must be in samples, not minutes, here
+  non_wear <- non_wear_s1 + non_wear_s2
+
+  block_start <- seq(1, nrow(data), by = window2)
+  block_end <- seq(window2, nrow(data), by = window2)
+  if (nrow(data) - block_start[length(block_start)] < window2) {
+    block_start <- block_start[1:(length(block_start) - 1)]
+  }
+
+  wear_start_i <- block_start[which(non_wear == 0)]
+  wear_end_i <- block_end[which(non_wear == 0)]
+
+  wear <- rep(0, nrow(data))
+  for (i in seq_len(length(wear_start_i))) {
+    wear[wear_start_i[i]:wear_end_i[i]] <- 1
+  }
+  data$wear <- wear
+  data
+}
+
 nonwear_stage1 <- function(data, window1, window2, threshold) {
   range_crit <- 0.05
   sd_crit <- 0.013
