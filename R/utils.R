@@ -170,3 +170,7 @@ use_resultant <- function(data) {
   data$acc_R <- compute_resultant(data$acc_X, data$acc_Y, data$acc_Z)
   data
 }
+
+compute_resultant <- function(acc_X, acc_Y, acc_Z) {
+  sqrt(acc_X^2 + acc_Y^2 + acc_Z^2)
+}
