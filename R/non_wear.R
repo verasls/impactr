@@ -10,6 +10,73 @@ detect_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
 
 }
 
+plot_nonwear <- function(data,
+                         window2,
+                         non_wear_s1,
+                         non_wear_s2,
+                         save = FALSE) {
+
+  if ("acc_R" %in% colnames(data)) {
+    resultant <- data[["acc_R"]]
+  } else {
+    resultant <- compute_resultant(data$acc_X, data$acc_Y, data$acc_Z)
+  }
+  resultant[which(resultant < 1)] <- 1
+  resultant <- block_average(resultant, window2)
+
+  day <- round(1440 / window2)
+  day_end <- round(length(resultant) / day)
+  days_axis <- seq(0, day_end, by = 1 / day)
+  days_axis <- days_axis[seq_len(length(resultant))]
+
+  non_wear_s1 <- c(0, non_wear_s1, 0)
+  start_i <- which(diff(non_wear_s1) == 1) + 1
+  end_i <- which(diff(non_wear_s1) == - 1) + 1
+  start <- days_axis[start_i]
+  end <- days_axis[end_i]
+
+  non_wear_s2 <- c(0, non_wear_s2, 0)
+  start_i2 <- which(diff(non_wear_s2) == 1) + 1
+  end_i2 <- which(diff(non_wear_s2) == - 1) + 1
+  start2 <- days_axis[start_i2]
+  end2 <- days_axis[end_i2]
+
+  ymin <- min(resultant)
+  ymax <- round(max(resultant) + (max(resultant) - 1) * 2, 1)
+
+  par(mar = c(8, 5, 5, 5), xpd = TRUE)
+  plot(
+    days_axis, resultant, type = "l",
+    ylim = c(1, ymax),
+    main = "filename",
+    xlab = "Days",
+    ylab = "Acceleration (g)"
+  )
+  rect(
+    xleft = start, ybottom = ymin, xright = end, ytop = ymax,
+    col = rgb(0.278, 0.518, 0.471, alpha = 0.4), lty = 0
+  )
+  rect(
+    xleft = start2, ybottom = ymin, xright = end2, ytop = ymax,
+    col = rgb(0.278, 0.518, 0.471, alpha = 0.8), lty = 0
+  )
+  legend(
+    "bottom",
+    inset = c(0.0, -0.3),
+    legend = c(
+      "Detected non-wear time",
+      "Artificial movement removed"
+    ),
+    fill = c(
+      rgb(0.278, 0.518, 0.471, alpha = 0.4),
+      rgb(0.278, 0.518, 0.471, alpha = 0.8)
+    ),
+    bty = "n",
+    horiz = TRUE
+  )
+
+}
+
 delete_nonwear <- function(data, non_wear_s1, non_wear_s2, window2) {
   # window2 must be in samples, not minutes, here
   non_wear <- non_wear_s1 + non_wear_s2
@@ -29,9 +96,11 @@ delete_nonwear <- function(data, non_wear_s1, non_wear_s2, window2) {
   }
   data$wear <- wear
   data
+
 }
 
 nonwear_stage1 <- function(data, window1, window2, threshold) {
+
   range_crit <- 0.05
   sd_crit <- 0.013
 
@@ -75,6 +144,7 @@ nonwear_stage1 <- function(data, window1, window2, threshold) {
 }
 
 nonwear_stage2 <- function(non_wear_s1, window1, window2) {
+
   h_crit_1 <- 1 / (window2 / window1)
   h_crit_3 <- 3 / (window2 / window1)
   h_crit_6 <- 6 / (window2 / window1)
@@ -192,5 +262,14 @@ nonwear_stage2 <- function(non_wear_s1, window1, window2) {
 
   non_wear_s2[which(non_wear_s1 + non_wear_s2 == 2)] <- 0
   non_wear_s2
+
+}
+
+block_average <- function(x, window2) {
+
+  window2 <- window2 * 60 * attributes(data)$samp_freq
+  x <- cumsum(c(0, x))
+  select <- seq(1, length(x), by = window2)
+  diff(x[round(select)] / unique(abs(diff(round(select)))))
 
 }
