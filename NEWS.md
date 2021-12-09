@@ -1,3 +1,6 @@
+# impactr 0.3.0.9000
+* Change how resultant vector is computed to improve speed.
+
 # impactr 0.3.0
 * `pracma::findpeaks()` is now used to get the index of the curve start.
 * Fix a bug in which predict_loading() did not return the expected columns if `outcome` is set to "all".
