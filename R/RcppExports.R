@@ -11,8 +11,3 @@ compute_loading <- function(coeff, peaks, body_mass) {
     .Call(`_impactr_compute_loading`, coeff, peaks, body_mass)
 }
 
-#' @keywords internal
-compute_resultant <- function(acc_X, acc_Y, acc_Z) {
-    .Call(`_impactr_compute_resultant`, acc_X, acc_Y, acc_Z)
-}
-
