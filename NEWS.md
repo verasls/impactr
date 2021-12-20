@@ -1,5 +1,6 @@
 # impactr 0.3.0.9000
 * Change how resultant vector is computed to improve speed.
+* read_acc() does not display a progress bar anymore.
 
 # impactr 0.3.0
 * `pracma::findpeaks()` is now used to get the index of the curve start.
