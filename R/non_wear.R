@@ -54,7 +54,7 @@ plot_nonwear <- function(data,
   ymax <- round(max(resultant) + (max(resultant) - 1) * 2, 1)
 
   if (is.character(save)) {
-    pdf(save, width = 7, height = 7)
+    grDevices::pdf(save, width = 7, height = 7)
   }
   graphics::par(mar = c(8, 5, 5, 5), xpd = TRUE)
   plot(
@@ -87,8 +87,7 @@ plot_nonwear <- function(data,
     horiz = TRUE
   )
   if (is.character(save)) {
-    dev.off()
-    print("ok!")
+    grDevices::dev.off()
   }
 
 }
