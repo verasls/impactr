@@ -1,42 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://lveras.com/impactr//index.html</loc>
+    <loc>https://lveras.com/impactr/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/define_region.html</loc>
+    <loc>https://lveras.com/impactr/LICENSE.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/filter_acc.html</loc>
+    <loc>https://lveras.com/impactr/articles/impactr.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/find_peaks.html</loc>
+    <loc>https://lveras.com/impactr/articles/index.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/impactr_example.html</loc>
+    <loc>https://lveras.com/impactr/authors.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/is_impactr.html</loc>
+    <loc>https://lveras.com/impactr/index.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/new_impactr_data.html</loc>
+    <loc>https://lveras.com/impactr/news/index.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/new_impactr_peaks.html</loc>
+    <loc>https://lveras.com/impactr/reference/define_region.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/predict_loading.html</loc>
+    <loc>https://lveras.com/impactr/reference/filter_acc.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/read_acc.html</loc>
+    <loc>https://lveras.com/impactr/reference/find_peaks.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/specify_parameters.html</loc>
+    <loc>https://lveras.com/impactr/reference/impactr_example.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//reference/use_resultant.html</loc>
+    <loc>https://lveras.com/impactr/reference/index.html</loc>
   </url>
   <url>
-    <loc>https://lveras.com/impactr//articles/impactr.html</loc>
+    <loc>https://lveras.com/impactr/reference/is_impactr.html</loc>
+  </url>
+  <url>
+    <loc>https://lveras.com/impactr/reference/new_impactr_data.html</loc>
+  </url>
+  <url>
+    <loc>https://lveras.com/impactr/reference/new_impactr_peaks.html</loc>
+  </url>
+  <url>
+    <loc>https://lveras.com/impactr/reference/predict_loading.html</loc>
+  </url>
+  <url>
+    <loc>https://lveras.com/impactr/reference/read_acc.html</loc>
+  </url>
+  <url>
+    <loc>https://lveras.com/impactr/reference/specify_parameters.html</loc>
+  </url>
+  <url>
+    <loc>https://lveras.com/impactr/reference/use_resultant.html</loc>
   </url>
 </urlset>
