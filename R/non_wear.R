@@ -38,23 +38,23 @@ plot_nonwear <- function(data,
   ymin <- min(resultant)
   ymax <- round(max(resultant) + (max(resultant) - 1) * 2, 1)
 
-  par(mar = c(8, 5, 5, 5), xpd = TRUE)
+  graphics::par(mar = c(8, 5, 5, 5), xpd = TRUE)
   plot(
     days_axis, resultant, type = "l",
     ylim = c(1, ymax),
-    main = "filename",
+    main = attributes(data)$filename,
     xlab = "Days",
     ylab = "Acceleration (g)"
   )
-  rect(
+  graphics::rect(
     xleft = start, ybottom = ymin, xright = end, ytop = ymax,
-    col = rgb(0.278, 0.518, 0.471, alpha = 0.4), lty = 0
+    col = grDevices::rgb(0.278, 0.518, 0.471, alpha = 0.4), lty = 0
   )
-  rect(
+  graphics::rect(
     xleft = start2, ybottom = ymin, xright = end2, ytop = ymax,
-    col = rgb(0.278, 0.518, 0.471, alpha = 0.8), lty = 0
+    col = grDevices::rgb(0.278, 0.518, 0.471, alpha = 0.8), lty = 0
   )
-  legend(
+  graphics::legend(
     "bottom",
     inset = c(0.0, -0.3),
     legend = c(
@@ -62,8 +62,8 @@ plot_nonwear <- function(data,
       "Artificial movement removed"
     ),
     fill = c(
-      rgb(0.278, 0.518, 0.471, alpha = 0.4),
-      rgb(0.278, 0.518, 0.471, alpha = 0.8)
+      grDevices::rgb(0.278, 0.518, 0.471, alpha = 0.4),
+      grDevices::rgb(0.278, 0.518, 0.471, alpha = 0.8)
     ),
     bty = "n",
     horiz = TRUE
@@ -119,7 +119,7 @@ nonwear_stage1 <- function(data, window1, window2, threshold) {
       max_acc <- max(data[[j + 1]][(start + 1):end], na.rm = TRUE)
       min_acc <- min(data[[j + 1]][(start + 1):end], na.rm = TRUE)
       range_acc <- abs(max_acc - min_acc)
-      sd_acc <- sd(data[[j + 1]][(start + 1):end], na.rm = TRUE)
+      sd_acc <- stats::sd(data[[j + 1]][(start + 1):end], na.rm = TRUE)
 
       if (is.numeric(range_acc) & is.numeric(sd_acc)) {
         if (range_acc < range_crit & sd_acc < sd_crit) {
