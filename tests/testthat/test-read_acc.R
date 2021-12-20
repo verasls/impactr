@@ -44,8 +44,8 @@ test_that("output attributes are correct", {
   test_raw <- read_acc(test_path("test-data-hip-raw.csv"))
 
   # Attributes number
-  expect_equal(length(attributes(test_imu)), 8)
-  expect_equal(length(attributes(test_raw)), 8)
+  expect_equal(length(attributes(test_imu)), 9)
+  expect_equal(length(attributes(test_raw)), 9)
 
   # Attributes names
   attr_names <- c(
@@ -91,5 +91,7 @@ test_that("output columns are correct", {
 test_that("read_acc() works with date format separated by `/`", {
   sep_dash <- read_acc(test_path("test-data-hip-imu.csv"))
   sep_slash <- read_acc(test_path("test-data-date-sep.csv"))
+  attributes(sep_dash)$filename <- "force equal"
+  attributes(sep_slash)$filename <- "force equal"
   expect_equal(sep_dash, sep_slash)
 })
