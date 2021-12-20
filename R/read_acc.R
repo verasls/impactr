@@ -23,12 +23,14 @@ read_acc <- function(file) {
       "Accelerometer X" = "d",
       "Accelerometer Y" = "d",
       "Accelerometer Z" = "d"
-    )
+    ),
+    progress = FALSE
   )
   x <- make_timestamp(x, metadata)
 
   new_impactr_data(
     x,
+    filename = basename(file),
     start_date_time = metadata$start_date_time,
     samp_freq = metadata$samp_freq,
     acc_placement = NA,
