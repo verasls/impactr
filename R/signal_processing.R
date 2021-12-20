@@ -178,6 +178,7 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
     )
     impactr_peaks <- new_impactr_peaks(
       impactr_peaks,
+      filename = attributes(data)$filename,
       start_date_time = attributes(data)$start_date_time,
       samp_freq = attributes(data)$samp_freq,
       acc_placement = attributes(data)$acc_placement,
@@ -228,6 +229,7 @@ find_peaks <- function(data, vector, min_height = 1.3, min_dist = 0.4) {
     )
     impactr_peaks <- new_impactr_peaks(
       impactr_peaks,
+      filename = attributes(data)$filename,
       start_date_time = attributes(data)$start_date_time,
       samp_freq = attributes(data)$samp_freq,
       acc_placement = attributes(data)$acc_placement,
