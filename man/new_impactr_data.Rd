@@ -6,6 +6,7 @@
 \usage{
 new_impactr_data(
   x,
+  filename,
   start_date_time,
   samp_freq,
   acc_placement,

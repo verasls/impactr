@@ -12,6 +12,7 @@
 #' @export
 #' @keywords internal
 new_impactr_data <- function(x,
+                             filename,
                              start_date_time,
                              samp_freq,
                              acc_placement,
@@ -21,6 +22,7 @@ new_impactr_data <- function(x,
   n_row <- nrow(x)
   tibble::new_tibble(
     x,
+    filename = filename,
     start_date_time = start_date_time,
     samp_freq = samp_freq,
     acc_placement = acc_placement,
@@ -48,18 +50,20 @@ new_impactr_data <- function(x,
 #' @export
 #' @keywords internal
 new_impactr_peaks <- function(x,
-                             start_date_time,
-                             samp_freq,
-                             acc_placement,
-                             subj_body_mass,
-                             filter_type,
-                             peaks_idx,
-                             curve_start,
-                             acc_signal) {
+                              filename,
+                              start_date_time,
+                              samp_freq,
+                              acc_placement,
+                              subj_body_mass,
+                              filter_type,
+                              peaks_idx,
+                              curve_start,
+                              acc_signal) {
   stopifnot(is.data.frame(x))
   n_row <- nrow(x)
   tibble::new_tibble(
     x,
+    filename = filename,
     start_date_time = start_date_time,
     samp_freq = samp_freq,
     acc_placement = acc_placement,
