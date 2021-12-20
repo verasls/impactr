@@ -6,7 +6,7 @@ detect_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
   non_wear_s1 <- nonwear_stage1(data, window1, window2, threshold)
   non_wear_s2 <- nonwear_stage2(non_wear_s1, window1, window2)
 
-  return(list(non_wear_s1 = non_wear_s1, non_wear_s2 = non_wear_s2))
+  return(list(stage1 = non_wear_s1, stage2 = non_wear_s2))
 
 }
 
@@ -38,6 +38,9 @@ plot_nonwear <- function(data,
   ymin <- min(resultant)
   ymax <- round(max(resultant) + (max(resultant) - 1) * 2, 1)
 
+  if (is.character(save)) {
+    pdf(save, width = 7, height = 7)
+  }
   graphics::par(mar = c(8, 5, 5, 5), xpd = TRUE)
   plot(
     days_axis, resultant, type = "l",
@@ -68,11 +71,15 @@ plot_nonwear <- function(data,
     bty = "n",
     horiz = TRUE
   )
+  if (is.character(save)) {
+    dev.off()
+    print("ok!")
+  }
 
 }
 
 delete_nonwear <- function(data, non_wear_s1, non_wear_s2, window2) {
-  # window2 must be in samples, not minutes, here
+
   non_wear <- non_wear_s1 + non_wear_s2
 
   block_start <- seq(1, nrow(data), by = window2)
