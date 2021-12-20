@@ -1,3 +1,18 @@
+remove_nonwear <- function(data,
+                           window1 = 60,
+                           window2 = 15,
+                           threshold = 2,
+                           plot = TRUE,
+                           save = FALSE) {
+
+  nonwear <- detect_nonwear(data, window1, window2, threshold)
+  if (isTRUE(plot)) {
+    plot_nonwear(data, window2, nonwear$stage1, nonwear$stage2, save)
+  }
+  delete_nonwear(data, nonwear$stage1, nonwear$stage2, window2)
+
+}
+
 detect_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
 
   window1 <- window1 * 60 * attributes(data)$samp_freq
