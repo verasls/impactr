@@ -16,13 +16,7 @@ plot_nonwear <- function(data,
                          non_wear_s2,
                          save = FALSE) {
 
-  if ("acc_R" %in% colnames(data)) {
-    resultant <- data[["acc_R"]]
-  } else {
-    resultant <- compute_resultant(data$acc_X, data$acc_Y, data$acc_Z)
-  }
-  resultant[which(resultant < 1)] <- 1
-  resultant <- block_average(resultant, window2)
+  resultant <- block_average(data, window2)
 
   day <- round(1440 / window2)
   day_end <- round(length(resultant) / day)
@@ -265,11 +259,19 @@ nonwear_stage2 <- function(non_wear_s1, window1, window2) {
 
 }
 
-block_average <- function(x, window2) {
+block_average <- function(data, window2) {
+
+  if ("acc_R" %in% colnames(data)) {
+    resultant <- data[["acc_R"]]
+  } else {
+    resultant <- compute_resultant(data$acc_X, data$acc_Y, data$acc_Z)
+  }
+  resultant[which(resultant < 1)] <- 1
 
   window2 <- window2 * 60 * attributes(data)$samp_freq
-  x <- cumsum(c(0, x))
-  select <- seq(1, length(x), by = window2)
-  diff(x[round(select)] / unique(abs(diff(round(select)))))
+
+  resultant <- cumsum(c(0, resultant))
+  select <- seq(1, length(resultant), by = window2)
+  diff(resultant[round(select)] / unique(abs(diff(round(select)))))
 
 }
