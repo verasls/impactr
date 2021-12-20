@@ -80,6 +80,7 @@ plot_nonwear <- function(data,
 
 delete_nonwear <- function(data, non_wear_s1, non_wear_s2, window2) {
 
+  window2 <- window2 * 60 * attributes(data)$samp_freq
   non_wear <- non_wear_s1 + non_wear_s2
 
   block_start <- seq(1, nrow(data), by = window2)
@@ -96,6 +97,9 @@ delete_nonwear <- function(data, non_wear_s1, non_wear_s2, window2) {
     wear[wear_start_i[i]:wear_end_i[i]] <- 1
   }
   data$wear <- wear
+
+  remove <- which(data$wear == 0)
+  data <- data[-remove, -ncol(data)]
   data
 
 }
