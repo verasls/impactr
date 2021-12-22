@@ -2,18 +2,31 @@ remove_nonwear <- function(data,
                            window1 = 60,
                            window2 = 15,
                            threshold = 2,
+                           min_hour_crit = 0,
+                           min_day_crit = 0,
                            plot = TRUE,
-                           save = FALSE) {
+                           save_plot = FALSE,
+                           save_summary = FALSE) {
 
   nonwear <- detect_nonwear(data, window1, window2, threshold)
-  if (isTRUE(plot)) {
-    plot_nonwear(data, window2, nonwear$stage1, nonwear$stage2, save)
+  if (isTRUE(plot) | is.character(save_plot)) {
+    plot_nonwear(
+      data, window2, nonwear$stage1, nonwear$stage2, save_plot
+    )
   }
-  delete_nonwear(data, nonwear$stage1, nonwear$stage2, window2)
+  nonwear <- mark_nonwear(data, nonwear$stage1, nonwear$stage2, window2)
+  nonwear <- summarise_nonwear(
+    nonwear, min_hour_crit, min_day_crit, save_summary
+  )
+  if (is.null(nonwear)) {
+    msg <- "Stopping as no valid data were provided."
+    rlang::abort(msg)
+  }
+  delete_nonwear(nonwear)
 
 }
 
-detect_nonwear <- function(data, window1 = 60, window2 = 15, threshold = 2) {
+detect_nonwear <- function(data, window1, window2, threshold) {
 
   window1 <- window1 * 60 * attributes(data)$samp_freq
   window2 <- window2 * 60 * attributes(data)$samp_freq
@@ -29,7 +42,7 @@ plot_nonwear <- function(data,
                          window2,
                          non_wear_s1,
                          non_wear_s2,
-                         save = FALSE) {
+                         save_plot) {
 
   resultant <- block_average(data, window2)
 
@@ -53,8 +66,8 @@ plot_nonwear <- function(data,
   ymin <- min(resultant)
   ymax <- round(max(resultant) + (max(resultant) - 1) * 2, 1)
 
-  if (is.character(save)) {
-    grDevices::pdf(save, width = 7, height = 7)
+  if (is.character(save_plot)) {
+    grDevices::pdf(save_plot, width = 7, height = 7)
   }
   graphics::par(mar = c(8, 5, 5, 5), xpd = TRUE)
   plot(
@@ -86,13 +99,13 @@ plot_nonwear <- function(data,
     bty = "n",
     horiz = TRUE
   )
-  if (is.character(save)) {
+  if (is.character(save_plot)) {
     grDevices::dev.off()
   }
 
 }
 
-delete_nonwear <- function(data, non_wear_s1, non_wear_s2, window2) {
+mark_nonwear <- function(data, non_wear_s1, non_wear_s2, window2) {
 
   window2 <- window2 * 60 * attributes(data)$samp_freq
   non_wear <- non_wear_s1 + non_wear_s2
@@ -111,6 +124,81 @@ delete_nonwear <- function(data, non_wear_s1, non_wear_s2, window2) {
     wear[wear_start_i[i]:wear_end_i[i]] <- 1
   }
   data$wear <- wear
+  data
+
+}
+
+summarise_nonwear <- function(data,
+                              min_hour_crit,
+                              min_day_crit,
+                              save_summary) {
+
+  data$date <- as.Date(data$timestamp)
+  h <- 3600 * attributes(data)$samp_freq
+
+  date <- unique(data$date)
+  weekday <- weekdays(date)
+  measure_day <- seq_len(length(weekday))
+  recorded_hours <- round(
+    purrr::map_dbl(
+      date, ~ length(which(data$date == .x))
+    ) / h,
+    1
+  )
+  valid_hours <- round(
+    purrr::map_dbl(
+      date, ~ length(which(data$date == .x & data$wear == 1))
+    ) / h,
+    1
+  )
+  valid_day <- rep("No", length(weekday))
+  valid_day[which(valid_hours >= min_hour_crit)] <- "Yes"
+  valid_observation <- ifelse(
+    length(which(valid_day == "Yes")) >= min_day_crit, "Yes", "No"
+  )
+
+  nonwear_summary <- data.frame(
+    filename = attributes(data)$filename,
+    date, weekday, measure_day,
+    recorded_hours, valid_hours,
+    min_hour_crit, min_day_crit,
+    valid_day, valid_observation
+  )
+  if (is.character(save_summary)) {
+    if (file.exists(save_summary)) {
+      pre_summary <- read.csv(save_summary)
+      if (length(unique(pre_summary$filename)) == 1) {
+        if (unique(pre_summary$filename) == attributes(data)$filename) {
+          file.remove(save_summary)
+        }
+      }
+    }
+    use_colnames <- ifelse(file.exists(save_summary), FALSE, TRUE)
+    suppressWarnings(
+      write.table(
+        nonwear_summary, file = save_summary, sep = ",", append = TRUE,
+        row.names = FALSE, col.names = use_colnames
+      )
+    )
+  }
+
+  if (valid_observation == "No") {
+    msg <- glue::glue(
+      "Data from file `{attributes(data)$filename}` is not valid as \\
+      the number of valid days ({length(which(valid_day == \"Yes\"))}) is \\
+      less than the criteria ({min_day_crit})."
+    )
+    rlang::inform(msg)
+    return(invisible(NULL))
+  }
+
+  invalid_day <- date[which(valid_day == "No")]
+  data$wear[which(data$date == invalid_day)] <- 0
+  data[, -ncol(data)]
+
+}
+
+delete_nonwear <- function(data) {
 
   remove <- which(data$wear == 0)
   data <- data[-remove, -ncol(data)]
