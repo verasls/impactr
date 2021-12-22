@@ -230,7 +230,7 @@ summarise_nonwear <- function(data,
   )
   if (is.character(save_summary)) {
     if (file.exists(save_summary)) {
-      pre_summary <- read.csv(save_summary)
+      pre_summary <- utils::read.csv(save_summary)
       if (length(unique(pre_summary$filename)) == 1) {
         if (unique(pre_summary$filename) == attributes(data)$filename) {
           file.remove(save_summary)
@@ -239,7 +239,7 @@ summarise_nonwear <- function(data,
     }
     use_colnames <- ifelse(file.exists(save_summary), FALSE, TRUE)
     suppressWarnings(
-      write.table(
+      utils::write.table(
         nonwear_summary, file = save_summary, sep = ",", append = TRUE,
         row.names = FALSE, col.names = use_colnames
       )
