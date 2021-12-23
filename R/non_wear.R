@@ -427,7 +427,7 @@ nonwear_stage2 <- function(non_wear_s1, window1, window2) {
         }
         if (start_wear_b[j] > length(non_wear_s1) - h_crit_24) {
           if (
-            length_wear_b[j] < h_crit_3 & length_non_wear_before_b > h_crit_1
+            length_wear_b[j] < h_crit_3 & length_non_wear_before_b[j] > h_crit_1
           ) {
             non_wear_s2_b[start_non_wear_b[j]:start_wear_b[j + 1] - 1] <- 1
           }
