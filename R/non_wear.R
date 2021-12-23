@@ -42,8 +42,8 @@
 #'   values of standard deviation (0.013\emph{g}) and range (0.050\emph{g}) of
 #'   raw acceleration from each axis. The classification is done per blocks of
 #'   \code{window2} size (default 15 minutes) based on the characteristics of
-#'   a larger \code{window1} (default 60 minutes) centered at the
-#'   \code{window2}. In the second stage of the algorithm, the plausability of
+#'   a larger \code{window1} (default 60 minutes) centred at the
+#'   \code{window2}. In the second stage of the algorithm, the plausibility of
 #'   wear periods in between non-wear periods is tested based on the duration
 #'   and proportion of the duration relative to the surrounding non-wear
 #'   periods.
