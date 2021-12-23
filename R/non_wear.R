@@ -141,14 +141,18 @@ plot_nonwear <- function(data,
     xlab = "Days",
     ylab = "Acceleration (g)"
   )
-  graphics::rect(
-    xleft = start, ybottom = ymin, xright = end, ytop = ymax,
-    col = grDevices::rgb(0.278, 0.518, 0.471, alpha = 0.4), lty = 0
-  )
-  graphics::rect(
-    xleft = start2, ybottom = ymin, xright = end2, ytop = ymax,
-    col = grDevices::rgb(0.278, 0.518, 0.471, alpha = 0.8), lty = 0
-  )
+  if (length(start) > 0) {
+    graphics::rect(
+      xleft = start, ybottom = ymin, xright = end, ytop = ymax,
+      col = grDevices::rgb(0.278, 0.518, 0.471, alpha = 0.4), lty = 0
+    )
+  }
+  if (length(start2) > 0) {
+    graphics::rect(
+      xleft = start2, ybottom = ymin, xright = end2, ytop = ymax,
+      col = grDevices::rgb(0.278, 0.518, 0.471, alpha = 0.8), lty = 0
+    )
+  }
   graphics::legend(
     "bottom",
     inset = c(0.0, -0.3),
