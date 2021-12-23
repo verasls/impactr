@@ -5,3 +5,5 @@
 .DS_Store
 workflow.R
 inst/doc
+/doc/
+/Meta/
