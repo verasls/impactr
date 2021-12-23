@@ -143,7 +143,7 @@ check_args_remove_nonwear <- function(data,
   if (threshold %!in% threshold_vals) {
     lvmisc::abort_argument_value("threshold", threshold_vals)
   }
-  if (min_hour_crit > 24 & min_hour_crit < 0) {
+  if (min_hour_crit > 24 | min_hour_crit < 0) {
     rlang::abort("`min_hour_crit` must be between 0 and 24.")
   }
   if (!is.logical(plot)) {
