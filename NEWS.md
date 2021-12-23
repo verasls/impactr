@@ -1,6 +1,6 @@
 # impactr 0.3.0.9000
 * Change how resultant vector is computed to improve speed.
-* read_acc() does not display a progress bar anymore.
+* read_acc() no longer displays a progress bar.
 
 # impactr 0.3.0
 * `pracma::findpeaks()` is now used to get the index of the curve start.
@@ -9,6 +9,6 @@
 
 # impactr 0.2.0
 * define_region() now works with multi-day data. See the updated documentation.
-* specify_parameters() and filter_acc() throw errors when called more than once on the same data. This prevents attributes being accidentaly added on top of existing ones.
+* specify_parameters() and filter_acc() throw errors when called more than once on the same data. This prevents attributes being accidentally added on top of existing ones.
 * predict() throws an error when required attributes are missing.
 * Fix a test failure with {tibble} release 3.1.4 (#1).

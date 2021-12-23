@@ -15,7 +15,7 @@ impactr is an [R](https://www.r-project.org) package whose main goal is to proce
 
 This vignette provides a short introduction on how to use impactr, guiding you through each of the functions necessary to operate it. If anything is not clear in the package documentation, please let us know by creating an issue in GitHub following this [link](https://github.com/verasls/impactr/issues).
 
-## Walkthrough
+## Walk-through
 
 Before we begin, the package needs to be installed and then loaded into your R session.
 
@@ -133,7 +133,7 @@ As with `filter_acc()`, `find_peaks()` default values of the minimum height (`mi
 
 ### predict_loading()
 
-Finally, the `predict_loading()` is used to predict the mechanical loading variables based on the acceleration signal. Currently, impactr provides models to predict ground reaction force (GRF) and loading rate (LR) of the resultant vector and its vertical component with a models validated in walking and running activities. The `outcome`, `vector` and `model` arguments are used to control this parameters. More details regarding the values accepted by these paremeters can be found in the function documentation (`help(predict_loading)`).
+Finally, the `predict_loading()` is used to predict the mechanical loading variables based on the acceleration signal. Currently, impactr provides models to predict ground reaction force (GRF) and loading rate (LR) of the resultant vector and its vertical component with a models validated in walking and running activities. The `outcome`, `vector` and `model` arguments are used to control this parameters. More details regarding the values accepted by these parameters can be found in the function documentation (`help(predict_loading)`).
 
 ```{r predict_loading}
 predict_loading(
