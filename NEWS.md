@@ -1,4 +1,5 @@
 # impactr 0.3.0.9000
+* Add the `daily_acc` dataset.
 * Change how resultant vector is computed to improve speed.
 * read_acc() no longer displays a progress bar.
 
