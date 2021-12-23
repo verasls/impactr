@@ -20,7 +20,7 @@
 #'   a given subject to be considered valid (see Data validation).
 #'   Defaults to 0, meaning that all data is valid.
 #' @param plot A logical value indicating whether or not to display the
-#'   plot to visualize the detected non-wear periods. Defaults to \code{TRUE}.
+#'   plot to visualize the detected non-wear periods. Defaults to \code{FALSE}.
 #'   Notice that the plot will only be displayed in your R session if you do
 #'   not provide a path to save the plot (see the argument \code{save_plot}).
 #' @param save_plot,save_summary Indicates whether of not to save the plot to
@@ -82,7 +82,7 @@ remove_nonwear <- function(data,
                            threshold = 2,
                            min_hour_crit = 0,
                            min_day_crit = 0,
-                           plot = TRUE,
+                           plot = FALSE,
                            save_plot = FALSE,
                            save_summary = FALSE) {
 
