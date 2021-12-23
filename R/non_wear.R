@@ -95,17 +95,17 @@ detect_nonwear <- function(data, window1, window2, threshold) {
   window1 <- window1 * 60 * attributes(data)$samp_freq
   window2 <- window2 * 60 * attributes(data)$samp_freq
 
-  non_wear_s1 <- nonwear_stage1(data, window1, window2, threshold)
-  non_wear_s2 <- nonwear_stage2(non_wear_s1, window1, window2)
+  nonwear_stage1 <- nonwear_stage1(data, window1, window2, threshold)
+  nonwear_stage2 <- nonwear_stage2(nonwear_stage1, window1, window2)
 
-  return(list(stage1 = non_wear_s1, stage2 = non_wear_s2))
+  return(list(stage1 = nonwear_stage1, stage2 = nonwear_stage2))
 
 }
 
 plot_nonwear <- function(data,
                          window2,
-                         non_wear_s1,
-                         non_wear_s2,
+                         nonwear_stage1,
+                         nonwear_stage2,
                          save_plot) {
 
   resultant <- block_average(data, window2)
@@ -115,15 +115,15 @@ plot_nonwear <- function(data,
   days_axis <- seq(0, day_end, by = 1 / day)
   days_axis <- days_axis[seq_len(length(resultant))]
 
-  non_wear_s1 <- c(0, non_wear_s1, 0)
-  start_i <- which(diff(non_wear_s1) == 1) + 1
-  end_i <- which(diff(non_wear_s1) == - 1) + 1
+  nonwear_stage1 <- c(0, nonwear_stage1, 0)
+  start_i <- which(diff(nonwear_stage1) == 1) + 1
+  end_i <- which(diff(nonwear_stage1) == - 1) + 1
   start <- days_axis[start_i]
   end <- days_axis[end_i]
 
-  non_wear_s2 <- c(0, non_wear_s2, 0)
-  start_i2 <- which(diff(non_wear_s2) == 1) + 1
-  end_i2 <- which(diff(non_wear_s2) == - 1) + 1
+  nonwear_stage2 <- c(0, nonwear_stage2, 0)
+  start_i2 <- which(diff(nonwear_stage2) == 1) + 1
+  end_i2 <- which(diff(nonwear_stage2) == - 1) + 1
   start2 <- days_axis[start_i2]
   end2 <- days_axis[end_i2]
 
@@ -175,10 +175,10 @@ plot_nonwear <- function(data,
 
 }
 
-mark_nonwear <- function(data, non_wear_s1, non_wear_s2, window2) {
+mark_nonwear <- function(data, nonwear_stage1, nonwear_stage2, window2) {
 
   window2 <- window2 * 60 * attributes(data)$samp_freq
-  non_wear <- non_wear_s1 + non_wear_s2
+  non_wear <- nonwear_stage1 + nonwear_stage2
 
   block_start <- seq(1, nrow(data), by = window2)
   block_end <- seq(window2, nrow(data), by = window2)
@@ -283,7 +283,7 @@ nonwear_stage1 <- function(data, window1, window2, threshold) {
 
   n_blocks <- floor(nrow(data) / window2)
   crit <- ((window1 / window2) / 2) + 1
-  non_wear_s1 <- matrix(0, n_blocks, 3)
+  nonwear_stage1 <- matrix(0, n_blocks, 3)
 
   for (i in 1:n_blocks) {
     print(i)
@@ -306,32 +306,32 @@ nonwear_stage1 <- function(data, window1, window2, threshold) {
 
       if (is.numeric(range_acc) & is.numeric(sd_acc)) {
         if (range_acc < range_crit & sd_acc < sd_crit) {
-          non_wear_s1[i, j] <- 1
+          nonwear_stage1[i, j] <- 1
         }
       } else {
-        non_wear_s1[i, j] <- 1
+        nonwear_stage1[i, j] <- 1
       }
     }
   }
 
-  non_wear_s1 <- rowSums(non_wear_s1)
-  non_wear_s1[which(non_wear_s1 >= threshold)] <- 1
-  non_wear_s1
+  nonwear_stage1 <- rowSums(nonwear_stage1)
+  nonwear_stage1[which(nonwear_stage1 >= threshold)] <- 1
+  nonwear_stage1
 
 }
 
-nonwear_stage2 <- function(non_wear_s1, window1, window2) {
+nonwear_stage2 <- function(nonwear_stage1, window1, window2) {
 
   h_crit_1 <- 1 / (window2 / window1)
   h_crit_3 <- 3 / (window2 / window1)
   h_crit_6 <- 6 / (window2 / window1)
   h_crit_24 <- 24 / (window2 / window1)
 
-  non_wear_original <- non_wear_s2 <- matrix(0, length(non_wear_s1), 1)
-  non_wear_idx <- which(non_wear_s1 == 1)
+  non_wear_original <- nonwear_stage2 <- matrix(0, length(nonwear_stage1), 1)
+  non_wear_idx <- which(nonwear_stage1 == 1)
   non_wear_original[non_wear_idx] <- 1
   non_wear_original <- c(0, non_wear_original, 0)
-  non_wear_s2 <- c(0, non_wear_s2, 0)
+  nonwear_stage2 <- c(0, nonwear_stage2, 0)
 
   start_wear <- which(diff(non_wear_original) == 1) + 1
   start_non_wear <- which(diff(non_wear_original) == - 1) + 1
@@ -354,17 +354,17 @@ nonwear_stage2 <- function(non_wear_s1, window1, window2) {
         length_wear[i] < h_crit_6 &
         (length_wear[i] / surrounding_non_wear[i]) < 0.3
       ) {
-        non_wear_s2[start_non_wear[i]:start_wear[i + 1] - 1] <- 1
+        nonwear_stage2[start_non_wear[i]:start_wear[i + 1] - 1] <- 1
       }
       if (
         length_wear[i] < h_crit_3 &
         (length_wear[i] / surrounding_non_wear[i]) < 0.8
       ) {
-        non_wear_s2[start_non_wear[i]:start_wear[i + 1] - 1] <- 1
+        nonwear_stage2[start_non_wear[i]:start_wear[i + 1] - 1] <- 1
       }
-      if (start_wear[i] > length(non_wear_s1) - h_crit_24) {
+      if (start_wear[i] > length(nonwear_stage1) - h_crit_24) {
         if (length_wear[i] < h_crit_3 & length_non_wear_before[i] > h_crit_1) {
-          non_wear_s2[start_non_wear[i]:start_wear[i + 1] - 1] <- 1
+          nonwear_stage2[start_non_wear[i]:start_wear[i + 1] - 1] <- 1
         }
       }
     }
@@ -372,26 +372,26 @@ nonwear_stage2 <- function(non_wear_s1, window1, window2) {
 
   if (length(start_wear) > 0) {
     if (start_wear[1] < h_crit_3 & start_wear[1] > 1) {
-      non_wear_s2[1:(start_wear[1] - 1)] <- 1
+      nonwear_stage2[1:(start_wear[1] - 1)] <- 1
     }
 
     last_non_wear <- start_non_wear[length(start_non_wear)]
     if (
-      last_non_wear > length(non_wear_s2) - h_crit_3 &
-      last_non_wear != length(non_wear_s2)
+      last_non_wear > length(nonwear_stage2) - h_crit_3 &
+      last_non_wear != length(nonwear_stage2)
     ) {
-      non_wear_s2[last_non_wear:length(non_wear_s2)] <- 1
+      nonwear_stage2[last_non_wear:length(nonwear_stage2)] <- 1
     }
   }
 
   non_wear_original <- non_wear_original[-c(1, length(non_wear_original))]
-  non_wear_s2 <- non_wear_s2[-c(1, length(non_wear_s2))]
+  nonwear_stage2 <- nonwear_stage2[-c(1, length(nonwear_stage2))]
 
   for (i in 1:2) {
-    non_wear_original_b <- non_wear_s2 + non_wear_original
+    non_wear_original_b <- nonwear_stage2 + non_wear_original
     non_wear_original_b[which(non_wear_original_b > 1)] <- 1
     non_wear_original_b <- c(0, non_wear_original_b, 0)
-    non_wear_s2_b <- c(0, non_wear_s2, 0)
+    nonwear_stage2_b <- c(0, nonwear_stage2, 0)
 
     start_wear_b <- which(diff(non_wear_original_b) == 1) + 1
     start_non_wear_b <- which(diff(non_wear_original_b) == - 1) + 1
@@ -417,28 +417,28 @@ nonwear_stage2 <- function(non_wear_s1, window1, window2) {
           length_wear_b[j] < h_crit_6 &
           (length_wear_b[j] / surrounding_non_wear_b[j]) < 0.3
         ) {
-          non_wear_s2_b[start_non_wear_b[j]:start_wear_b[j + 1] - 1] <- 1
+          nonwear_stage2_b[start_non_wear_b[j]:start_wear_b[j + 1] - 1] <- 1
         }
         if (
           length_wear_b[j] < h_crit_3 &
           (length_wear_b[j] / surrounding_non_wear_b[j]) < 0.8
         ) {
-          non_wear_s2_b[start_non_wear_b[j]:start_wear_b[j + 1] - 1] <- 1
+          nonwear_stage2_b[start_non_wear_b[j]:start_wear_b[j + 1] - 1] <- 1
         }
-        if (start_wear_b[j] > length(non_wear_s1) - h_crit_24) {
+        if (start_wear_b[j] > length(nonwear_stage1) - h_crit_24) {
           if (
             length_wear_b[j] < h_crit_3 & length_non_wear_before_b[j] > h_crit_1
           ) {
-            non_wear_s2_b[start_non_wear_b[j]:start_wear_b[j + 1] - 1] <- 1
+            nonwear_stage2_b[start_non_wear_b[j]:start_wear_b[j + 1] - 1] <- 1
           }
         }
       }
     }
-    non_wear_s2 <- non_wear_s2_b[-c(1, length(non_wear_s2_b))]
+    nonwear_stage2 <- nonwear_stage2_b[-c(1, length(nonwear_stage2_b))]
   }
 
-  non_wear_s2[which(non_wear_s1 + non_wear_s2 == 2)] <- 0
-  non_wear_s2
+  nonwear_stage2[which(nonwear_stage1 + nonwear_stage2 == 2)] <- 0
+  nonwear_stage2
 
 }
 
