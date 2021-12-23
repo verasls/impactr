@@ -1,3 +1,81 @@
+#' Detect and remove accelerometer non-wear time
+#'
+#' Detects the accelerometer non-wear time based on an algorithm developed
+#' by van Hees (see Details) and remove these periods from the raw data. This
+#' function can also draw a plot to better visualize the detected non-wear
+#' periods and generate a wear time daily summary.
+#'
+#' @param data An \code{impactr_data} object, as obtained with
+#'   \link[=read_acc]{read_acc()}.
+#' @param window1,window2 Windows size, in minutes, for the non-wear
+#'   detection algorithm. Defaults to 60 and 15 minutes, respectively.
+#'   Also, \code{window2} must be smaller than \code{window1}, and
+#'   \code{window1} must be a multiple of \code{window2}.
+#' @param threshold Number of axes that need to meet the non-wear criteria.
+#'   Defaults to 2.
+#' @param min_hour_crit The minimum number of hours marked as wear time
+#'   in a day for it to be considered valid (see Data validation).
+#'   Defaults to 0, meaning that every day is considered valid.
+#' @param min_day_crit The minimum number of valid days for the data of
+#'   a given subject to be considered valid (see Data validation).
+#'   Defaults to 0, meaning that all data is valid.
+#' @param plot A logical value indicating whether or not to display the
+#'   plot to visualize the detected non-wear periods. Defaults to \code{TRUE}.
+#'   Notice that the plot will only be displayed in your R session if you do
+#'   not provide a path to save the plot (see the argument \code{save_plot}).
+#' @param save_plot,save_summary Indicates whether of not to save the plot to
+#'   visualize the detected non-wear periods to a pdf file and the wear time
+#'   daily summary to a csv file, respectively. Defaults to \code{FALSE}.
+#'   Provide a valid path to a file, ending with the ".pdf" extension for the
+#'   plot or with the ".csv" extension to the summary, as a character string
+#'   if you want the outputs to be saved.
+#'
+#' @return An object of class \code{impactr_data} and a plot if
+#'   \code{plot = TRUE} and \code{save_plot = FALSE}.
+#'
+#' @section The non-wear detection algorithm:
+#'
+#'   The current version of this algorithm is described in a paper by van Hees
+#'   et al (see References) and also in this
+#'   \href{https://cran.r-project.org/web/packages/GGIR/vignettes/GGIR.html#53_Non-wear_detection}{vignette} from package GGIR.
+#'   Briefly, in a first stage it identifies non-wear time based on threshold
+#'   values of standard deviation (0.013\emph{g}) and range (0.050\emph{g}) of
+#'   raw acceleration from each axis. The classification is done per blocks of
+#'   \code{window2} size (default 15 minutes) based on the characteristics of
+#'   a larger \code{window1} (default 60 minutes) centered at the
+#'   \code{window2}. In the second stage of the algorithm, the plausability of
+#'   wear periods in between non-wear periods is tested based on the duration
+#'   and proportion of the duration relative to the surrounding non-wear
+#'   periods.
+#'
+#' @section Data validation:
+#'
+#'   After the detection of non-wear periods through the algorithm, a data
+#'   validation step is applied. For each measurement day to be considered
+#'   valid, it has to present a minimum number of wear time hours determined
+#'   by the \code{min_hour_crit} argument. If the number of wear time hours of
+#'   a given day falls below the threshold, the whole day is considered invalid
+#'   and is then removed from the subsequent analyses. The whole measurement
+#'   is also classified as valid or invalid based on the number of valid days
+#'   and a threshold given by \code{min_day_crit}. If the number of valid days
+#'   is less than the value determined by the \code{min_day_crit} argument,
+#'   the whole data is deleted and the \code{remove_nonwear()} function
+#'   signals an error, stopping its execution. Nevertheless, this error does
+#'   not prevent the plot to be displayed or saved, or the wear time daily
+#'   summary to be saved, if the arguments are set to do so.
+#'
+#' @references \itemize{
+#'   \item van Hees VT, Gorzelniak L, Dean León EC, Eder M, Pias M, Taherian S,
+#'   Ekelund U, Renström F, Franks PW, Horsch A, Brage S. Separating movement
+#'   and gravity components in an acceleration signal and implications for the
+#'   assessment of human daily physical activity. PLoS One. 2013. Apr 23.
+#'   \doi{https://doi.org/10.1371/journal.pone.0061691}.
+#'  }
+#'
+#' @export
+#'
+#' @examples
+#' remove_nonwear(daily_acc)
 remove_nonwear <- function(data,
                            window1 = 60,
                            window2 = 15,
@@ -90,6 +168,32 @@ check_args_remove_nonwear <- function(data,
 
 }
 
+#' Detection of accelerometer non-wear time
+#'
+#' Implementation of the van Hees algorithm of non-wear detection.
+#'
+#' This is an internal function, designed to be used inside the wrapper
+#' function \link[=remove_nonwear]{remove_nonwear()} that integrates all
+#' steps of detection, removal and inspection of accelerometer non-wear time.
+#'
+#' @param data An \code{impactr_data} object, as obtained with
+#'   \link[=read_acc]{read_acc()}.
+#' @param window1,window2 Windows size, in minutes, for the non-wear
+#'   detection algorithm. \code{window2} must be smaller than \code{window1},
+#'   and \code{window1} must be a multiple of \code{window2}.
+#' @param threshold Number of axes that need to meet the non-wear criteria.
+#'
+#' @return A named list of length 2 (stage1 and stage2) containing the binary
+#'   non-wear classification (0 is wear and 1 is non-wear) of each algorithm's
+#'   stage per \code{window2} blocks.
+#'
+#' @export
+#' @keywords internal
+#'
+#' @seealso \code{\link[=plot_nonwear]{plot_nonwear()}},
+#'   \code{\link[=mark_nonwear]{mark_nonwear()}},
+#'   \code{\link[=summarise_nonwear]{summarise_nonwear()}},
+#'   \code{\link[=delete_nonwear]{delete_nonwear()}}
 detect_nonwear <- function(data, window1, window2, threshold) {
 
   window1 <- window1 * 60 * attributes(data)$samp_freq
@@ -102,6 +206,40 @@ detect_nonwear <- function(data, window1, window2, threshold) {
 
 }
 
+#' Plot the non-wear time detection
+#'
+#' Draws a plot of the resultant acceleration in epochs of \code{window2} size
+#' marking the non-wear time detected by each stage of the non-wear detection
+#' algorithm.
+#'
+#' This is an internal function, designed to be used inside the wrapper
+#' function \link[=remove_nonwear]{remove_nonwear()} that integrates all
+#' steps of detection, removal and inspection of accelerometer non-wear time.
+#'
+#' @param data An \code{impactr_data} object, as obtained with
+#'   \link[=read_acc]{read_acc()}.
+#' @param window2 Window 2 size, in minutes, for the non-wear
+#'   detection algorithm. Must be the same value as used by the
+#'   \code{detect_nonwear()} function.
+#' @param nonwear_stage1,nonwear_stage2 A numeric vector containing the
+#'   binary non-wear classification (0 is wear and 1 is non-wear) of each
+#'   algorithm's stage per \code{window2} blocks as obtained with the
+#'   \link[=detect_nonwear]{detect_nonwear()} function.
+#' @param save_plot Indicates whether of not to save the plot to visualize the
+#'   detected non-wear periods to a pdf file. Provide a valid path to a file
+#'   ending with the ".pdf" extension as a character string if you want the
+#'   plot to be saved.
+#'
+#' @return If \code{save_plot = FALSE} it returns the plot, otherwise it
+#'   saves it.
+#'
+#' @export
+#' @keywords internal
+#'
+#' @seealso \code{\link[=detect_nonwear]{detect_nonwear()}},
+#'   \code{\link[=mark_nonwear]{mark_nonwear()}},
+#'   \code{\link[=summarise_nonwear]{summarise_nonwear()}},
+#'   \code{\link[=delete_nonwear]{delete_nonwear()}}
 plot_nonwear <- function(data,
                          window2,
                          nonwear_stage1,
@@ -175,6 +313,38 @@ plot_nonwear <- function(data,
 
 }
 
+#' Mark accelerometer non-wear time
+#'
+#' Creates a new column, named `wear`, in the \code{impactr_data} object
+#' provided by \code{data} indicating its classification of wear or non-wear
+#' time.
+#'
+#' This is an internal function, designed to be used inside the wrapper
+#' function \link[=remove_nonwear]{remove_nonwear()} that integrates all
+#' steps of detection, removal and inspection of accelerometer non-wear time.
+#'
+#' @param data An \code{impactr_data} object, as obtained with
+#'   \link[=read_acc]{read_acc()}.
+#' @param nonwear_stage1,nonwear_stage2 A numeric vector containing the
+#'   binary non-wear classification (0 is wear and 1 is non-wear) of each
+#'   algorithm's stage per \code{window2} blocks as obtained with the
+#'   \code{detect_nonwear()} function.
+#' @param window2 Window 2 size, in minutes, for the non-wear
+#'   detection algorithm. Must be the same value as used by the
+#'   \code{detect_nonwear()} function.
+#'
+#' @return The \code{impactr_data} object provided by \code{data} with a new
+#'   column named `wear` with the binary wear classification (0 is non-wear and
+#'   1 is wear) per sample. Notice that this binary classification is regarding
+#'   the wear time NOT non-wear.
+#'
+#' @export
+#' @keywords internal
+#'
+#' @seealso \code{\link[=detect_nonwear]{detect_nonwear()}},
+#'   \code{\link[=plot_nonwear]{plot_nonwear()}},
+#'   \code{\link[=summarise_nonwear]{summarise_nonwear()}},
+#'   \code{\link[=delete_nonwear]{delete_nonwear()}}
 mark_nonwear <- function(data, nonwear_stage1, nonwear_stage2, window2) {
 
   window2 <- window2 * 60 * attributes(data)$samp_freq
@@ -198,6 +368,43 @@ mark_nonwear <- function(data, nonwear_stage1, nonwear_stage2, window2) {
 
 }
 
+#' Summarise accelerometer non-wear time
+#'
+#' Validates each measurement day based on the minimum number of wear hours
+#' and validates the entire observation based on the minimum number of valid
+#' days. It updates the values of the `wear` column (created by
+#' \link[=mark_nonwear]{mark_nonwear()}) of the \code{impactr_data} object
+#' provided by \code{data}, marking as non-wear time the days considered to
+#' be invalid. It also creates a wear time daily summary that can be saved in
+#' a csv file.
+#'
+#' This is an internal function, designed to be used inside the wrapper
+#' function \link[=remove_nonwear]{remove_nonwear()} that integrates all
+#' steps of detection, removal and inspection of accelerometer non-wear time.
+#'
+#' @param data An \code{impactr_data} object with the `wear` column, as
+#'   obtained with \link[=mark_nonwear]{mark_nonwear()}.
+#' @param min_hour_crit The minimum number of hours marked as wear time
+#'   in a day for it to be considered valid.
+#' @param min_day_crit The minimum number of valid days for the data of
+#'   a given subject to be considered valid.
+#' @param save_summary Indicates whether of not to save the wear time
+#'   daily summary to a csv file. Provide a valid path to a file ending
+#'   with the ".csv" extension as a character string if you want the
+#'   summary to be saved.
+#'
+#' @return The \code{impactr_data} object provided by \code{data} with the
+#'   `wear` column values updated based on the validations. If no data are
+#'   classified as valid, it returns \code{NULL}. Also saves the summary
+#'   in a csv file if \code{save_summary} is a path.
+#'
+#' @export
+#' @keywords internal
+#'
+#' @seealso \code{\link[=detect_nonwear]{detect_nonwear()}},
+#'   \code{\link[=plot_nonwear]{plot_nonwear()}},
+#'   \code{\link[=mark_nonwear]{mark_nonwear()}},
+#'   \code{\link[=delete_nonwear]{delete_nonwear()}}
 summarise_nonwear <- function(data,
                               min_hour_crit,
                               min_day_crit,
@@ -268,6 +475,27 @@ summarise_nonwear <- function(data,
 
 }
 
+#' Delete accelerometer non-wear time
+#'
+#' Deletes all periods marked as non-wear.
+#'
+#' This is an internal function, designed to be used inside the wrapper
+#' function \link[=remove_nonwear]{remove_nonwear()} that integrates all
+#' steps of detection, removal and inspection of accelerometer non-wear time.
+#'
+#' @param data An \code{impactr_data} object with the `wear` column, as
+#'   obtained with \link[=mark_nonwear]{mark_nonwear()}.
+#'
+#' @return The \code{impactr_data} object provided by \code{data} without the
+#'   `wear` column and with the non-wear time removed.
+#'
+#' @export
+#' @keywords internal
+#'
+#' @seealso \code{\link[=detect_nonwear]{detect_nonwear()}},
+#'   \code{\link[=plot_nonwear]{plot_nonwear()}},
+#'   \code{\link[=mark_nonwear]{mark_nonwear()}},
+#'   \code{\link[=summarise_nonwear]{summarise_nonwear()}}
 delete_nonwear <- function(data) {
 
   remove <- which(data$wear == 0)
