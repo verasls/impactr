@@ -341,7 +341,7 @@ nonwear_stage2 <- function(non_wear_s1, window1, window2) {
       length_wear[i] <- abs(start_wear[i + 1] - start_non_wear[i])
       length_non_wear_after[i] <- abs(start_non_wear[i + 1] - start_wear[i + 1])
       length_non_wear_before[i] <- abs(start_non_wear[i] - start_wear[i])
-      surrounding_non_wear[i] <- length_non_wear_after[i] -
+      surrounding_non_wear[i] <- length_non_wear_after[i] +
         length_non_wear_before[i]
 
       if (
@@ -397,33 +397,33 @@ nonwear_stage2 <- function(non_wear_s1, window1, window2) {
       surrounding_non_wear_b <- matrix(0, length(start_wear_b) - 1, 1)
 
       for (j in 1:(length(start_wear_b) - 1)) {
-        length_wear_b[i] <- abs(start_wear_b[i + 1] - start_non_wear_b[i])
-        length_non_wear_after_b[i] <- abs(
-          start_non_wear_b[i + 1] - start_wear_b[i + 1]
+        length_wear_b[j] <- abs(start_wear_b[j + 1] - start_non_wear_b[j])
+        length_non_wear_after_b[j] <- abs(
+          start_non_wear_b[j + 1] - start_wear_b[j + 1]
         )
-        length_non_wear_before_b[i] <- abs(
-          start_non_wear_b[i] - start_wear_b[i]
+        length_non_wear_before_b[j] <- abs(
+          start_non_wear_b[j] - start_wear_b[j]
         )
-        surrounding_non_wear_b[i] <- length_non_wear_after_b[i] -
-          length_non_wear_before_b[i]
+        surrounding_non_wear_b[j] <- length_non_wear_after_b[j] +
+          length_non_wear_before_b[j]
 
         if (
-          length_wear_b[i] < h_crit_6 &
-          (length_wear_b[i] / surrounding_non_wear_b[i]) < 0.3
+          length_wear_b[j] < h_crit_6 &
+          (length_wear_b[j] / surrounding_non_wear_b[j]) < 0.3
         ) {
-          non_wear_s2_b[start_non_wear_b[i]:start_wear_b[i + 1] - 1] <- 1
+          non_wear_s2_b[start_non_wear_b[j]:start_wear_b[j + 1] - 1] <- 1
         }
         if (
-          length_wear_b[i] < h_crit_3 &
-          (length_wear_b[i] / surrounding_non_wear_b[i]) < 0.8
+          length_wear_b[j] < h_crit_3 &
+          (length_wear_b[j] / surrounding_non_wear_b[j]) < 0.8
         ) {
-          non_wear_s2_b[start_non_wear_b[i]:start_wear_b[i + 1] - 1] <- 1
+          non_wear_s2_b[start_non_wear_b[j]:start_wear_b[j + 1] - 1] <- 1
         }
-        if (start_wear_b[i] > length(non_wear_s1) - h_crit_24) {
+        if (start_wear_b[j] > length(non_wear_s1) - h_crit_24) {
           if (
-            length_wear_b[i] < h_crit_3 & length_non_wear_before_b > h_crit_1
+            length_wear_b[j] < h_crit_3 & length_non_wear_before_b > h_crit_1
           ) {
-            non_wear_s2_b[start_non_wear_b[i]:start_wear_b[i + 1] - 1] <- 1
+            non_wear_s2_b[start_non_wear_b[j]:start_wear_b[j + 1] - 1] <- 1
           }
         }
       }
