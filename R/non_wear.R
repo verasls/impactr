@@ -136,7 +136,9 @@ plot_nonwear <- function(data,
   graphics::par(mar = c(8, 5, 5, 5), xpd = TRUE)
   plot(
     days_axis, resultant, type = "l",
+    xlim = c(0, day_end),
     ylim = c(1, ymax),
+    xaxp = c(0, day_end, day_end),
     main = attributes(data)$filename,
     xlab = "Days",
     ylab = "Acceleration (g)"
