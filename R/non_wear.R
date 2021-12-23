@@ -514,7 +514,6 @@ nonwear_stage1 <- function(data, window1, window2, threshold) {
   nonwear_stage1 <- matrix(0, n_blocks, 3)
 
   for (i in 1:n_blocks) {
-    print(i)
     if (i <= crit) {
       start <- 1
       end <- window1
