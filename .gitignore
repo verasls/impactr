@@ -7,3 +7,4 @@ workflow.R
 inst/doc
 /doc/
 /Meta/
+data-raw/acc_data.csv
