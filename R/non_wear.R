@@ -415,7 +415,7 @@ summarise_nonwear <- function(data,
 
   date <- unique(data$date)
   weekday <- weekdays(date)
-  measure_day <- seq_len(length(weekday))
+  measurement_day <- seq_len(length(weekday))
   recorded_hours <- round(
     purrr::map_dbl(
       date, ~ length(which(data$date == .x))
@@ -436,7 +436,7 @@ summarise_nonwear <- function(data,
 
   nonwear_summary <- data.frame(
     filename = attributes(data)$filename,
-    date, weekday, measure_day,
+    date, weekday, measurement_day,
     recorded_hours, valid_hours,
     min_hour_crit, min_day_crit,
     valid_day, valid_observation
