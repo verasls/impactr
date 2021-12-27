@@ -11,6 +11,11 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+# Code to build devel badge
+version <- stringr::str_sub(readLines("DESCRIPTION")[3], 10, -1)
+devel <- glue::glue(
+  "https://img.shields.io/badge/devel-{version}-brightgreen.svg"
+)
 ```
 
 # impactr <a href='https://github.com/verasls/impactr'><img src='man/figures/logo.png' align="right" height="139" /></a>
@@ -19,6 +24,7 @@ knitr::opts_chunk$set(
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5035522.svg)](https://doi.org/10.5281/zenodo.5035522)
 [![CRAN status](https://www.r-pkg.org/badges/version/impactr)](https://CRAN.R-project.org/package=impactr)
 [![R-CMD-check](https://github.com/verasls/impactr/workflows/R-CMD-check/badge.svg)](https://github.com/verasls/impactr/actions)
+[![devel Version](devel)](https://github.com/verasls/impactr/)
 [![Codecov test coverage](https://codecov.io/gh/verasls/impactr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/verasls/impactr?branch=main)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
