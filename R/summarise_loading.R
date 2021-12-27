@@ -44,7 +44,7 @@ summarise_acc_peaks <- function(data,
 
     p <- purrr::map_dbl(
       seq_len(length(dates)),
-      ~ summarise_by_range(data, dates[.x], min[.x], max[.x])
+      ~ summarise_by_range(data, peaks, dates[.x], min[.x], max[.x])
     )
     p <- as.data.frame(
       matrix(p, nrow = length(date), ncol = length(ranges) - 1, byrow = TRUE)
@@ -68,12 +68,12 @@ summarise_acc_peaks <- function(data,
 
 }
 
-summarise_by_range <- function(data, date, min, max) {
+summarise_by_range <- function(data, peaks, date, min, max) {
   length(
     which(
       data$date == date &
-      data$resultant_peak_acc >= min &
-      data$resultant_peak_acc < max
+      peaks >= min &
+      peaks < max
     )
   )
 }
