@@ -7,14 +7,13 @@ summarise_acc_peaks <- function(data,
 
   if (vector %in% c("vertical", "resultant")) {
     variable <- paste0(vector, "_peak_acc")
-    peaks <- data[[variable]]
   }
 
   date <- unique(data$date)
   weekday <- weekdays(date)
   measurement_day <- seq_len(length(weekday))
   n_peaks <- purrr::map_dbl(
-    date, ~ length(which(data$date == .x & !is.na(peaks)))
+    date, ~ length(which(data[["date"]] == .x & !is.na(data[[variable]])))
   )
 
   summary <- data.frame(
@@ -44,7 +43,7 @@ summarise_acc_peaks <- function(data,
 
     p <- purrr::map_dbl(
       seq_len(length(dates)),
-      ~ summarise_by_range(data, peaks, dates[.x], min[.x], max[.x])
+      ~ summarise_by_range(data, variable, dates[.x], min[.x], max[.x])
     )
     p <- as.data.frame(
       matrix(p, nrow = length(date), ncol = length(ranges) - 1, byrow = TRUE)
@@ -68,12 +67,12 @@ summarise_acc_peaks <- function(data,
 
 }
 
-summarise_by_range <- function(data, peaks, date, min, max) {
+summarise_by_range <- function(data, variable, date, min, max) {
   length(
     which(
-      data$date == date &
-      peaks >= min &
-      peaks < max
+      data[["date"]] == date &
+      data[[variable]] >= min &
+      data[[variable]] < max
     )
   )
 }
