@@ -24,7 +24,7 @@ devel <- glue::glue(
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5035522.svg)](https://doi.org/10.5281/zenodo.5035522)
 [![CRAN status](https://www.r-pkg.org/badges/version/impactr)](https://CRAN.R-project.org/package=impactr)
 [![R-CMD-check](https://github.com/verasls/impactr/workflows/R-CMD-check/badge.svg)](https://github.com/verasls/impactr/actions)
-[![devel Version](devel)](https://github.com/verasls/impactr/)
+[![devel Version](`r devel`)](https://github.com/verasls/impactr/)
 [![Codecov test coverage](https://codecov.io/gh/verasls/impactr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/verasls/impactr?branch=main)
 [![Lifecycle: maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 <!-- badges: end -->
