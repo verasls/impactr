@@ -1,6 +1,6 @@
 summarise_acc_peaks <- function(data,
                                 vector,
-                                ranges = c(1, 2, 3, 4, 5)) {
+                                ranges = c(1, 2, 3, 4, 5, Inf)) {
 
   data$date <- as.Date(data$timestamp)
   h <- 3600 * attributes(data)$samp_freq
@@ -17,10 +17,66 @@ summarise_acc_peaks <- function(data,
     date, ~ length(which(data$date == .x & !is.na(peaks)))
   )
 
-  data.frame(
+  summary <- data.frame(
     filename = attributes(data)$filename,
     date, weekday, measurement_day,
     variable, n_peaks
   )
 
+  if (is.null(ranges)) {
+
+    return(summary)
+
+  } else {
+
+    dates <- rep(date, each = length(ranges) - 1)
+    min <- rep(ranges[-length(ranges)], length(date))
+    max <- rep(ranges[-1], length(date))
+
+    p <- purrr::map_dbl(
+      seq_len(length(dates)),
+      ~ summarise_by_range(data, dates[.x], min[.x], max[.x])
+    )
+    p <- as.data.frame(
+      matrix(p, nrow = length(date), ncol = length(ranges) - 1, byrow = TRUE)
+    )
+
+    min <- min[1:(length(ranges) - 1)]
+    max <- max[1:(length(ranges) - 1)]
+
+    p_colnames <- purrr::map_chr(
+      seq_len(length(ranges) - 1),
+      ~ make_colnames("acc", min[.x], max[.x])
+    )
+
+    colnames(p) <- p_colnames
+
+    summary <- cbind(summary, p)
+
+    return(summary)
+
+  }
+
+}
+
+summarise_by_range <- function(data, date, min, max) {
+  length(
+    which(
+      data$date == date &
+      data$resultant_peak_acc >= min &
+      data$resultant_peak_acc < max
+    )
+  )
+}
+
+make_colnames <- function(outcome, min, max) {
+  if (outcome == "acc") {
+    unit <- "g"
+  }
+
+  if (is.infinite(max)) {
+    paste0("n_peaks_above_", min, "_", unit)
+  } else {
+    paste0("n_peaks_", min, "_to_", max, "_", unit)
+  }
 }
