@@ -29,6 +29,15 @@ summarise_acc_peaks <- function(data,
 
   } else {
 
+    flag <- "none"
+    if (ranges[1] != 1) {
+      ranges <- c(1, ranges)
+      flag <- "1added"
+    }
+    if (!is.infinite(ranges[length(ranges)])) {
+      ranges <- c(ranges, Inf)
+    }
+
     dates <- rep(date, each = length(ranges) - 1)
     min <- rep(ranges[-length(ranges)], length(date))
     max <- rep(ranges[-1], length(date))
@@ -46,7 +55,7 @@ summarise_acc_peaks <- function(data,
 
     p_colnames <- purrr::map_chr(
       seq_len(length(ranges) - 1),
-      ~ make_colnames("acc", min[.x], max[.x])
+      ~ make_colnames("acc", min[.x], max[.x], flag)
     )
 
     colnames(p) <- p_colnames
@@ -69,12 +78,14 @@ summarise_by_range <- function(data, date, min, max) {
   )
 }
 
-make_colnames <- function(outcome, min, max) {
+make_colnames <- function(outcome, min, max, flag) {
   if (outcome == "acc") {
     unit <- "g"
   }
 
-  if (is.infinite(max)) {
+  if (min == 1 & flag == "1added") {
+    paste0("n_peaks_up_to_", max, "_", unit)
+  } else if (is.infinite(max)) {
     paste0("n_peaks_above_", min, "_", unit)
   } else {
     paste0("n_peaks_", min, "_to_", max, "_", unit)
