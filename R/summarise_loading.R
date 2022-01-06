@@ -1,17 +1,30 @@
-summarise_acc_peaks <- function(data, vector, ranges = NULL) {
+summarise_peaks <- function(data, variable, vector, ranges = NULL) {
 
   data$date <- as.Date(data$timestamp)
   date <- unique(data$date)
 
+  if (variable[1] == "all") {
+    variable <- paste0("_peak_", c("acc", "grf", "lr"))
+  } else {
+    variable <- paste0("_peak_", variable)
+  }
+
   if (vector == "all") {
-    variable <- list(
-      vertical = "vertical_peak_acc", resultant = "resultant_peak_acc"
-    )
+    variable_v <- paste0("vertical", variable)
+    variable_r <- paste0("resultant", variable)
+    variable <- c(variable_v, variable_r)
     summary <- purrr::map(variable, ~ summarise_aux(data, date, .x))
   } else {
-    variable <- paste0(vector, "_peak_acc")
-    summary <- summarise_aux(data, date, variable)
+    if (length(variable) > 1) {
+      variable <- paste0(vector, variable)
+      summary <- purrr::map(variable, ~ summarise_aux(data, date, .x))
+    } else {
+      variable <- paste0(vector, variable)
+      summary <- summarise_aux(data, date, variable)
+    }
   }
+  element_names <- get_element_names(summary)
+  summary <- rlang::set_names(summary, element_names)
 
   if (is.null(ranges)) {
     return(summary)
@@ -119,5 +132,15 @@ make_colnames <- function(outcome, min, max, flag) {
   } else {
     paste0("n_peaks_", min, "_to_", max, "_", unit)
   }
+
+}
+
+get_element_names <- function(summary) {
+
+  n <- purrr::map_chr(summary, ~ .x[1, "variable"])
+  n <- stringr::str_replace_all(n, "_", " ")
+  n <- paste0(toupper(substr(n, 1, 1)), substr(n, 2, nchar(n)))
+  l <- purrr::map_dbl(stringr::str_locate_all(n, " "), ~ .x[2, "start"])
+  paste0(substr(n, 1, l), toupper(substr(n, l, nchar(n))))
 
 }
