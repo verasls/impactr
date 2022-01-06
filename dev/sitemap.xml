@@ -22,7 +22,16 @@
     <loc>https://lveras.com/impactr/news/index.html</loc>
   </url>
   <url>
+    <loc>https://lveras.com/impactr/reference/daily_acc.html</loc>
+  </url>
+  <url>
     <loc>https://lveras.com/impactr/reference/define_region.html</loc>
+  </url>
+  <url>
+    <loc>https://lveras.com/impactr/reference/delete_nonwear.html</loc>
+  </url>
+  <url>
+    <loc>https://lveras.com/impactr/reference/detect_nonwear.html</loc>
   </url>
   <url>
     <loc>https://lveras.com/impactr/reference/filter_acc.html</loc>
@@ -40,10 +49,16 @@
     <loc>https://lveras.com/impactr/reference/is_impactr.html</loc>
   </url>
   <url>
+    <loc>https://lveras.com/impactr/reference/mark_nonwear.html</loc>
+  </url>
+  <url>
     <loc>https://lveras.com/impactr/reference/new_impactr_data.html</loc>
   </url>
   <url>
     <loc>https://lveras.com/impactr/reference/new_impactr_peaks.html</loc>
+  </url>
+  <url>
+    <loc>https://lveras.com/impactr/reference/plot_nonwear.html</loc>
   </url>
   <url>
     <loc>https://lveras.com/impactr/reference/predict_loading.html</loc>
@@ -52,7 +67,13 @@
     <loc>https://lveras.com/impactr/reference/read_acc.html</loc>
   </url>
   <url>
+    <loc>https://lveras.com/impactr/reference/remove_nonwear.html</loc>
+  </url>
+  <url>
     <loc>https://lveras.com/impactr/reference/specify_parameters.html</loc>
+  </url>
+  <url>
+    <loc>https://lveras.com/impactr/reference/summarise_nonwear.html</loc>
   </url>
   <url>
     <loc>https://lveras.com/impactr/reference/use_resultant.html</loc>
