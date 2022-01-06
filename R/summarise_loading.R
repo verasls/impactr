@@ -1,6 +1,4 @@
-summarise_acc_peaks <- function(data,
-                                vector,
-                                ranges = c(1, 2, 3, 4, 5, Inf)) {
+summarise_acc_peaks <- function(data, vector, ranges = NULL) {
 
   data$date <- as.Date(data$timestamp)
   h <- 3600 * attributes(data)$samp_freq
@@ -12,20 +10,28 @@ summarise_acc_peaks <- function(data,
   date <- unique(data$date)
   weekday <- weekdays(date)
   measurement_day <- seq_len(length(weekday))
-  n_peaks <- purrr::map_dbl(
-    date, ~ length(which(data[["date"]] == .x & !is.na(data[[variable]])))
+  peaks_per_day <- purrr::map(
+    date,
+    ~ data[
+      which(data[["date"]] == .x & !is.na(data[[variable]])),
+      variable, drop = TRUE
+    ]
   )
+  n_peaks <- purrr::map_dbl(peaks_per_day, length)
+  min_peaks <- round(purrr::map_dbl(peaks_per_day, min), 2)
+  max_peaks <- round(purrr::map_dbl(peaks_per_day, max), 2)
+  mean_peaks <- round(purrr::map_dbl(peaks_per_day, mean), 2)
+  sd_peaks <- round(purrr::map_dbl(peaks_per_day, stats::sd), 2)
 
   summary <- data.frame(
     filename = attributes(data)$filename,
     date, weekday, measurement_day,
-    variable, n_peaks
+    variable, n_peaks,
+    min_peaks, max_peaks, mean_peaks, sd_peaks
   )
 
   if (is.null(ranges)) {
-
     return(summary)
-
   } else {
 
     flag <- "none"
