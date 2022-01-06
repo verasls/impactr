@@ -109,65 +109,6 @@ remove_nonwear <- function(data,
 
 }
 
-#' @importFrom lvmisc %!in%
-check_args_remove_nonwear <- function(data,
-                                      window1,
-                                      window2,
-                                      threshold,
-                                      min_hour_crit,
-                                      min_day_crit,
-                                      plot,
-                                      save_plot,
-                                      save_summary) {
-
-  if (!inherits(data, "impactr_data")) {
-    lvmisc::abort_argument_class(
-      "data", must = "be of class `impactr_data`", not = data
-    )
-  }
-  if (!is.numeric(window1)) {
-    lvmisc::abort_argument_type("window1", must = "be numeric", not = window1)
-  }
-  if (!is.numeric(window2)) {
-    lvmisc::abort_argument_type("window2", must = "be numeric", not = window2)
-  }
-  if (!is.numeric(min_day_crit)) {
-    lvmisc::abort_argument_type(
-      "min_day_crit", must = "be numeric", not = min_day_crit
-    )
-  }
-  if ((window1 / window2) %% 1 != 0) {
-    rlang::abort("`window1` must be a multiple of `window2`.")
-  }
-  threshold_vals <- 1:3
-  if (threshold %!in% threshold_vals) {
-    lvmisc::abort_argument_value("threshold", threshold_vals)
-  }
-  if (min_hour_crit > 24 | min_hour_crit < 0) {
-    rlang::abort("`min_hour_crit` must be between 0 and 24.")
-  }
-  if (!is.logical(plot)) {
-    lvmisc::abort_argument_type("plot", must = "be logical", not = plot)
-  }
-  if (!isFALSE(save_plot) & !is.character(save_plot)) {
-    rlang::abort(
-      "`save_plot` must be `FALSE` or a character string indicating a path."
-    )
-  }
-  if (!isFALSE(save_summary) & !is.character(save_summary)) {
-    rlang::abort(
-      "`save_summary` must be `FALSE` or a character string indicating a path."
-    )
-  }
-  if (is.character(save_plot) & !stringr::str_ends(save_plot, ".pdf")) {
-    rlang::abort("`save_plot` must end in `.pdf`")
-  }
-  if (is.character(save_summary) & !stringr::str_ends(save_summary, ".csv")) {
-    rlang::abort("`save_summary` must end in `.csv`")
-  }
-
-}
-
 #' Detection of accelerometer non-wear time
 #'
 #' Implementation of the van Hees algorithm of non-wear detection.
@@ -683,5 +624,64 @@ block_average <- function(data, window2) {
   resultant <- cumsum(c(0, resultant))
   select <- seq(1, length(resultant), by = window2)
   diff(resultant[round(select)] / unique(abs(diff(round(select)))))
+
+}
+
+#' @importFrom lvmisc %!in%
+check_args_remove_nonwear <- function(data,
+                                      window1,
+                                      window2,
+                                      threshold,
+                                      min_hour_crit,
+                                      min_day_crit,
+                                      plot,
+                                      save_plot,
+                                      save_summary) {
+
+  if (!is_impactr_data(data)) {
+    lvmisc::abort_argument_class(
+      "data", must = "be of class `impactr_data`", not = data
+    )
+  }
+  if (!is.numeric(window1)) {
+    lvmisc::abort_argument_type("window1", must = "be numeric", not = window1)
+  }
+  if (!is.numeric(window2)) {
+    lvmisc::abort_argument_type("window2", must = "be numeric", not = window2)
+  }
+  if (!is.numeric(min_day_crit)) {
+    lvmisc::abort_argument_type(
+      "min_day_crit", must = "be numeric", not = min_day_crit
+    )
+  }
+  if ((window1 / window2) %% 1 != 0) {
+    rlang::abort("`window1` must be a multiple of `window2`.")
+  }
+  threshold_vals <- 1:3
+  if (threshold %!in% threshold_vals) {
+    lvmisc::abort_argument_value("threshold", threshold_vals)
+  }
+  if (min_hour_crit > 24 | min_hour_crit < 0) {
+    rlang::abort("`min_hour_crit` must be between 0 and 24.")
+  }
+  if (!is.logical(plot)) {
+    lvmisc::abort_argument_type("plot", must = "be logical", not = plot)
+  }
+  if (!isFALSE(save_plot) & !is.character(save_plot)) {
+    rlang::abort(
+      "`save_plot` must be `FALSE` or a character string indicating a path."
+    )
+  }
+  if (!isFALSE(save_summary) & !is.character(save_summary)) {
+    rlang::abort(
+      "`save_summary` must be `FALSE` or a character string indicating a path."
+    )
+  }
+  if (is.character(save_plot) & !stringr::str_ends(save_plot, ".pdf")) {
+    rlang::abort("`save_plot` must end in `.pdf`")
+  }
+  if (is.character(save_summary) & !stringr::str_ends(save_summary, ".csv")) {
+    rlang::abort("`save_summary` must end in `.csv`")
+  }
 
 }
