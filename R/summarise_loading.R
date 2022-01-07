@@ -1,4 +1,9 @@
-summarise_loading <- function(data, variable, vector, ranges = NULL) {
+summarise_loading <- function(data,
+                              variable,
+                              vector,
+                              ranges_acc = NULL,
+                              ranges_grf = NULL,
+                              ranges_lr = NULL) {
 
   data$date <- as.Date(data$timestamp)
   date <- unique(data$date)
@@ -13,35 +18,45 @@ summarise_loading <- function(data, variable, vector, ranges = NULL) {
     variable_v <- paste0("vertical", variable)
     variable_r <- paste0("resultant", variable)
     variable <- c(variable_v, variable_r)
-    summary <- purrr::map(variable, ~ summarise_aux(data, date, .x))
+    summary <- purrr::map(variable, ~ summarise_loading_aux(data, date, .x))
   } else {
     if (length(variable) > 1) {
       variable <- paste0(vector, variable)
-      summary <- purrr::map(variable, ~ summarise_aux(data, date, .x))
+      summary <- purrr::map(variable, ~ summarise_loading_aux(data, date, .x))
     } else {
       variable <- paste0(vector, variable)
-      summary <- summarise_aux(data, date, variable)
+      summary <- summarise_loading_aux(data, date, variable)
     }
   }
-  element_names <- get_element_names(summary)
-  summary <- rlang::set_names(summary, element_names)
+  if (!is.data.frame(summary)) {
+    element_names <- get_element_names(summary)
+    summary <- rlang::set_names(summary, element_names)
+  }
 
-  if (is.null(ranges)) {
+  if (is.null(ranges_acc) & is.null(ranges_grf) & is.null(ranges_lr)) {
     return(summary)
   } else {
-    if (vector == "all") {
-      purrr::map2(
-        variable, summary,
-        ~ summarise_by_range(data, date, .x, ranges, .y)
+    if (!is.null(ranges_acc)) {
+      summary <- summarise_by_range(
+        data, date, variable, "acc", ranges_acc, summary
       )
-    } else {
-      summarise_by_range(data, date, variable, ranges, summary)
+    }
+    if (!is.null(ranges_grf)) {
+      summary <- summarise_by_range(
+        data, date, variable, "grf", ranges_grf, summary
+      )
+    }
+    if (!is.null(ranges_lr)) {
+      summary <- summarise_by_range(
+        data, date, variable, "lr", ranges_lr, summary
+      )
     }
   }
+  summary
 
 }
 
-summarise_aux <- function(data, date, variable) {
+summarise_loading_aux <- function(data, date, variable) {
 
   weekday <- weekdays(date)
   measurement_day <- seq_len(length(weekday))
@@ -68,7 +83,27 @@ summarise_aux <- function(data, date, variable) {
 
 }
 
-summarise_by_range <- function(data, date, variable, ranges, summary) {
+summarise_by_range <- function(data,
+                               date,
+                               variable,
+                               variable_chr,
+                               ranges,
+                               summary) {
+
+  if (is.data.frame(summary)) {
+    summary <- summarise_by_range_aux(data, date, variable, ranges, summary)
+  } else {
+    i <- which(grepl(variable_chr, variable))
+    summary[i] <- purrr::map2(
+      variable[which(grepl(variable_chr, variable))], summary[i],
+      ~ summarise_by_range_aux(data, date, .x, ranges, .y)
+    )
+  }
+  summary
+
+}
+
+summarise_by_range_aux <- function(data, date, variable, ranges, summary) {
 
     flag <- "none"
     if (ranges[1] != 1) {
@@ -85,7 +120,7 @@ summarise_by_range <- function(data, date, variable, ranges, summary) {
 
     p <- purrr::map_dbl(
       seq_len(length(dates)),
-      ~ summarise_by_range_aux(data, variable, dates[.x], min[.x], max[.x])
+      ~ get_range_summary(data, variable, dates[.x], min[.x], max[.x])
     )
     p <- as.data.frame(
       matrix(p, nrow = length(date), ncol = length(ranges) - 1, byrow = TRUE)
@@ -107,7 +142,7 @@ summarise_by_range <- function(data, date, variable, ranges, summary) {
 
 }
 
-summarise_by_range_aux <- function(data, variable, date, min, max) {
+get_range_summary <- function(data, variable, date, min, max) {
 
   length(
     which(
