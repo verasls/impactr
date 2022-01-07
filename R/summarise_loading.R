@@ -52,7 +52,12 @@ summarise_loading <- function(data,
       )
     }
   }
-  summary
+
+  if (is.data.frame(summary)) {
+    tibble::as_tibble(summary)
+  } else {
+    purrr::map(summary, tibble::as_tibble)
+  }
 
 }
 
