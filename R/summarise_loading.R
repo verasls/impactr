@@ -1,6 +1,7 @@
 summarise_loading <- function(data,
                               variable,
                               vector,
+                              daily_average = TRUE,
                               ranges_acc = NULL,
                               ranges_grf = NULL,
                               ranges_lr = NULL) {
@@ -54,10 +55,23 @@ summarise_loading <- function(data,
   }
 
   if (is.data.frame(summary)) {
-    tibble::as_tibble(summary)
+    summary <- tibble::as_tibble(summary)
   } else {
-    purrr::map(summary, tibble::as_tibble)
+    summary <- purrr::map(summary, tibble::as_tibble)
   }
+
+  if (isTRUE(daily_average)) {
+    if (is.data.frame(summary)) {
+      average_summary <- get_daily_average(summary)
+    } else {
+      average_summary <- purrr::map(summary, get_daily_average)
+    }
+    summary <- list(
+      `Summary per day` = summary, `Daily average` = average_summary
+    )
+  }
+
+  summary
 
 }
 
@@ -182,5 +196,21 @@ get_element_names <- function(summary) {
   n <- paste0(toupper(substr(n, 1, 1)), substr(n, 2, nchar(n)))
   l <- purrr::map_dbl(stringr::str_locate_all(n, " "), ~ .x[2, "start"])
   paste0(substr(n, 1, l), toupper(substr(n, l, nchar(n))))
+
+}
+
+get_daily_average <- function(summary) {
+
+  num_vars <- names(summary)[6:ncol(summary)]
+  num_vals <- round(
+    purrr::map_dbl(num_vars, ~ mean(summary[[.x]], na.rm = TRUE)), 2
+  )
+  vals <- c(
+    summary[[1, 1]], summary[[1, 5]], num_vals
+  )
+  daily_average <- data.frame(t(vals))
+  daily_average <- tibble::as_tibble(daily_average)
+  colnames(daily_average) <- names(summary)[c(1, 5:ncol(summary))]
+  daily_average
 
 }
