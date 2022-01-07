@@ -1,4 +1,4 @@
-summarise_peaks <- function(data, variable, vector, ranges = NULL) {
+summarise_loading <- function(data, variable, vector, ranges = NULL) {
 
   data$date <- as.Date(data$timestamp)
   date <- unique(data$date)
