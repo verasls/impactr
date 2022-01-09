@@ -22,9 +22,7 @@ test_that("filter_acc() error handling works", {
     class = "error_argument_value"
   )
   expect_error(
-    data |>
-      filter_acc() |>
-      filter_acc(),
+    filter_acc(filter_acc(data)),
     "A filter was already applied to `data`."
   )
 })
