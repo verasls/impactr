@@ -24,6 +24,7 @@ reference:
     - use_resultant
     - find_peaks
     - predict_loading
+    - summarise_loading
 
 - title: Other functions
   contents:
