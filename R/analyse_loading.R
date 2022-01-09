@@ -15,7 +15,14 @@ analyse_loading <- function(data_path,
                             filter_order = 4,
                             filter_cutoff = 20,
                             filter_type = "lowpass",
-                            use_resultant = TRUE) {
+                            use_resultant = TRUE,
+                            find_peaks = TRUE,
+                            min_peak_height = 1.3,
+                            min_peak_dist = 0.4,
+                            vector = "all",
+                            predict_grf = FALSE,
+                            predict_lr = FALSE,
+                            model = NULL) {
 
   data_path <- list.files(data_path, full.names = TRUE)
   n_files <- seq_len(length(data_path))
@@ -37,6 +44,7 @@ analyse_loading <- function(data_path,
   } else {
     data <- purrr::map(
       n_files, function(.x) {
+        if (.x != 1) cat("\n")
         msg <- paste0(
           "Processing file ", .x, " out of ", length(data_path),
           " (", basename(data_path[.x]), ")\n"
@@ -55,6 +63,64 @@ analyse_loading <- function(data_path,
       }
     )
   }
+
+  if (isTRUE(find_peaks)) {
+    if (length(data_path) == 1) {
+      data <- estimate_loading(
+        data, min_peak_height, min_peak_dist, vector,
+        predict_grf, predict_lr, model
+      )
+    } else {
+      data <- purrr::map(
+        n_files, function(.x) {
+          if (.x != 1) cat("\n")
+          msg <- paste0(
+            "Processing file ", .x, " out of ", length(data_path),
+            " (", basename(data_path[.x]), ")\n"
+          )
+          cat(msg)
+
+          data <- estimate_loading(
+            data, min_peak_height, min_peak_dist, vector,
+            predict_grf, predict_lr, model
+          )
+        }
+      )
+    }
+  }
+
+  cat("Done!\n")
+  data
+
+}
+
+estimate_loading <- function(data,
+                             min_peak_height,
+                             min_peak_dist,
+                             vector,
+                             predict_grf,
+                             predict_lr,
+                             model) {
+
+  cat("  Finding peaks in the acceleration signal\n")
+  peaks <- find_peaks(data, vector, min_peak_height, min_peak_dist)
+
+  if (isTRUE(predict_grf) & isFALSE(predict_lr)) {
+    outcome <- "grf"
+  } else if (isFALSE(predict_grf) & isTRUE(predict_lr)) {
+    outcome <- "lr"
+  } else if (isTRUE(predict_grf) & isTRUE(predict_lr)) {
+    outcome <- "all"
+  } else if (isFALSE(predict_grf) & isFALSE(predict_lr)) {
+    outcome <- "none"
+  }
+
+  if (outcome != "none") {
+    cat(" Computing mechanical loading outcomes\n")
+    peaks <- predict_loading(peaks, outcome, vector, model)
+  }
+
+  peaks
 
 }
 
@@ -120,7 +186,7 @@ process_acc_data <- function(data_path,
   }
 
   if (isTRUE(use_resultant)) {
-    cat("  Computing the resultant vector\n\n")
+    cat("  Computing the resultant vector\n")
     data <- use_resultant(data)
   }
 
