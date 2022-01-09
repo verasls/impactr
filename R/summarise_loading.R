@@ -7,6 +7,11 @@ summarise_loading <- function(data,
                               ranges_lr = NULL,
                               save_summary = FALSE) {
 
+  check_args_summarise_loading(
+    data, variable, vector, daily_average,
+    ranges_acc, ranges_grf, ranges_lr, save_summary
+  )
+
   data$date <- as.Date(data$timestamp)
   date <- unique(data$date)
 
@@ -282,5 +287,93 @@ save_loading_summary <- function(data, summary, filename) {
       row.names = FALSE, col.names = use_colnames
     )
   )
+
+}
+
+check_args_summarise_loading <- function(data,
+                                         variable,
+                                         vector,
+                                         daily_average = TRUE,
+                                         ranges_acc = NULL,
+                                         ranges_grf = NULL,
+                                         ranges_lr = NULL,
+                                         save_summary = FALSE) {
+
+  if (!is_impactr_peaks(data)) {
+    lvmisc::abort_argument_class(
+      "data", must = "be of class `impactr_peaks`", not = data
+    )
+  }
+
+  variable_vals <- c("acc", "grf", "lr")
+  if (variable %!in% variable_vals) {
+    lvmisc::abort_argument_value("variable", variable_vals)
+  }
+
+  valid_vector <- c("vertical", "resultant", "all")
+  if (vector %!in% valid_vector) {
+    lvmisc::abort_argument_value("vector", valid_vector)
+  }
+
+  if (!is.logical(daily_average)) {
+    lvmisc::abort_argument_type(
+      "daily_average", must = "be logical", not = daily_average
+    )
+  }
+
+  if (!is.null(ranges_acc) & !is.numeric(ranges_acc)) {
+    rlang::abort(
+      "`ranges_acc` must be `NULL` or a numeric vector."
+    )
+  }
+  if (!is.null(ranges_grf) & !is.numeric(ranges_grf)) {
+    rlang::abort(
+      "`ranges_grf` must be `NULL` or a numeric vector."
+    )
+  }
+  if (!is.null(ranges_lr) & !is.numeric(ranges_lr)) {
+    rlang::abort(
+      "`ranges_lr` must be `NULL` or a numeric vector."
+    )
+  }
+  if (!all(ranges_acc > 0)) {
+    rlang::abort("`ranges_acc` must be a vector of positive numbers.")
+  }
+  if (!all(ranges_grf > 0)) {
+    rlang::abort("`ranges_grf` must be a vector of positive numbers.")
+  }
+  if (!all(ranges_lr > 0)) {
+    rlang::abort("`ranges_lr` must be a vector of positive numbers.")
+  }
+  if (!all(diff(ranges_acc) > 0)) {
+    rlang::abort(
+      glue::glue(
+        "The elements in the `ranges_acc` vector must \\
+        be sorted in the ascending order."
+      )
+    )
+  }
+  if (!all(diff(ranges_grf) > 0)) {
+    rlang::abort(
+      glue::glue(
+        "The elements in the `ranges_grf` vector must \\
+        be sorted in the ascending order."
+      )
+    )
+  }
+  if (!all(diff(ranges_lr) > 0)) {
+    rlang::abort(
+      glue::glue(
+        "The elements in the `ranges_lr` vector must be \\
+        sorted in the ascending order."
+      )
+    )
+  }
+
+  if (!isFALSE(save_summary) & !is.character(save_summary)) {
+    rlang::abort(
+      "`save_summary` must be `FALSE` or a character string indicating a path."
+    )
+  }
 
 }
