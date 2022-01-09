@@ -4,7 +4,8 @@ summarise_loading <- function(data,
                               daily_average = TRUE,
                               ranges_acc = NULL,
                               ranges_grf = NULL,
-                              ranges_lr = NULL) {
+                              ranges_lr = NULL,
+                              save_summary = FALSE) {
 
   data$date <- as.Date(data$timestamp)
   date <- unique(data$date)
@@ -34,24 +35,20 @@ summarise_loading <- function(data,
     summary <- rlang::set_names(summary, element_names)
   }
 
-  if (is.null(ranges_acc) & is.null(ranges_grf) & is.null(ranges_lr)) {
-    return(summary)
-  } else {
-    if (!is.null(ranges_acc)) {
-      summary <- summarise_by_range(
-        data, date, variable, "acc", ranges_acc, summary
-      )
-    }
-    if (!is.null(ranges_grf)) {
-      summary <- summarise_by_range(
-        data, date, variable, "grf", ranges_grf, summary
-      )
-    }
-    if (!is.null(ranges_lr)) {
-      summary <- summarise_by_range(
-        data, date, variable, "lr", ranges_lr, summary
-      )
-    }
+  if (!is.null(ranges_acc)) {
+    summary <- summarise_by_range(
+      data, date, variable, "acc", ranges_acc, summary
+    )
+  }
+  if (!is.null(ranges_grf)) {
+    summary <- summarise_by_range(
+      data, date, variable, "grf", ranges_grf, summary
+    )
+  }
+  if (!is.null(ranges_lr)) {
+    summary <- summarise_by_range(
+      data, date, variable, "lr", ranges_lr, summary
+    )
   }
 
   if (is.data.frame(summary)) {
@@ -69,6 +66,20 @@ summarise_loading <- function(data,
     summary <- list(
       `Summary per day` = summary, `Daily average` = average_summary
     )
+  }
+
+  if (is.character(save_summary)) {
+    filename <- get_filename(summary, save_summary)
+
+    if (is.data.frame(summary)) {
+      save_loading_summary(data, summary, filename)
+    } else {
+      if (length(summary) != length(filename)) {
+        summary <- c(summary[["Summary per day"]], summary[["Daily average"]])
+      }
+      purrr::walk2(summary, filename, ~ save_loading_summary(data, .x, .y))
+    }
+
   }
 
   summary
@@ -212,5 +223,64 @@ get_daily_average <- function(summary) {
   daily_average <- tibble::as_tibble(daily_average)
   colnames(daily_average) <- names(summary)[c(1, 5:ncol(summary))]
   daily_average
+
+}
+
+get_filename <- function(summary, save_summary) {
+
+  if (!grepl("/$", save_summary)) {
+    save_summary <- paste0(save_summary, "/")
+  }
+
+  if (is.data.frame(summary)) {
+    filename <- paste0(
+      save_summary,
+      summary[1, "variable", drop = TRUE], ".csv"
+    )
+  } else if ("Summary per day" %in% names(summary)) {
+    per_day <- summary[["Summary per day"]]
+    average <- summary[["Daily average"]]
+    if (is.data.frame(per_day) & is.data.frame(average)) {
+      per_day <- per_day[1, "variable", drop = TRUE]
+      average <- average[1, "variable", drop = TRUE]
+      filename <- paste0(
+        save_summary,
+        c(per_day, paste0("daily_average_", average)), ".csv"
+      )
+    } else {
+      per_day <- tolower(stringr::str_replace_all(names(per_day), " ", "_"))
+      average <- tolower(stringr::str_replace_all(names(average), " ", "_"))
+      filename <- paste0(
+        save_summary,
+        c(per_day, paste0("daily_average_", average)), ".csv"
+      )
+    }
+  } else {
+    filename <- paste0(
+      save_summary,
+      tolower(stringr::str_replace_all(names(summary), " ", "_")), ".csv"
+    )
+  }
+  filename
+
+}
+
+save_loading_summary <- function(data, summary, filename) {
+
+  if (file.exists(filename)) {
+    pre_summary <- utils::read.csv(filename)
+    if (length(unique(pre_summary$filename)) == 1) {
+      if (unique(pre_summary$filename) == attributes(data)$filename) {
+        file.remove(filename)
+      }
+    }
+  }
+  use_colnames <- ifelse(file.exists(filename), FALSE, TRUE)
+  suppressWarnings(
+    utils::write.table(
+      summary, file = filename, sep = ",", append = TRUE,
+      row.names = FALSE, col.names = use_colnames
+    )
+  )
 
 }
