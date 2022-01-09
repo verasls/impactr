@@ -31,6 +31,8 @@ analyse_loading <- function(data_path,
     output_path <- paste0(output_path, "/")
   }
 
+  cat("\nStarting analyses\n")
+  cat("\nStep 1: Processing accelerometer data\n")
   if (length(data_path) == 1) {
     data <- process_acc_data(
       data_path, output_path,
@@ -64,6 +66,7 @@ analyse_loading <- function(data_path,
     )
   }
 
+  cat("\nStep 2: Estimating mechanical loading\n")
   if (isTRUE(find_peaks)) {
     if (length(data_path) == 1) {
       data <- estimate_loading(
@@ -87,9 +90,11 @@ analyse_loading <- function(data_path,
         }
       )
     }
+  } else {
+    cat("Nothing to be done\n")
   }
 
-  cat("Done!\n")
+  cat("\nDone!\n")
   data
 
 }
