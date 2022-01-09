@@ -75,7 +75,7 @@
 #' @export
 #'
 #' @examples
-#' remove_nonwear(daily_acc)
+#' \dontrun{remove_nonwear(daily_acc)}
 remove_nonwear <- function(data,
                            window1 = 60,
                            window2 = 15,

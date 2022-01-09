@@ -94,7 +94,7 @@ summary to be saved, if the arguments are set to do so.
 }
 
 \examples{
-remove_nonwear(daily_acc)
+\dontrun{remove_nonwear(daily_acc)}
 }
 \references{
 \itemize{
