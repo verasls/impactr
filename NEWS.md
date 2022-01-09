@@ -1,5 +1,5 @@
 # impactr 0.4.0
-* Added a function (`remove_nonwear()`) to detect and remove accelerometer non-wear time.
+* Added the function `remove_nonwear()` to detect and remove accelerometer non-wear time.
 * Added the function `summarise_loading()`.
 * Added the `daily_acc` dataset.
 * Changed how resultant vector is computed to improve speed.
