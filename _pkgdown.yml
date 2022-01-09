@@ -4,7 +4,9 @@ url: https://lveras.com/impactr/
 
 template:
   bootstrap: 5
-  bootswatch: flatly
+  package: preferably
+  params:
+    toggle: manual
 
 code:
   width: 80
