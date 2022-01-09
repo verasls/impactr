@@ -3,7 +3,7 @@ pkgdown: 2.0.1
 pkgdown_sha: ~
 articles:
   impactr: impactr.html
-last_built: 2022-01-09T04:42Z
+last_built: 2022-01-09T05:18Z
 urls:
   reference: https://lveras.com/impactr/reference
   article: https://lveras.com/impactr/articles
