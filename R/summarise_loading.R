@@ -206,7 +206,7 @@ get_element_names <- function(summary) {
   n <- stringr::str_replace_all(n, "_", " ")
   n <- paste0(toupper(substr(n, 1, 1)), substr(n, 2, nchar(n)))
   l <- purrr::map_dbl(stringr::str_locate_all(n, " "), ~ .x[2, "start"])
-  paste0(substr(n, 1, l), toupper(substr(n, l, nchar(n))))
+  paste0(substr(n, 1, l), toupper(substr(n, l + 1, nchar(n))))
 
 }
 
