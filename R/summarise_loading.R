@@ -341,6 +341,7 @@ save_loading_summary <- function(data, summary, filename) {
 
 }
 
+#' @importFrom lvmisc %!in%
 check_args_summarise_loading <- function(data,
                                          variable,
                                          vector,
@@ -420,6 +421,16 @@ check_args_summarise_loading <- function(data,
       )
     )
   }
+  if (is.numeric(ranges_acc) & variable %!in% c("acc", "all")) {
+    rlang::abort("`ranges_acc` was provided but `acc` is not in `variable`")
+  }
+  if (is.numeric(ranges_grf) & variable %!in% c("grf", "all")) {
+    rlang::abort("`ranges_grf` was provided but `grf` is not in `variable`")
+  }
+  if (is.numeric(ranges_lr) & variable %!in% c("lr", "all")) {
+    rlang::abort("`ranges_lr` was provided but `lr` is not in `variable`")
+  }
+
 
   if (!isFALSE(save_summary) & !is.character(save_summary)) {
     rlang::abort(
