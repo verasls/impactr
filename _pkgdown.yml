@@ -3,8 +3,11 @@ destination: docs
 url: https://lveras.com/impactr/
 
 template:
-  params:
-    bootswatch: flatly
+  bootstrap: 5
+  bootswatch: flatly
+
+code:
+  width: 80
 
 development:
   mode: auto
