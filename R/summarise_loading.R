@@ -31,20 +31,19 @@
 #' @export
 #'
 #' @examples
-#' daily_acc |>
-#'   define_region(
-#'     start_time = "2017-01-03 18:00:00",
-#'     end_time = "2017-01-03 20:00:00"
-#'   ) |>
-#'   specify_parameters(
-#'     acc_placement = "back", subj_body_mass = 70
-#'   ) |>
-#'   filter_acc() |>
-#'   find_peaks(vector = "vertical") |>
-#'   summarise_loading(
-#'     variable = "acc", vector = "vertical",
-#'     ranges_acc = c(1, 2, 3, 4, 5)
-#'   )
+#' \dontrun{
+#'   daily_acc |>
+#'     remove_nonwear() |>
+#'     specify_parameters(
+#'       acc_placement = "back", subj_body_mass = 70
+#'     ) |>
+#'     filter_acc() |>
+#'     find_peaks(vector = "vertical") |>
+#'     summarise_loading(
+#'       variable = "acc", vector = "vertical",
+#'       ranges_acc = c(1, 2, 3, 4, 5)
+#'     )
+#' }
 summarise_loading <- function(data,
                               variable,
                               vector,
