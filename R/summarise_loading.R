@@ -25,16 +25,20 @@ summarise_loading <- function(data,
     variable_v <- paste0("vertical", variable)
     variable_r <- paste0("resultant", variable)
     variable <- c(variable_v, variable_r)
+  } else {
+    variable <- paste0(vector, variable)
+  }
+  if (!all(variable %in% names(data))) {
+    lvmisc::abort_column_not_found(
+      "data", variable[which(variable %!in% names(data))]
+    )
+  }
+  if (length(variable) > 1) {
     summary <- purrr::map(variable, ~ summarise_loading_aux(data, date, .x))
   } else {
-    if (length(variable) > 1) {
-      variable <- paste0(vector, variable)
-      summary <- purrr::map(variable, ~ summarise_loading_aux(data, date, .x))
-    } else {
-      variable <- paste0(vector, variable)
-      summary <- summarise_loading_aux(data, date, variable)
-    }
+    summary <- summarise_loading_aux(data, date, variable)
   }
+
   if (!is.data.frame(summary)) {
     element_names <- get_element_names(summary)
     summary <- rlang::set_names(summary, element_names)
@@ -305,7 +309,7 @@ check_args_summarise_loading <- function(data,
     )
   }
 
-  variable_vals <- c("acc", "grf", "lr")
+  variable_vals <- c("acc", "grf", "lr", "all")
   if (variable %!in% variable_vals) {
     lvmisc::abort_argument_value("variable", variable_vals)
   }
