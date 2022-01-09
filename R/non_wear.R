@@ -37,7 +37,7 @@
 #'
 #'   The current version of this algorithm is described in a paper by van Hees
 #'   et al (see References) and also in this
-#'   \href{https://cran.r-project.org/web/packages/GGIR/vignettes/GGIR.html#53_Non-wear_detection}{vignette} from package GGIR.
+#'   \href{https://CRAN.R-project.org/package=GGIR/vignettes/GGIR.html#53_Non-wear_detection}{vignette} from package GGIR.
 #'   Briefly, in a first stage it identifies non-wear time based on threshold
 #'   values of standard deviation (0.013\emph{g}) and range (0.050\emph{g}) of
 #'   raw acceleration from each axis. The classification is done per blocks of
