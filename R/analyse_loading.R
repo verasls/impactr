@@ -119,8 +119,9 @@ process_acc_data <- function(data_path,
                              filter_type,
                              use_resultant) {
 
-  cat("  Reading accelerometer data file\n")
+  cat("  Reading accelerometer data file...")
   data <- read_acc(data_path)
+  cat(" ok\n")
   data <- specify_parameters(data, acc_placement, subj_body_mass)
 
   if (isTRUE(remove_nonwear)) {
@@ -148,22 +149,25 @@ process_acc_data <- function(data_path,
       )
     }
 
-    cat("  Removing accelerometer non-wear time\n")
+    cat("  Removing accelerometer non-wear time...")
     data <- remove_nonwear(
       data, window1, window2, threshold,
       min_hour_crit, min_day_crit,
       nonwear_plot, save_nonwear_plot, save_nonwear_summary
     )
+    cat(" ok\n")
   }
 
   if (isTRUE(filter_acc)) {
-    cat("  Filtering accelerometer data\n")
+    cat("  Filtering accelerometer data...")
     data <- filter_acc(data, filter_order, filter_cutoff, filter_type)
+    cat(" ok\n")
   }
 
   if (isTRUE(use_resultant)) {
-    cat("  Computing the resultant vector\n")
+    cat("  Computing the resultant vector...")
     data <- use_resultant(data)
+    cat(" ok\n")
   }
 
   data
@@ -178,8 +182,9 @@ estimate_loading <- function(data,
                              predict_lr,
                              model) {
 
-  cat("  Finding peaks in the acceleration signal\n")
+  cat("  Finding peaks in the acceleration signal...")
   peaks <- find_peaks(data, vector, min_peak_height, min_peak_dist)
+  cat(" ok\n")
 
   if (isTRUE(predict_grf) & isFALSE(predict_lr)) {
     outcome <- "grf"
@@ -192,8 +197,9 @@ estimate_loading <- function(data,
   }
 
   if (outcome != "none") {
-    cat(" Computing mechanical loading outcomes\n")
+    cat(" Computing mechanical loading outcomes")
     peaks <- predict_loading(peaks, outcome, vector, model)
+    cat(" ok\n")
   }
 
   peaks
