@@ -22,7 +22,15 @@ analyse_loading <- function(data_path,
                             vector = "all",
                             predict_grf = FALSE,
                             predict_lr = FALSE,
-                            model = NULL) {
+                            model = NULL,
+                            summarise_acc = TRUE,
+                            summarise_grf = FALSE,
+                            summarise_lr = FALSE,
+                            ranges_acc = NULL,
+                            ranges_grf = NULL,
+                            ranges_lr = NULL,
+                            daily_average = TRUE,
+                            save_loading_summary = TRUE) {
 
   data_path <- list.files(data_path, full.names = TRUE)
   n_files <- seq_len(length(data_path))
@@ -94,11 +102,50 @@ analyse_loading <- function(data_path,
     cat("Nothing to be done\n")
   }
 
+  cat("\nStep 3: Summarise loading\n")
+  if (isTRUE(summarise_acc) | isTRUE(summarise_grf) | isTRUE(summarise_lr)) {
+    if (isTRUE(save_loading_summary)) {
+      loading_summary_dir <- paste0(output_path, "loading_summary/summaries/")
+      if (!dir.exists(loading_summary_dir)) {
+        dir.create(loading_summary_dir, recursive = TRUE)
+      }
+    }
+
+    variable <- variable_to_summarise(
+      summarise_acc, summarise_grf, summarise_lr
+    )
+    if (length(data_path) == 1) {
+      summarise_loading(
+        data, variable, vector, daily_average,
+        ranges_acc, ranges_grf, ranges_lr,
+        loading_summary_dir
+      )
+    } else {
+      purrr::map(
+        n_files, function(.x) {
+          if (.x != 1) cat("\n")
+          msg <- paste0(
+            "Processing file ", .x, " out of ", length(data_path),
+            " (", basename(data_path[.x]), ")\n"
+          )
+          cat(msg)
+
+          summarise_loading(
+            data[[.x]], variable, vector, daily_average,
+            ranges_acc, ranges_grf, ranges_lr,
+            loading_summary_dir
+          )
+        }
+      )
+    }
+  } else {
+    cat("Nothing to be done\n")
+  }
+
   cat("\nDone!\n")
-  data
+  return(invisible(NULL))
 
 }
-
 
 process_acc_data <- function(data_path,
                              output_path,
@@ -203,5 +250,28 @@ estimate_loading <- function(data,
   }
 
   peaks
+
+}
+
+variable_to_summarise <- function(summarise_acc, summarise_grf, summarise_lr) {
+
+  variable <- vector("character", 0)
+
+  if (isTRUE(summarise_acc)) {
+    variable <- c(variable, "acc")
+  }
+  if (isTRUE(summarise_grf)) {
+    variable <- c(variable, "grf")
+  }
+  if (isTRUE(summarise_lr)) {
+    variable <- c(variable, "lr")
+  }
+  if (length(variable) == 3) {
+    variable <- "all"
+  } else {
+    variable <- variable
+  }
+
+  variable
 
 }
