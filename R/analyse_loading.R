@@ -1,3 +1,4 @@
+#' @export
 analyse_loading <- function(data_path,
                             output_path,
                             acc_placement,
