@@ -84,7 +84,7 @@ analyse_loading <- function(data_path,
           cat(msg)
 
           data <- estimate_loading(
-            data, min_peak_height, min_peak_dist, vector,
+            data[[.x]], min_peak_height, min_peak_dist, vector,
             predict_grf, predict_lr, model
           )
         }
@@ -99,35 +99,6 @@ analyse_loading <- function(data_path,
 
 }
 
-estimate_loading <- function(data,
-                             min_peak_height,
-                             min_peak_dist,
-                             vector,
-                             predict_grf,
-                             predict_lr,
-                             model) {
-
-  cat("  Finding peaks in the acceleration signal\n")
-  peaks <- find_peaks(data, vector, min_peak_height, min_peak_dist)
-
-  if (isTRUE(predict_grf) & isFALSE(predict_lr)) {
-    outcome <- "grf"
-  } else if (isFALSE(predict_grf) & isTRUE(predict_lr)) {
-    outcome <- "lr"
-  } else if (isTRUE(predict_grf) & isTRUE(predict_lr)) {
-    outcome <- "all"
-  } else if (isFALSE(predict_grf) & isFALSE(predict_lr)) {
-    outcome <- "none"
-  }
-
-  if (outcome != "none") {
-    cat(" Computing mechanical loading outcomes\n")
-    peaks <- predict_loading(peaks, outcome, vector, model)
-  }
-
-  peaks
-
-}
 
 process_acc_data <- function(data_path,
                              output_path,
@@ -196,5 +167,35 @@ process_acc_data <- function(data_path,
   }
 
   data
+
+}
+
+estimate_loading <- function(data,
+                             min_peak_height,
+                             min_peak_dist,
+                             vector,
+                             predict_grf,
+                             predict_lr,
+                             model) {
+
+  cat("  Finding peaks in the acceleration signal\n")
+  peaks <- find_peaks(data, vector, min_peak_height, min_peak_dist)
+
+  if (isTRUE(predict_grf) & isFALSE(predict_lr)) {
+    outcome <- "grf"
+  } else if (isFALSE(predict_grf) & isTRUE(predict_lr)) {
+    outcome <- "lr"
+  } else if (isTRUE(predict_grf) & isTRUE(predict_lr)) {
+    outcome <- "all"
+  } else if (isFALSE(predict_grf) & isFALSE(predict_lr)) {
+    outcome <- "none"
+  }
+
+  if (outcome != "none") {
+    cat(" Computing mechanical loading outcomes\n")
+    peaks <- predict_loading(peaks, outcome, vector, model)
+  }
+
+  peaks
 
 }
