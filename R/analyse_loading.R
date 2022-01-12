@@ -30,8 +30,7 @@ analyse_loading <- function(data_path,
                             ranges_acc = NULL,
                             ranges_grf = NULL,
                             ranges_lr = NULL,
-                            daily_average = TRUE,
-                            save_loading_summary = TRUE) {
+                            daily_average = TRUE) {
 
   data_path <- list.files(data_path, full.names = TRUE)
   n_files <- seq_len(length(data_path))
@@ -40,20 +39,40 @@ analyse_loading <- function(data_path,
     output_path <- paste0(output_path, "/")
   }
 
+  meta_step1_dir <- paste0(output_path, "meta/step1/")
+  meta_step1_file <- list.files(meta_step1_dir, full.names = TRUE)
+  meta_step1_filename <- substr(
+    basename(meta_step1_file), 1, nchar(basename(meta_step1_file)) - 4
+  )
+
   cat("\nStarting analyses\n")
   cat("\nStep 1: Processing accelerometer data\n")
   if (length(data_path) == 1) {
-    data <- process_acc_data(
-      data_path, output_path,
-      acc_placement, subj_body_mass,
-      remove_nonwear, window1, window2, threshold,
-      min_hour_crit, min_day_crit,
-      nonwear_plot, save_nonwear_plot, save_nonwear_summary,
-      filter_acc, filter_order, filter_cutoff, filter_type,
-      use_resultant
+    data_filename <- substr(
+      basename(data_path), 1, nchar(basename(data_path)) - 4
     )
+    data_filename <- meta_step1_file[
+      which(meta_step1_filename == data_filename)
+    ]
+    if (!file.exists(data_filename)) {
+      tryCatch(
+        error = function(cnd) {
+          cat(paste0(" ", conditionMessage(cnd)))
+        },
+        process_acc_data(
+          data_path, output_path,
+          acc_placement, subj_body_mass,
+          remove_nonwear, window1, window2, threshold,
+          min_hour_crit, min_day_crit,
+          nonwear_plot, save_nonwear_plot, save_nonwear_summary,
+          filter_acc, filter_order, filter_cutoff, filter_type,
+          use_resultant
+        )
+      )
+      check_meta_step1(data_path, output_path)
+    }
   } else {
-    data <- purrr::map(
+    purrr::walk(
       n_files, function(.x) {
         if (.x != 1) cat("\n")
         msg <- paste0(
@@ -62,65 +81,61 @@ analyse_loading <- function(data_path,
         )
         cat(msg)
 
-        process_acc_data(
-          data_path[.x], output_path,
-          acc_placement[.x], subj_body_mass[.x],
-          remove_nonwear, window1, window2, threshold,
-          min_hour_crit, min_day_crit,
-          nonwear_plot, save_nonwear_plot, save_nonwear_summary,
-          filter_acc, filter_order, filter_cutoff, filter_type,
-          use_resultant
+        data_filename <- substr(
+          basename(data_path[.x]), 1, nchar(basename(data_path[.x])) - 4
         )
+        data_filename <- meta_step1_file[
+          which(meta_step1_filename == data_filename)
+        ]
+        if (!file.exists(data_filename)) {
+          tryCatch(
+            error = function(cnd) {
+              cat(paste0(" ", conditionMessage(cnd)))
+            },
+            process_acc_data(
+              data_path[.x], output_path,
+              acc_placement[.x], subj_body_mass[.x],
+              remove_nonwear, window1, window2, threshold,
+              min_hour_crit, min_day_crit,
+              nonwear_plot, save_nonwear_plot, save_nonwear_summary,
+              filter_acc, filter_order, filter_cutoff, filter_type,
+              use_resultant
+            )
+          )
+          check_meta_step1(data_path[.x], output_path)
+        } else {
+          cat("  File already processed, skipping...\n")
+        }
       }
     )
   }
+
+  meta_step2_dir <- paste0(output_path, "meta/step2/")
+  meta_step2_file <- list.files(meta_step2_dir, full.names = TRUE)
+  meta_step2_filename <- substr(
+    basename(meta_step2_file), 1, nchar(basename(meta_step2_file)) - 4
+  )
 
   cat("\nStep 2: Estimating mechanical loading\n")
   if (isTRUE(find_peaks)) {
     if (length(data_path) == 1) {
-      data <- estimate_loading(
-        data, min_peak_height, min_peak_dist, vector,
-        predict_grf, predict_lr, model
+      peaks_filename <- substr(
+        basename(data_path), 1, nchar(basename(data_path)) - 4
       )
-    } else {
-      data <- purrr::map(
-        n_files, function(.x) {
-          if (.x != 1) cat("\n")
-          msg <- paste0(
-            "Processing file ", .x, " out of ", length(data_path),
-            " (", basename(data_path[.x]), ")\n"
-          )
-          cat(msg)
+      peaks_filename <- meta_step2_file[
+        which(meta_step2_filename == peaks_filename)
+      ]
+      if (length(peaks_filename) == 0) {
+        data_filename <- substr(
+          basename(data_path), 1, nchar(basename(data_path)) - 4
+        )
+        load(meta_step1_file[which(meta_step1_filename == data_filename)])
 
-          data <- estimate_loading(
-            data[[.x]], min_peak_height, min_peak_dist, vector,
-            predict_grf, predict_lr, model
-          )
-        }
-      )
-    }
-  } else {
-    cat("Nothing to be done\n")
-  }
-
-  cat("\nStep 3: Summarise loading\n")
-  if (isTRUE(summarise_acc) | isTRUE(summarise_grf) | isTRUE(summarise_lr)) {
-    if (isTRUE(save_loading_summary)) {
-      loading_summary_dir <- paste0(output_path, "loading_summary/summaries/")
-      if (!dir.exists(loading_summary_dir)) {
-        dir.create(loading_summary_dir, recursive = TRUE)
+        estimate_loading(
+          data, output_path, min_peak_height, min_peak_dist, vector,
+          predict_grf, predict_lr, model
+        )
       }
-    }
-
-    variable <- variable_to_summarise(
-      summarise_acc, summarise_grf, summarise_lr
-    )
-    if (length(data_path) == 1) {
-      summarise_loading(
-        data, variable, vector, daily_average,
-        ranges_acc, ranges_grf, ranges_lr,
-        loading_summary_dir
-      )
     } else {
       purrr::map(
         n_files, function(.x) {
@@ -131,11 +146,98 @@ analyse_loading <- function(data_path,
           )
           cat(msg)
 
-          summarise_loading(
-            data[[.x]], variable, vector, daily_average,
-            ranges_acc, ranges_grf, ranges_lr,
-            loading_summary_dir
+          peaks_filename <- substr(
+            basename(data_path[.x]), 1, nchar(basename(data_path[.x])) - 4
           )
+          peaks_filename <- meta_step2_file[
+            which(meta_step2_filename == peaks_filename)
+          ]
+          if (length(peaks_filename) == 0) {
+            data_filename <- substr(
+              basename(data_path[.x]), 1, nchar(basename(data_path[.x])) - 4
+            )
+            load(meta_step1_file[which(meta_step1_filename == data_filename)])
+
+            if (!is.null(data)) {
+              estimate_loading(
+                data, output_path, min_peak_height, min_peak_dist, vector,
+                predict_grf, predict_lr, model
+              )
+            } else {
+              cat("  No valid data for this file\n")
+            }
+          } else {
+            cat("  File already processed, skipping...\n")
+          }
+        }
+      )
+    }
+  } else {
+    cat("Nothing to be done\n")
+  }
+
+  cat("\nStep 3: Summarise loading\n")
+  if (isTRUE(summarise_acc) | isTRUE(summarise_grf) | isTRUE(summarise_lr)) {
+      loading_summary_dir <- paste0(output_path, "loading_summary/summaries/")
+      if (!dir.exists(loading_summary_dir)) {
+        dir.create(loading_summary_dir, recursive = TRUE)
+      }
+
+    variable <- variable_to_summarise(
+      summarise_acc, summarise_grf, summarise_lr
+    )
+    if (length(data_path) == 1) {
+      data_filename <- substr(
+        basename(data_path), 1, nchar(basename(data_path)) - 4
+      )
+      peaks_file <- meta_step2_file[
+        which(meta_step2_filename == data_filename)
+      ]
+      load(peaks_file)
+
+      invisible(
+        summarise_loading(
+          peaks, variable, vector, daily_average,
+          ranges_acc, ranges_grf, ranges_lr,
+          loading_summary_dir
+        )
+      )
+    } else {
+      if (length(list.files(loading_summary_dir)) > 0) {
+        invisible(
+          file.remove(list.files(loading_summary_dir, full.names = TRUE))
+        )
+      }
+      purrr::walk(
+        n_files, function(.x) {
+          if (.x != 1) cat("\n")
+          msg <- paste0(
+            "Processing file ", .x, " out of ", length(data_path),
+            " (", basename(data_path[.x]), ")\n"
+          )
+          cat(msg)
+
+          data_filename <- substr(
+            basename(data_path[.x]), 1, nchar(basename(data_path[.x])) - 4
+          )
+          peaks_file <- meta_step2_file[
+            which(meta_step2_filename == data_filename)
+          ]
+          if (length(peaks_file) > 0) {
+            load(peaks_file)
+
+            cat("  Saving summary files...")
+            invisible(
+              summarise_loading(
+                peaks, variable, vector, daily_average,
+                ranges_acc, ranges_grf, ranges_lr,
+                loading_summary_dir
+              )
+            )
+            cat(" ok\n")
+          } else {
+            cat("  No loading peaks found for this file, skipping...\n")
+          }
         }
       )
     }
@@ -218,11 +320,21 @@ process_acc_data <- function(data_path,
     cat(" ok\n")
   }
 
-  data
+  meta_dir <- paste0(output_path, "meta/step1/")
+  if (!dir.exists(meta_dir)) {
+    dir.create(meta_dir, recursive = TRUE)
+  }
+  meta_file <- paste0(
+    meta_dir, substr(filename, 1, nchar(filename) - 4), ".rda"
+  )
+  save(data, file = meta_file)
+
+  invisible(NULL)
 
 }
 
 estimate_loading <- function(data,
+                             output_path,
                              min_peak_height,
                              min_peak_dist,
                              vector,
@@ -250,7 +362,17 @@ estimate_loading <- function(data,
     cat(" ok\n")
   }
 
-  peaks
+  filename <- attributes(data)$filename
+  meta_dir <- paste0(output_path, "meta/step2/")
+  if (!dir.exists(meta_dir)) {
+    dir.create(meta_dir, recursive = TRUE)
+  }
+  meta_file <- paste0(
+    meta_dir, substr(filename, 1, nchar(filename) - 4), ".rda"
+  )
+  save(peaks, file = meta_file)
+
+  invisible(NULL)
 
 }
 
@@ -274,5 +396,25 @@ variable_to_summarise <- function(summarise_acc, summarise_grf, summarise_lr) {
   }
 
   variable
+
+}
+
+check_meta_step1 <- function(data_path, output_path) {
+
+  meta_dir <- paste0(output_path, "meta/step1/")
+  if (!dir.exists(meta_dir)) {
+    dir.create(meta_dir, recursive = TRUE)
+  }
+
+  meta_file <- paste0(
+    meta_dir,
+    substr(basename(data_path), 1, nchar(basename(data_path)) - 4),
+    ".rda"
+  )
+
+  if (!file.exists(meta_file)) {
+    data <- NULL
+    save(data, file = meta_file)
+  }
 
 }
