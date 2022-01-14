@@ -52,12 +52,10 @@ given magnitude range. The summaries can be displayed by day or as a
 daily average.
 }
 \examples{
-\dontrun{
-  daily_acc |>
+if (requireNamespace("accdata", quietly = TRUE)) {
+  data <- import_dataset("daily_acc_3d")
+  data |>
     remove_nonwear() |>
-    specify_parameters(
-      acc_placement = "back", subj_body_mass = 70
-    ) |>
     filter_acc() |>
     find_peaks(vector = "vertical") |>
     summarise_loading(

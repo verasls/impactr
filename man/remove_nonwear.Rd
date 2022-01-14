@@ -94,7 +94,10 @@ summary to be saved, if the arguments are set to do so.
 }
 
 \examples{
-\dontrun{remove_nonwear(daily_acc)}
+if (requireNamespace("accdata", quietly = TRUE)) {
+  data <- import_dataset("daily_acc_3d")
+  remove_nonwear(data)
+}
 }
 \references{
 \itemize{

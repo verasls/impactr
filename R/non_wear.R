@@ -75,7 +75,10 @@
 #' @export
 #'
 #' @examples
-#' \dontrun{remove_nonwear(daily_acc)}
+#' if (requireNamespace("accdata", quietly = TRUE)) {
+#'   data <- import_dataset("daily_acc_3d")
+#'   remove_nonwear(data)
+#' }
 remove_nonwear <- function(data,
                            window1 = 60,
                            window2 = 15,
