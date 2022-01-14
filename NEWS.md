@@ -1,7 +1,7 @@
 # impactr 0.4.0
 * Added the function `remove_nonwear()` to detect and remove accelerometer non-wear time.
 * Added the function `summarise_loading()`.
-* Added the `daily_acc` dataset.
+* Include an interface to access example datasets from the [{accdata}](https://github.com/verasls/accdata/) package. Run `?import_dataset` for help.
 * Changed how resultant vector is computed to improve speed.
 * `read_acc()` no longer displays a progress bar.
 
