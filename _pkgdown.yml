@@ -31,11 +31,12 @@ reference:
     - predict_loading
     - summarise_loading
 
-- title: Other functions
-  contents:
-    - starts_with("is_")
-
 - title: Data
   contents:
     - impactr_example
-    - daily_acc
+    - import_dataset
+    - install_accdata
+
+- title: Other functions
+  contents:
+    - starts_with("is_")
