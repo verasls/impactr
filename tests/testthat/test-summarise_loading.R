@@ -1,12 +1,19 @@
+daily_acc_3d <- import_dataset("daily_acc_3d")
 data <- define_region(
-  daily_acc,
-  start_time = "2017-01-03 18:00:00",
-  end_time = "2017-01-03 20:00:00"
+  daily_acc_3d,
+  start_time = "2016-01-20 18:00:00",
+  end_time = "2016-01-20 20:00:00"
 ) |>
   use_resultant() |>
   find_peaks(vector = "all")
 
+has_accdata <- requireNamespace("accdata", quietly = TRUE)
+
 test_that("error handling works", {
+  if (!has_accdata) {
+    skip("`accdata` not available")
+  }
+
   expect_error(
     summarise_loading(mtcars),
     class = "error_argument_class"
@@ -44,10 +51,18 @@ test_that("error handling works", {
 })
 
 test_that("summarising works", {
+  if (!has_accdata) {
+    skip("`accdata` not available")
+  }
+
   expect_snapshot(summarise_loading(data, "acc", "all", ranges_acc = 1:5))
 })
 
 test_that("saving the summary works", {
+  if (!has_accdata) {
+    skip("`accdata` not available")
+  }
+
   summary_dir <- tempdir()
   out <- summarise_loading(
     data, "acc", "all", ranges_acc = 1:5, save_summary = summary_dir
