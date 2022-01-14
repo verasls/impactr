@@ -13,7 +13,7 @@ Description: Functions to read, process and analyse accelerometer
     triaxial 'ActiGraph' <https://actigraphcorp.com> accelerometers.
 License: MIT + file LICENSE
 URL: https://lveras.com/impactr/
-BugReports: https://github.com/verasls/impactr/issues
+BugReports: https://github.com/verasls/impactr/issues/
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: xz
@@ -35,6 +35,7 @@ Imports:
     utils,
     vroom
 Suggests: 
+    accdata,
     covr,
     knitr,
     rmarkdown,
@@ -46,3 +47,4 @@ VignetteBuilder: knitr
 Language: en-GB
 Depends: 
     R (>= 2.10)
+Additional_repositories: https://lveras.com/drat/
