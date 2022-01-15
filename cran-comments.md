@@ -1,6 +1,6 @@
 ## Release summary
 
-This is a resubmission. In this version I have fixed the size of the package tarball to be below 5 MB.
+This is a resubmission. In this version I have fixed the test failures when running on CRAN machines.
 
 ## Test environments
 
