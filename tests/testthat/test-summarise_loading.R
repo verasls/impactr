@@ -1,13 +1,15 @@
-daily_acc_3d <- import_dataset("daily_acc_3d")
-data <- define_region(
-  daily_acc_3d,
-  start_time = "2016-01-20 18:00:00",
-  end_time = "2016-01-20 20:00:00"
-) |>
-  use_resultant() |>
-  find_peaks(vector = "all")
-
 has_accdata <- requireNamespace("accdata", quietly = TRUE)
+
+if (has_accdata) {
+  daily_acc_3d <- import_dataset("daily_acc_3d")
+  data <- define_region(
+    daily_acc_3d,
+    start_time = "2016-01-20 00:01:00",
+    end_time = "2016-01-20 23:59:59"
+  )
+  data <- use_resultant(data)
+  data <- find_peaks(data, "all")
+}
 
 test_that("error handling works", {
   if (!has_accdata) {
