@@ -9,7 +9,7 @@
 [![CRAN
 status](https://www.r-pkg.org/badges/version/impactr)](https://CRAN.R-project.org/package=impactr)
 [![devel
-Version](https://img.shields.io/badge/devel-0.3.0.9000-brightgreen.svg)](https://github.com/verasls/impactr/)
+Version](https://img.shields.io/badge/devel-0.4.0.9000-brightgreen.svg)](https://github.com/verasls/impactr/)
 [![R-CMD-check](https://github.com/verasls/impactr/workflows/R-CMD-check/badge.svg)](https://github.com/verasls/impactr/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/verasls/impactr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/verasls/impactr?branch=main)
