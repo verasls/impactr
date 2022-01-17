@@ -27,6 +27,7 @@ Imports:
     pracma,
     purrr,
     Rcpp,
+    read.gt3x,
     rlang (>= 0.4.6),
     signal,
     stringr,
