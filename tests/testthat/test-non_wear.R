@@ -51,7 +51,7 @@ test_that("no warnings are generated when trying to save a plot", {
   attributes(data)$filename <- "Sáv"
   plot_filename <- tempfile(fileext = ".pdf")
   expect_warning(
-    remove_nonwear(d, save_plot = plot_filename),
+    remove_nonwear(data, save_plot = plot_filename),
     regexp = NA
   )
   if (file.exists(plot_filename)) file.remove(plot_filename)
