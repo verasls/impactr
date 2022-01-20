@@ -1,3 +1,6 @@
+# impactr 0.4.0.9000
+* Fixed an issue with saving the non-wear plot with `remove_nonwear()` (#2).
+
 # impactr 0.4.0
 * Added the function `remove_nonwear()` to detect and remove accelerometer non-wear time.
 * Added the function `summarise_loading()`.
