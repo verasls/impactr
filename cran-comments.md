@@ -1,7 +1,3 @@
-## Release summary
-
-This is a resubmission. In this version I have fixed the test failures when running on CRAN machines.
-
 ## Test environments
 
 * local macOS install, R 4.1.2
@@ -17,6 +13,5 @@ This is a resubmission. In this version I have fixed the test failures when runn
 * checking examples ... NOTE
   Examples with CPU (user + system) or elapsed time > 5s
                       user system elapsed
-  summarise_loading 40.928  7.510  48.452
-  remove_nonwear     8.490  0.724   9.215
-  import_dataset     4.573  0.708   5.283
+  summarise_loading 31.949 10.345  43.089
+  remove_nonwear     8.999  5.343  14.725
