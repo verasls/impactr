@@ -1,5 +1,7 @@
-# impactr 0.4.0.9000
+# impactr 0.4.1
 * Fixed an issue with saving the non-wear plot with `remove_nonwear()` (#2).
+* Change the name of the "valid_observation" to "valid_file" in the non-wear summary to better express its meaning.
+* Limited the number of characters of the non-wear plot title to 50 characters, preventing the plot title to exceed the plot window limits. In case of large (n. char. > 50) titles, `remove_nonwear()` automatically crops it.
 
 # impactr 0.4.0
 * Added the function `remove_nonwear()` to detect and remove accelerometer non-wear time.
