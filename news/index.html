@@ -22,7 +22,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">impactr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.4.1</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -70,7 +70,13 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.4.0" id="impactr-040">impactr 0.4.0<a class="anchor" aria-label="anchor" href="#impactr-040"></a></h2>
+<h2 class="pkg-version" data-toc-text="0.4.1" id="impactr-041">impactr 0.4.1<a class="anchor" aria-label="anchor" href="#impactr-041"></a></h2>
+<ul><li>Fixed an issue with saving the non-wear plot with <code><a href="../reference/remove_nonwear.html">remove_nonwear()</a></code> (<a href="https://github.com/verasls/impactr/issues/2" class="external-link">#2</a>).</li>
+<li>Change the name of the “valid_observation” to “valid_file” in the non-wear summary to better express its meaning.</li>
+<li>Limited the number of characters of the non-wear plot title to 50 characters, preventing the plot title to exceed the plot window limits. In case of large (n. char. &gt; 50) titles, <code><a href="../reference/remove_nonwear.html">remove_nonwear()</a></code> automatically crops it.</li>
+</ul></div>
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.4.0" id="impactr-040">impactr 0.4.0<a class="anchor" aria-label="anchor" href="#impactr-040"></a></h2><p class="text-muted">CRAN release: 2022-01-15</p>
 <ul><li>Added the function <code><a href="../reference/remove_nonwear.html">remove_nonwear()</a></code> to detect and remove accelerometer non-wear time.</li>
 <li>Added the function <code><a href="../reference/summarise_loading.html">summarise_loading()</a></code>.</li>
 <li>Include an interface to access example datasets from the <a href="https://github.com/verasls/accdata/" class="external-link">{accdata}</a> package. Run <code><a href="../reference/import_dataset.html">?import_dataset</a></code> for help.</li>
