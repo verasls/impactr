@@ -35,14 +35,14 @@
 #' # If it is not, run install_accdata() to install the required package.
 #' if (requireNamespace("accdata", quietly = TRUE)) {
 #'   data <- import_dataset("daily_acc_3d")
-#'   data |>
-#'     remove_nonwear() |>
-#'     filter_acc() |>
-#'     find_peaks(vector = "vertical") |>
-#'     summarise_loading(
-#'       variable = "acc", vector = "vertical",
-#'       ranges_acc = c(1, 2, 3, 4, 5)
-#'     )
+#'   data <- remove_nonwear(data)
+#'   data <- filter_acc(data)
+#'   data <- find_peaks(data, vector = "vertical")
+#'   summarise_loading(
+#'     data,
+#'     variable = "acc", vector = "vertical",
+#'     ranges_acc = c(1, 2, 3, 4, 5)
+#'   )
 #' }
 summarise_loading <- function(data,
                               variable,
