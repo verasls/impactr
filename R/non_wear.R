@@ -215,7 +215,7 @@ plot_nonwear <- function(data,
   ymax <- round(max(resultant) + (max(resultant) - 1) * 2, 1)
 
   if (is.character(save_plot)) {
-    grDevices::cairo_pdf(save_plot, width = 7, height = 7)
+    grDevices::pdf(save_plot, width = 7, height = 7)
   }
   graphics::par(mar = c(8, 5, 5, 5), xpd = TRUE)
   plot(
