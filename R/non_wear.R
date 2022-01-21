@@ -218,14 +218,21 @@ plot_nonwear <- function(data,
     grDevices::pdf(save_plot, width = 7, height = 7)
   }
   graphics::par(mar = c(8, 5, 5, 5), xpd = TRUE)
-  plot(
-    days_axis, resultant, type = "l",
-    xlim = c(0, day_end),
-    ylim = c(1, ymax),
-    xaxp = c(0, day_end, day_end),
-    main = attributes(data)$filename,
-    xlab = "Days",
-    ylab = "Acceleration (g)"
+  withCallingHandlers(
+    plot(
+      days_axis, resultant, type = "l",
+      xlim = c(0, day_end),
+      ylim = c(1, ymax),
+      xaxp = c(0, day_end, day_end),
+      main = attributes(data)$filename,
+      xlab = "Days",
+      ylab = "Acceleration (g)"
+    ),
+    warning = function(cnd) {
+      if (any(grepl("mbcsToSbcs", cnd))) {
+        invokeRestart("muffleWarning")
+      }
+    }
   )
   if (length(start) > 0) {
     graphics::rect(
