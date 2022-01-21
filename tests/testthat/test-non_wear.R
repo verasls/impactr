@@ -48,7 +48,7 @@ test_that("no warnings are generated when trying to save a plot", {
     skip("`accdata` not available")
   }
 
-  attributes(data)$filename <- "Sáv"
+  attributes(data)$filename <- "Sáv"
   plot_filename <- tempfile(fileext = ".pdf")
   expect_warning(
     remove_nonwear(data, save_plot = plot_filename),
