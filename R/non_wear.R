@@ -392,7 +392,7 @@ summarise_nonwear <- function(data,
   )
   valid_day <- rep("No", length(weekday))
   valid_day[which(valid_hours >= min_hour_crit)] <- "Yes"
-  valid_observation <- ifelse(
+  valid_file <- ifelse(
     length(which(valid_day == "Yes")) >= min_day_crit, "Yes", "No"
   )
 
@@ -401,7 +401,7 @@ summarise_nonwear <- function(data,
     date, weekday, measurement_day,
     recorded_hours, valid_hours,
     min_hour_crit, min_day_crit,
-    valid_day, valid_observation
+    valid_day, valid_file
   )
   if (is.character(save_summary)) {
     if (file.exists(save_summary)) {
@@ -421,7 +421,7 @@ summarise_nonwear <- function(data,
     )
   }
 
-  if (valid_observation == "No") {
+  if (valid_file == "No") {
     msg <- glue::glue(
       "Data from file `{attributes(data)$filename}` is not valid as \\
       the number of valid days ({length(which(valid_day == \"Yes\"))}) is \\
