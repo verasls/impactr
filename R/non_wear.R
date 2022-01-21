@@ -214,6 +214,15 @@ plot_nonwear <- function(data,
   ymin <- min(resultant)
   ymax <- round(max(resultant) + (max(resultant) - 1) * 2, 1)
 
+  plot_title <- attributes(data)$filename
+  if (nchar(plot_title) > 50) {
+    plot_title <- paste(
+      substr(plot_title, 1, 23),
+      "...",
+      substr(plot_title, nchar(plot_title) - 23, nchar(plot_title))
+    )
+  }
+
   if (is.character(save_plot)) {
     grDevices::pdf(save_plot, width = 7, height = 7)
   }
@@ -224,7 +233,7 @@ plot_nonwear <- function(data,
       xlim = c(0, day_end),
       ylim = c(1, ymax),
       xaxp = c(0, day_end, day_end),
-      main = attributes(data)$filename,
+      main = plot_title,
       xlab = "Days",
       ylab = "Acceleration (g)"
     ),
