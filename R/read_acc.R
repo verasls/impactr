@@ -11,32 +11,57 @@
 #' @examples
 #' read_acc(impactr_example("hip-raw.csv"))
 read_acc <- function(file) {
-  metadata <- get_metadata(file)
-  x <- vroom::vroom(
-    file, skip = 10,
-    col_select = c(
-      acc_X = "Accelerometer X",
-      acc_Y = "Accelerometer Y",
-      acc_Z = "Accelerometer Z"
-    ),
-    col_types = c(
-      "Accelerometer X" = "d",
-      "Accelerometer Y" = "d",
-      "Accelerometer Z" = "d"
-    ),
-    progress = FALSE
-  )
-  x <- make_timestamp(x, metadata)
 
-  new_impactr_data(
-    x,
-    filename = basename(file),
-    start_date_time = metadata$start_date_time,
-    samp_freq = metadata$samp_freq,
-    acc_placement = NA,
-    subj_body_mass = NA,
-    filter_type = NA
-  )
+  file_ext <- substr(file, nchar(file) - 3, nchar(file))
+  if (file_ext == ".csv") {
+    metadata <- get_metadata(file)
+    x <- vroom::vroom(
+      file, skip = 10,
+      col_select = c(
+        acc_X = "Accelerometer X",
+        acc_Y = "Accelerometer Y",
+        acc_Z = "Accelerometer Z"
+      ),
+      col_types = c(
+        "Accelerometer X" = "d",
+        "Accelerometer Y" = "d",
+        "Accelerometer Z" = "d"
+      ),
+      proress = FALSE
+    )
+    x <- make_timestamp(x, metadata)
+
+    new_impactr_data(
+      x,
+      filename = basename(file),
+      start_date_time = metadata$start_date_time,
+      samp_freq = metadata$samp_freq,
+      acc_placement = NA,
+      subj_body_mass = NA,
+      filter_type = NA
+    )
+  } else if (read.gt3x::is_gt3x(file)) {
+    x <- read.gt3x::read.gt3x(file, asDataFrame = TRUE, imputeZeroes = TRUE)
+    metadata <- list(
+      samp_freq = attributes(x)$header$`Sample Rate`,
+      start_date_time = x[[1, 1]]
+    )
+    x <- x[, 1:4]
+    names(x) <- c(
+      "timestamp", "Accelerometer X", "Accelerometer Y", "Accelerometer Z"
+    )
+
+    new_impactr_data(
+      x,
+      filename = basename(file),
+      start_date_time = metadata$start_date_time,
+      samp_freq = metadata$samp_freq,
+      acc_placement = NA,
+      subj_body_mass = NA,
+      filter_type = NA
+    )
+  }
+
 }
 
 get_metadata <- function(file) {
