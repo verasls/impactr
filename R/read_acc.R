@@ -27,7 +27,7 @@ read_acc <- function(file) {
         "Accelerometer Y" = "d",
         "Accelerometer Z" = "d"
       ),
-      proress = FALSE
+      progress = FALSE
     )
     x <- make_timestamp(x, metadata)
 
@@ -48,7 +48,7 @@ read_acc <- function(file) {
     )
     x <- x[, 1:4]
     names(x) <- c(
-      "timestamp", "Accelerometer X", "Accelerometer Y", "Accelerometer Z"
+      "timestamp", "acc_X", "acc_Y", "acc_Z"
     )
 
     new_impactr_data(
