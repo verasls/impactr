@@ -62,7 +62,7 @@ if (requireNamespace("accdata", quietly = TRUE)) {
   summarise_loading(
     data,
     variable = "acc", vector = "vertical",
-    ranges_acc = c(1, 2, 3, 4, 5)
+    ranges_acc = 1:5
   )
 }
 }
