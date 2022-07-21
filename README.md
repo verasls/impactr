@@ -5,19 +5,16 @@
 
 <!-- badges: start -->
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5035522.svg)](https://doi.org/10.5281/zenodo.5035522)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/impactr)](https://CRAN.R-project.org/package=impactr)
 [![devel
-Version](https://img.shields.io/badge/devel-0.4.0.9000-brightgreen.svg)](https://github.com/verasls/impactr/)
+Version](https://img.shields.io/badge/devel-0.3.0.9000-brightgreen.svg)](https://github.com/verasls/impactr/)
 [![R-CMD-check](https://github.com/verasls/impactr/workflows/R-CMD-check/badge.svg)](https://github.com/verasls/impactr/actions)
 [![Codecov test
 coverage](https://codecov.io/gh/verasls/impactr/branch/main/graph/badge.svg)](https://app.codecov.io/gh/verasls/impactr?branch=main)
-[![Project Status: Active – The project has reached a stable, usable
-state and is being actively
-developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/)
 [![Lifecycle:
 maturing](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5035522.svg)](https://doi.org/10.5281/zenodo.5035522)
 <!-- badges: end -->
 
 `impactr` is a package with functions to read, process and analyse raw
