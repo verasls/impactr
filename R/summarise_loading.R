@@ -41,7 +41,7 @@
 #'   summarise_loading(
 #'     data,
 #'     variable = "acc", vector = "vertical",
-#'     ranges_acc = c(1, 2, 3, 4, 5)
+#'     ranges_acc = 1:5
 #'   )
 #' }
 summarise_loading <- function(data,
@@ -154,10 +154,50 @@ summarise_loading_aux <- function(data, date, variable) {
     ]
   )
   n_peaks <- purrr::map_dbl(peaks_per_day, length)
-  min_peaks <- round(purrr::map_dbl(peaks_per_day, min), 2)
-  max_peaks <- round(purrr::map_dbl(peaks_per_day, max), 2)
-  mean_peaks <- round(purrr::map_dbl(peaks_per_day, mean), 2)
-  sd_peaks <- round(purrr::map_dbl(peaks_per_day, stats::sd), 2)
+  min_peaks <- round(
+    purrr::map_dbl(
+      peaks_per_day, function(.x) {
+        if (length(.x) > 0) {
+          min(.x)
+        } else {
+          NA
+        }
+      }
+    ), 2
+  )
+  max_peaks <- round(
+    purrr::map_dbl(
+      peaks_per_day, function(.x) {
+        if (length(.x) > 0) {
+          max(.x)
+        } else {
+          NA
+        }
+      }
+    ), 2
+  )
+  mean_peaks <- round(
+    purrr::map_dbl(
+      peaks_per_day, function(.x) {
+        if (length(.x) > 0) {
+          mean(.x)
+        } else {
+          NA
+        }
+      }
+    ), 2
+  )
+  sd_peaks <- round(
+    purrr::map_dbl(
+      peaks_per_day, function(.x) {
+        if (length(.x) > 0) {
+          stats::sd(.x)
+        } else {
+          NA
+        }
+      }
+    ), 2
+  )
 
   summary <- data.frame(
     filename = attributes(data)$filename,
@@ -177,12 +217,23 @@ summarise_by_range <- function(data,
 
   if (is.data.frame(summary)) {
     summary <- summarise_by_range_aux(data, date, variable, ranges, summary)
+    if (any(summary[, "n_peaks"] == 0)) {
+      to_NA <- which(summary[, "n_peaks"] == 0)
+      summary[to_NA, 7:ncol(summary)] <- NA
+    }
   } else {
     i <- which(grepl(variable_chr, variable))
     summary[i] <- purrr::map2(
       variable[which(grepl(variable_chr, variable))], summary[i],
       ~ summarise_by_range_aux(data, date, .x, ranges, .y)
     )
+    if (any(purrr::map_lgl(summary, ~ any(.x[, "n_peaks"] == 0)))) {
+      l <- which(purrr::map_lgl(summary, ~ any(.x[, "n_peaks"] == 0)))
+      for (i in seq_len(length(l))) {
+        to_NA <- which(summary[[i]][, "n_peaks"] == 0)
+        summary[[i]][to_NA, 7:ncol(summary[[i]])] <- NA
+      }
+    }
   }
   summary
 
