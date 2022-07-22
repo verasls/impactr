@@ -165,17 +165,17 @@ predict_lr <- function(data, vector, model) {
 get_grf_coefficients <- function(acc_placement, vector, model) {
   if (model == "walking/running") {
     if (acc_placement == "ankle" & vector == "resultant") {
-      list(b0 = 1026.046, b1 = - 153.073, b2 = 6.641, b3 = 2.097, b4 = 0)
+      list(b0 = 890.673, b1 = - 131.889, b2 = 7.155, b3 = 2.027, b4 = 0)
     } else if (acc_placement == "back" & vector == "resultant") {
-      list(b0 = 795.173, b1 = - 258.882, b2 = 5.951, b3 = 4.903, b4 = 0)
+      list(b0 = 701.358, b1 = - 167.229, b2 = 9.642, b3 = 2.667, b4 = 0)
     } else if (acc_placement == "hip" & vector == "resultant") {
-      list(b0 = 844.500, b1 = - 264.692, b2 = 4.677, b3 = 5.118, b4 = 0)
+      list(b0 = 814.888, b1 = - 229.459, b2 = 7.036, b3 = 3.934, b4 = 0)
     } else if (acc_placement == "ankle" & vector == "vertical") {
-      list(b0 = 1014.045, b1 = - 226.690, b2 = 4.854, b3 = 3.562, b4 = 0)
+      list(b0 = 984.419, b1 = - 221.505, b2 = 6.133, b3 = 3.201, b4 = 0)
     } else if (acc_placement == "back" & vector == "vertical") {
-      list(b0 = 890.428, b1 = - 339.790, b2 = 4.533, b3 = 6.131, b4 = 0)
+      list(b0 = 692.456, b1 = - 179.912, b2 = 9.736, b3 = 2.760, b4 = 0)
     } else if (acc_placement == "hip" & vector == "vertical") {
-      list(b0 = 908.037, b1 = - 322.843, b2 = 4.546, b3 = 5.691, b4 = 0)
+      list(b0 = 767.553, b1 = - 244.689, b2 = 7.153, b3 = 4.258, b4 = 0)
      }
   } else if (model == "walking") {
     if (acc_placement == "ankle") {
@@ -226,17 +226,17 @@ get_grf_coefficients <- function(acc_placement, vector, model) {
 get_lr_coefficients <- function(acc_placement, vector, model) {
   if (model == "walking/running") {
     if (acc_placement == "ankle" & vector == "resultant") {
-      list(b0 = 6534.981, b1 = - 15.738, b2 = - 76.433, b3 = 4.258, b4 = 0)
+      list(b0 = 13629.698, b1 = - 94.093, b2 = 77.299, b3 = 1.447, b4 = 0)
     } else if (acc_placement == "back" & vector == "resultant") {
-      list(b0 = 6155.636, b1 = - 81.779, b2 = - 5.500, b3 = 5.179, b4 = 0)
+      list(b0 = 13947.266, b1 = - 129.739, b2 = 86.996, b3 = 1.721, b4 = 0)
     } else if (acc_placement == "hip" & vector == "resultant") {
-      list(b0 = 4431.800, b1 = - 33.175, b2 = 12.632, b3 = 4.014, b4 = 0)
+      list(b0 = 13656.930, b1 = - 168.415, b2 = 86.996, b3 = 1.721, b4 = 0)
     } else if (acc_placement == "ankle" & vector == "vertical") {
-      list(b0 = 5124.478, b1 = - 47.525, b2 = 8.344, b3 = 2.588, b4 = 0)
+      list(b0 = 12387.216, b1 = - 68.583, b2 = 75.546, b3 = 1.327, b4 = 0)
     } else if (acc_placement == "back" & vector == "vertical") {
-      list(b0 = 6605.822, b1 = - 112.779, b2 = - 3.767, b3 = 5.061, b4 = 0)
+      list(b0 = 14522.460, b1 = - 112.291, b2 = 91.448, b3 = 1.469, b4 = 0)
     } else if (acc_placement == "hip" & vector == "vertical") {
-      list(b0 = 5343.980, b1 = - 89.984, b2 = 3.49, b3 = 4.808, b4 = 0)
+      list(b0 = 13683.896, b1 = - 159.441, b2 = 63.910, b3 = 2.752, b4 = 0)
     }
   } else if (model == "walking") {
     if (acc_placement == "ankle") {
