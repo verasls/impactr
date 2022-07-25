@@ -27,8 +27,8 @@
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="../deps/bootstrap-5.1.0/bootstrap.min.css" rel="stylesheet">
-<script src="../deps/bootstrap-5.1.0/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
+<link href="../deps/bootstrap-5.1.3/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.1.3/bootstrap.bundle.min.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- bootstrap-toc --><script src="https://cdn.rawgit.com/afeld/bootstrap-toc/v1.0.1/dist/bootstrap-toc.min.js"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- search --><script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/6.4.6/fuse.js" integrity="sha512-zv6Ywkjyktsohkbp9bb45V6tEMoWhzFzXis+LrMehmJZZSys19Yxf1dopHx7WzIKxr5tK2dVcYmaCk2uqdjF4A==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/autocomplete.js/0.38.0/autocomplete.jquery.min.js" integrity="sha512-GU9ayf+66Xx2TmpxqJpliWbT5PiGYxpaG8rfnBEk1LL8l1KGkRShhngwdXK1UgqhAzWpZHSiYPc09/NwDQIGyg==" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/mark.min.js" integrity="sha512-5CYOlHXGh6QpOFA/TeTylKLWfB3ftPsde7AnmhuitiTX4K5SqCLBeKro6sPS8ilsz1Q4NRx3v8Ko2IBiszzdww==" crossorigin="anonymous"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Introduction to impactr">
 <meta property="og:description" content="impactr">
@@ -101,7 +101,7 @@
 
 
 <script src="impactr_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
-  <main id="main"><div class="page-header">
+  <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Introduction to impactr</h1>
             
       
@@ -119,114 +119,117 @@
 <p>Before we begin, the package needs to be installed and then loaded into your R session.</p>
 <p>If you don’t have much experience using R, we recommend you to install the latest impactr release from <a href="https://cran.r-project.org" class="external-link">CRAN</a>, by running:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"impactr"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"impactr"</span><span class="op">)</span></span></code></pre></div>
 <p>After the package is installed, it should be loaded into your R session:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lveras.com/impactr/">impactr</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://lveras.com/impactr/">impactr</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="read_acc">read_acc()<a class="anchor" aria-label="anchor" href="#read_acc"></a>
 </h3>
 <p>The first step is to read the raw accelerometer data into R. We do it by using the <code><a href="../reference/read_acc.html">read_acc()</a></code> function specifying the path to the csv file containing the raw accelerometer data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="st">"path/to/file"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="st">"path/to/file"</span><span class="op">)</span></span></code></pre></div>
 <p>Remember that currently impactr only accepts raw data from triaxial ActiGraph accelerometers. In the raw data, acceleration values are stored as gravitational acceleration units (1<em>g</em> = 9.81m·s<sup>-2</sup>).</p>
 <p>To show the package functionalities, impactr provides some short example files. The name of these files are shown when running:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="op">)</span>
-<span class="co">#&gt; [1] "hip-raw.csv"</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] "hip-raw.csv"</span></span></code></pre></div>
 <p>When entering one of these file names as an argument to the <code><a href="../reference/impactr_example.html">impactr_example()</a></code> function, we obtain the path to the example data, and can pass it to <code><a href="../reference/read_acc.html">read_acc()</a></code>:</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-raw.csv"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-raw.csv"</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>The output of this function was assigned to the <code>acc_data</code> object with the R’s assignment operator (<code>&lt;-</code>).</p>
 <p>We can, then, inspect this object.</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">acc_data</span>
-<span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Non-specified</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       Non-specified</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Filter:                  No filter applied</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         30,000 × 4</span></span>
-<span class="co">#&gt;    timestamp           acc_X  acc_Y acc_Z</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.262 -<span style="color: #BB0000;">0.688</span> 0.063</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.25  -<span style="color: #BB0000;">0.727</span> 0.039</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.254 -<span style="color: #BB0000;">0.816</span> 0.191</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.258 -<span style="color: #BB0000;">0.891</span> 0.367</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.281 -<span style="color: #BB0000;">0.914</span> 0.344</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.316 -<span style="color: #BB0000;">0.922</span> 0.23 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.32  -<span style="color: #BB0000;">0.891</span> 0.203</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.332 -<span style="color: #BB0000;">0.926</span> 0.109</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.363 -<span style="color: #BB0000;">1.02</span>  0.168</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.418 -<span style="color: #BB0000;">0.996</span> 0.387</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 29,990 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">acc_data</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Non-specified</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       Non-specified</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Filter:                  No filter applied</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         30,000 × 4</span></span></span>
+<span><span class="co">#&gt;    timestamp           acc_X  acc_Y acc_Z</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.262 -<span style="color: #BB0000;">0.688</span> 0.063</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.25  -<span style="color: #BB0000;">0.727</span> 0.039</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.254 -<span style="color: #BB0000;">0.816</span> 0.191</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.258 -<span style="color: #BB0000;">0.891</span> 0.367</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.281 -<span style="color: #BB0000;">0.914</span> 0.344</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.316 -<span style="color: #BB0000;">0.922</span> 0.23 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.32  -<span style="color: #BB0000;">0.891</span> 0.203</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.332 -<span style="color: #BB0000;">0.926</span> 0.109</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.363 -<span style="color: #BB0000;">1.02</span>  0.168</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:43:00</span> 0.418 -<span style="color: #BB0000;">0.996</span> 0.387</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 29,990 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>It shows the data with four columns – one for the timestamp and one for each of the accelerometer axes (<em>X</em>, <em>Y</em> and <em>Z</em>) – and a 6-line header with metadata. Among this metadata is the accelerometer data start time and sampling frequency, extracted from the csv file header, and also information about the accelerometer placement and the subject body mass, that are needed for applying the mechanical loading prediction models. It also shows information about the filter applied to the accelerometer signal and the data dimensions (30000 rows and 4 columns in this case).</p>
 <p>Remember that, when using this function to read your own data, you need to specify the correct path to it. For example, if you have a file named <code>id_001_raw_acceleration.csv</code> inside the <code>accelerometer_data</code> folder in your <code>Desktop</code>, you need to write the path to it:</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># For macOS or Linux</span>
-<span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="st">"~/Desktop/accelerometer_data/id_001_raw_acceleration.csv"</span><span class="op">)</span>
-<span class="co"># For Windows</span>
-<span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="st">"C:/Users/username/Desktop/accelerometer_data/id_001_raw_acceleration.csv"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># For macOS or Linux</span></span>
+<span><span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="st">"~/Desktop/accelerometer_data/id_001_raw_acceleration.csv"</span><span class="op">)</span></span>
+<span><span class="co"># For Windows</span></span>
+<span><span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="st">"C:/Users/username/Desktop/accelerometer_data/id_001_raw_acceleration.csv"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="define_region">define_region()<a class="anchor" aria-label="anchor" href="#define_region"></a>
 </h3>
 <p><code><a href="../reference/define_region.html">define_region()</a></code> is an optional function to be used when you only want to analyse a specify portion of your data. To use it, you must specify the start and end time of your region of interest to the <code>start_time</code> and <code>end_time</code> arguments, along with the data read by the <code><a href="../reference/read_acc.html">read_acc()</a></code> function to the <code>data</code> argument:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_region.html">define_region</a></span><span class="op">(</span>
-  data <span class="op">=</span> <span class="va">acc_data</span>,
-  start_time <span class="op">=</span> <span class="st">"2021-04-06 15:45:00"</span>,
-  end_time <span class="op">=</span> <span class="st">"2021-04-06 15:46:00"</span>
-<span class="op">)</span>
-<span class="va">acc_data</span>
-<span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Non-specified</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       Non-specified</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Filter:                  No filter applied</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         6,000 × 4</span></span>
-<span class="co">#&gt;    timestamp            acc_X acc_Y acc_Z</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.148</span> -<span style="color: #BB0000;">1.05</span> 0.094</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.098</span> -<span style="color: #BB0000;">1.08</span> 0.176</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.055</span> -<span style="color: #BB0000;">1.11</span> 0.234</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.035</span> -<span style="color: #BB0000;">1.12</span> 0.254</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.02</span>  -<span style="color: #BB0000;">1.11</span> 0.23 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.004</span> -<span style="color: #BB0000;">1.09</span> 0.184</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.004 -<span style="color: #BB0000;">1.06</span> 0.152</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.004</span> -<span style="color: #BB0000;">1.08</span> 0.152</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.008 -<span style="color: #BB0000;">1.15</span> 0.176</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.039 -<span style="color: #BB0000;">1.20</span> 0.195</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5,990 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/define_region.html">define_region</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">acc_data</span>,</span>
+<span>  start_time <span class="op">=</span> <span class="st">"2021-04-06 15:45:00"</span>,</span>
+<span>  end_time <span class="op">=</span> <span class="st">"2021-04-06 15:46:00"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">acc_data</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Non-specified</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       Non-specified</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Filter:                  No filter applied</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         6,000 × 4</span></span></span>
+<span><span class="co">#&gt;    timestamp            acc_X acc_Y acc_Z</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.148</span> -<span style="color: #BB0000;">1.05</span> 0.094</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.098</span> -<span style="color: #BB0000;">1.08</span> 0.176</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.055</span> -<span style="color: #BB0000;">1.11</span> 0.234</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.035</span> -<span style="color: #BB0000;">1.12</span> 0.254</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.02</span>  -<span style="color: #BB0000;">1.11</span> 0.23 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.004</span> -<span style="color: #BB0000;">1.09</span> 0.184</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.004 -<span style="color: #BB0000;">1.06</span> 0.152</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.004</span> -<span style="color: #BB0000;">1.08</span> 0.152</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.008 -<span style="color: #BB0000;">1.15</span> 0.176</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.039 -<span style="color: #BB0000;">1.20</span> 0.195</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5,990 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="specify_parameters">specify_parameters()<a class="anchor" aria-label="anchor" href="#specify_parameters"></a>
 </h3>
 <p>Apart from the raw accelerometer data, the mechanical loading prediction models need informations regarding the accelerometer body placement and the subject body mass. These informations are provided to impactr by the function <code><a href="../reference/specify_parameters.html">specify_parameters()</a></code>:</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/specify_parameters.html">specify_parameters</a></span><span class="op">(</span>
-  data <span class="op">=</span> <span class="va">acc_data</span>, acc_placement <span class="op">=</span> <span class="st">"hip"</span>, subj_body_mass <span class="op">=</span> <span class="fl">78</span>
-<span class="op">)</span>
-<span class="va">acc_data</span>
-<span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Hip</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       78kg</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Filter:                  No filter applied</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         6,000 × 4</span></span>
-<span class="co">#&gt;    timestamp            acc_X acc_Y acc_Z</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.148</span> -<span style="color: #BB0000;">1.05</span> 0.094</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.098</span> -<span style="color: #BB0000;">1.08</span> 0.176</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.055</span> -<span style="color: #BB0000;">1.11</span> 0.234</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.035</span> -<span style="color: #BB0000;">1.12</span> 0.254</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.02</span>  -<span style="color: #BB0000;">1.11</span> 0.23 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.004</span> -<span style="color: #BB0000;">1.09</span> 0.184</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.004 -<span style="color: #BB0000;">1.06</span> 0.152</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.004</span> -<span style="color: #BB0000;">1.08</span> 0.152</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.008 -<span style="color: #BB0000;">1.15</span> 0.176</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.039 -<span style="color: #BB0000;">1.20</span> 0.195</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5,990 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/specify_parameters.html">specify_parameters</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">acc_data</span>, acc_placement <span class="op">=</span> <span class="st">"hip"</span>, subj_body_mass <span class="op">=</span> <span class="fl">78</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">acc_data</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Hip</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       78kg</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Filter:                  No filter applied</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         6,000 × 4</span></span></span>
+<span><span class="co">#&gt;    timestamp            acc_X acc_Y acc_Z</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>               <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.148</span> -<span style="color: #BB0000;">1.05</span> 0.094</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.098</span> -<span style="color: #BB0000;">1.08</span> 0.176</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.055</span> -<span style="color: #BB0000;">1.11</span> 0.234</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.035</span> -<span style="color: #BB0000;">1.12</span> 0.254</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.02</span>  -<span style="color: #BB0000;">1.11</span> 0.23 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.004</span> -<span style="color: #BB0000;">1.09</span> 0.184</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.004 -<span style="color: #BB0000;">1.06</span> 0.152</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.004</span> -<span style="color: #BB0000;">1.08</span> 0.152</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.008 -<span style="color: #BB0000;">1.15</span> 0.176</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.039 -<span style="color: #BB0000;">1.20</span> 0.195</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5,990 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>The supported accelerometer placements are “ankle”, “back” or “hip” and the body mass must be given as kilograms. Notice that these informations are added to the data header.</p>
 </div>
 <div class="section level3">
@@ -234,27 +237,28 @@
 </h3>
 <p>The raw accelerometer data can be digitally filtered to reduce noise. The <code><a href="../reference/filter_acc.html">filter_acc()</a></code> function does it by getting the coefficients of a Butterworth digital filter and applying it twice (forwards and backwards) to the acceleration signal. The simplest way to use it is to call the <code><a href="../reference/filter_acc.html">filter_acc()</a></code> function supplying only the accelerometer data:</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_acc.html">filter_acc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span><span class="op">)</span>
-<span class="va">acc_data</span>
-<span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Hip</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       78kg</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Filter:                  Butterworth (4th-ord, low-pass, 20Hz)</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         6,000 × 4</span></span>
-<span class="co">#&gt;    timestamp               acc_X  acc_Y  acc_Z</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.090</span><span style="color: #BB0000; text-decoration: underline;">0</span>   -<span style="color: #BB0000;">0.742</span> 0.087<span style="text-decoration: underline;">8</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.102</span>    -<span style="color: #BB0000;">1.08</span>  0.171 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.076</span><span style="color: #BB0000; text-decoration: underline;">8</span>   -<span style="color: #BB0000;">1.20</span>  0.235 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.037</span><span style="color: #BB0000; text-decoration: underline;">5</span>   -<span style="color: #BB0000;">1.16</span>  0.253 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.008</span><span style="color: #BB0000; text-decoration: underline;">70</span>  -<span style="color: #BB0000;">1.09</span>  0.229 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.000<span style="text-decoration: underline;">810</span> -<span style="color: #BB0000;">1.06</span>  0.188 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.003</span><span style="color: #BB0000; text-decoration: underline;">29</span>  -<span style="color: #BB0000;">1.07</span>  0.156 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.007</span><span style="color: #BB0000; text-decoration: underline;">53</span>  -<span style="color: #BB0000;">1.10</span>  0.148 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.006<span style="text-decoration: underline;">02</span>  -<span style="color: #BB0000;">1.14</span>  0.166 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.051<span style="text-decoration: underline;">0</span>   -<span style="color: #BB0000;">1.19</span>  0.206 </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5,990 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_acc.html">filter_acc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span><span class="op">)</span></span>
+<span><span class="va">acc_data</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Hip</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       78kg</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Filter:                  Butterworth (4th-ord, low-pass, 20Hz)</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         6,000 × 4</span></span></span>
+<span><span class="co">#&gt;    timestamp               acc_X  acc_Y  acc_Z</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.090</span><span style="color: #BB0000; text-decoration: underline;">0</span>   -<span style="color: #BB0000;">0.742</span> 0.087<span style="text-decoration: underline;">8</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.102</span>    -<span style="color: #BB0000;">1.08</span>  0.171 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.076</span><span style="color: #BB0000; text-decoration: underline;">8</span>   -<span style="color: #BB0000;">1.20</span>  0.235 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.037</span><span style="color: #BB0000; text-decoration: underline;">5</span>   -<span style="color: #BB0000;">1.16</span>  0.253 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.008</span><span style="color: #BB0000; text-decoration: underline;">70</span>  -<span style="color: #BB0000;">1.09</span>  0.229 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.000<span style="text-decoration: underline;">810</span> -<span style="color: #BB0000;">1.06</span>  0.188 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.003</span><span style="color: #BB0000; text-decoration: underline;">29</span>  -<span style="color: #BB0000;">1.07</span>  0.156 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.007</span><span style="color: #BB0000; text-decoration: underline;">53</span>  -<span style="color: #BB0000;">1.10</span>  0.148 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.006<span style="text-decoration: underline;">02</span>  -<span style="color: #BB0000;">1.14</span>  0.166 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.051<span style="text-decoration: underline;">0</span>   -<span style="color: #BB0000;">1.19</span>  0.206 </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5,990 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>This function lets you select the order, cut-off frequency and type of the Butterworth filter (more details in the function documentation <code><a href="../reference/filter_acc.html">help(filter_acc)</a></code>). To better reproduce the conditions in which the models validation were performed, we suggest you not to change the default values of <code>order</code>, <code>cutoff</code> and <code>type</code> arguments, unless you have a strong reason to do so.</p>
 </div>
 <div class="section level3">
@@ -262,27 +266,28 @@
 </h3>
 <p>The mechanical loading prediction models included in impactr work with either the acceleration vertical vector or the resultant vector computed as the Euclidean norm of the three vectors <span class="math inline">\((r = \sqrt{X^2 + Y^2 + Z^2})\)</span>. To compute the resultant you can use the <code><a href="../reference/use_resultant.html">use_resultant()</a></code> function:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/use_resultant.html">use_resultant</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span><span class="op">)</span>
-<span class="va">acc_data</span>
-<span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Hip</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       78kg</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Filter:                  Butterworth (4th-ord, low-pass, 20Hz)</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         6,000 × 5</span></span>
-<span class="co">#&gt;    timestamp               acc_X  acc_Y  acc_Z acc_R</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.090</span><span style="color: #BB0000; text-decoration: underline;">0</span>   -<span style="color: #BB0000;">0.742</span> 0.087<span style="text-decoration: underline;">8</span> 0.753</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.102</span>    -<span style="color: #BB0000;">1.08</span>  0.171  1.10 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.076</span><span style="color: #BB0000; text-decoration: underline;">8</span>   -<span style="color: #BB0000;">1.20</span>  0.235  1.22 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.037</span><span style="color: #BB0000; text-decoration: underline;">5</span>   -<span style="color: #BB0000;">1.16</span>  0.253  1.18 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.008</span><span style="color: #BB0000; text-decoration: underline;">70</span>  -<span style="color: #BB0000;">1.09</span>  0.229  1.11 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.000<span style="text-decoration: underline;">810</span> -<span style="color: #BB0000;">1.06</span>  0.188  1.07 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.003</span><span style="color: #BB0000; text-decoration: underline;">29</span>  -<span style="color: #BB0000;">1.07</span>  0.156  1.08 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.007</span><span style="color: #BB0000; text-decoration: underline;">53</span>  -<span style="color: #BB0000;">1.10</span>  0.148  1.11 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.006<span style="text-decoration: underline;">02</span>  -<span style="color: #BB0000;">1.14</span>  0.166  1.15 </span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.051<span style="text-decoration: underline;">0</span>   -<span style="color: #BB0000;">1.19</span>  0.206  1.21 </span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 5,990 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/use_resultant.html">use_resultant</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span><span class="op">)</span></span>
+<span><span class="va">acc_data</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Hip</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       78kg</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Filter:                  Butterworth (4th-ord, low-pass, 20Hz)</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         6,000 × 5</span></span></span>
+<span><span class="co">#&gt;    timestamp               acc_X  acc_Y  acc_Z acc_R</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.090</span><span style="color: #BB0000; text-decoration: underline;">0</span>   -<span style="color: #BB0000;">0.742</span> 0.087<span style="text-decoration: underline;">8</span> 0.753</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.102</span>    -<span style="color: #BB0000;">1.08</span>  0.171  1.10 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.076</span><span style="color: #BB0000; text-decoration: underline;">8</span>   -<span style="color: #BB0000;">1.20</span>  0.235  1.22 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.037</span><span style="color: #BB0000; text-decoration: underline;">5</span>   -<span style="color: #BB0000;">1.16</span>  0.253  1.18 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.008</span><span style="color: #BB0000; text-decoration: underline;">70</span>  -<span style="color: #BB0000;">1.09</span>  0.229  1.11 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.000<span style="text-decoration: underline;">810</span> -<span style="color: #BB0000;">1.06</span>  0.188  1.07 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.003</span><span style="color: #BB0000; text-decoration: underline;">29</span>  -<span style="color: #BB0000;">1.07</span>  0.156  1.08 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:00</span> -<span style="color: #BB0000;">0.007</span><span style="color: #BB0000; text-decoration: underline;">53</span>  -<span style="color: #BB0000;">1.10</span>  0.148  1.11 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.006<span style="text-decoration: underline;">02</span>  -<span style="color: #BB0000;">1.14</span>  0.166  1.15 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>  0.051<span style="text-decoration: underline;">0</span>   -<span style="color: #BB0000;">1.19</span>  0.206  1.21 </span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 5,990 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>This function add a new column <code>acc_R</code> with the resultant acceleration values. We suggest to utilise this function after <code><a href="../reference/filter_acc.html">filter_acc()</a></code>, otherwise the resultant vector computation will use the non-filtered acceleration signal.</p>
 </div>
 <div class="section level3">
@@ -290,27 +295,28 @@
 </h3>
 <p>To apply the prediction models, the peaks in the acceleration signal should be found. The <code><a href="../reference/find_peaks.html">find_peaks()</a></code> function does it and returns the timestamp of the peak in a column and its magnitude in another. The <code>vector</code> argument controls in which vector the peaks should be found and can be set to either <code>vertical</code>, <code>resultant</code> or <code>all</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/find_peaks.html">find_peaks</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span>, vector <span class="op">=</span> <span class="st">"resultant"</span><span class="op">)</span>
-<span class="va">acc_data</span>
-<span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Hip</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       78kg</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Filter:                  Butterworth (4th-ord, low-pass, 20Hz)</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         32 × 2</span></span>
-<span class="co">#&gt;    timestamp           resultant_peak_acc</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>               1.32</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:01</span>               1.36</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:04</span>               1.30</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:04</span>               2.32</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:05</span>               1.50</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:06</span>               1.68</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:06</span>               1.51</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:07</span>               1.96</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:08</span>               1.37</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:08</span>               1.86</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 22 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/find_peaks.html">find_peaks</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span>, vector <span class="op">=</span> <span class="st">"resultant"</span><span class="op">)</span></span>
+<span><span class="va">acc_data</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Hip</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       78kg</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Filter:                  Butterworth (4th-ord, low-pass, 20Hz)</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         32 × 2</span></span></span>
+<span><span class="co">#&gt;    timestamp           resultant_peak_acc</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>               1.32</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:01</span>               1.36</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:04</span>               1.30</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:04</span>               2.32</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:05</span>               1.50</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:06</span>               1.68</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:06</span>               1.51</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:07</span>               1.96</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:08</span>               1.37</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:08</span>               1.86</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 22 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>As with <code><a href="../reference/filter_acc.html">filter_acc()</a></code>, <code><a href="../reference/find_peaks.html">find_peaks()</a></code> default values of the minimum height (<code>min_height</code>) and distance (<code>min_dist</code>) of the peaks are set to replicate the values used in the calibration study. You should only change them if you have a strong reason to.</p>
 </div>
 <div class="section level3">
@@ -318,31 +324,32 @@
 </h3>
 <p>Finally, the <code><a href="../reference/predict_loading.html">predict_loading()</a></code> is used to predict the mechanical loading variables based on the acceleration signal. Currently, impactr provides models to predict ground reaction force (GRF) and loading rate (LR) of the resultant vector and its vertical component with a models validated in walking and running activities. The <code>outcome</code>, <code>vector</code> and <code>model</code> arguments are used to control this parameters. More details regarding the values accepted by these parameters can be found in the function documentation (<code><a href="../reference/predict_loading.html">help(predict_loading)</a></code>).</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/predict_loading.html">predict_loading</a></span><span class="op">(</span>
-  data <span class="op">=</span> <span class="va">acc_data</span>,
-  outcome <span class="op">=</span> <span class="st">"grf"</span>,
-  vector <span class="op">=</span> <span class="st">"resultant"</span>,
-  model <span class="op">=</span> <span class="st">"walking/running"</span>
-<span class="op">)</span>
-<span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Hip</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       78kg</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Filter:                  Butterworth (4th-ord, low-pass, 20Hz)</span></span>
-<span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         32 × 3</span></span>
-<span class="co">#&gt;    timestamp           resultant_peak_acc resultant_peak_grf</span>
-<span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>               1.32              <span style="text-decoration: underline;">1</span>387.</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:01</span>               1.36              <span style="text-decoration: underline;">1</span>392.</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:04</span>               1.30              <span style="text-decoration: underline;">1</span>384.</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:04</span>               2.32              <span style="text-decoration: underline;">1</span>521.</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:05</span>               1.50              <span style="text-decoration: underline;">1</span>412.</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:06</span>               1.68              <span style="text-decoration: underline;">1</span>435.</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:06</span>               1.51              <span style="text-decoration: underline;">1</span>412.</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:07</span>               1.96              <span style="text-decoration: underline;">1</span>473.</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:08</span>               1.37              <span style="text-decoration: underline;">1</span>393.</span>
-<span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:08</span>               1.86              <span style="text-decoration: underline;">1</span>459.</span>
-<span class="co">#&gt; <span style="color: #949494;"># … with 22 more rows</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/predict_loading.html">predict_loading</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">acc_data</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"grf"</span>,</span>
+<span>  vector <span class="op">=</span> <span class="st">"resultant"</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"walking/running"</span></span>
+<span><span class="op">)</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Start time:              2021-04-06 15:43:00</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Sampling frequency:      100Hz</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Accelerometer placement: Hip</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Subject body mass:       78kg</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Filter:                  Butterworth (4th-ord, low-pass, 20Hz)</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># Data dimensions:         32 × 3</span></span></span>
+<span><span class="co">#&gt;    timestamp           resultant_peak_acc resultant_peak_grf</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dttm&gt;</span>                           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 1</span> 2021-04-06 <span style="color: #949494;">15:45:00</span>               1.32              <span style="text-decoration: underline;">1</span>466.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 2</span> 2021-04-06 <span style="color: #949494;">15:45:01</span>               1.36              <span style="text-decoration: underline;">1</span>469.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 3</span> 2021-04-06 <span style="color: #949494;">15:45:04</span>               1.30              <span style="text-decoration: underline;">1</span>464.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 4</span> 2021-04-06 <span style="color: #949494;">15:45:04</span>               2.32              <span style="text-decoration: underline;">1</span>543.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 5</span> 2021-04-06 <span style="color: #949494;">15:45:05</span>               1.50              <span style="text-decoration: underline;">1</span>480.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 6</span> 2021-04-06 <span style="color: #949494;">15:45:06</span>               1.68              <span style="text-decoration: underline;">1</span>494.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 7</span> 2021-04-06 <span style="color: #949494;">15:45:06</span>               1.51              <span style="text-decoration: underline;">1</span>480.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 8</span> 2021-04-06 <span style="color: #949494;">15:45:07</span>               1.96              <span style="text-decoration: underline;">1</span>515.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;"> 9</span> 2021-04-06 <span style="color: #949494;">15:45:08</span>               1.37              <span style="text-decoration: underline;">1</span>470.</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">10</span> 2021-04-06 <span style="color: #949494;">15:45:08</span>               1.86              <span style="text-decoration: underline;">1</span>508.</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># … with 22 more rows</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ Use `print(n = ...)` to see more rows</span></span></span></code></pre></div>
 <p>As can be seen above, <code><a href="../reference/predict_loading.html">predict_loading()</a></code> adds columns to the supplied <code>data</code> corresponding to the <code>outcome</code> and <code>vector</code> specified in the arguments. Note that GRF are expressed as newton (N) and LR as newton per second (N·s<sup>-1</sup>)</p>
 </div>
 </div>
@@ -351,32 +358,32 @@
 </h2>
 <p>impactr helps you to move from the raw accelerometer data to discrete estimates of mechanical loading variables in an easy way. All the functions necessary to this analysis are described above in a step-by-step manner. These functions were also designed to be used with pipe operators (either of the <a href="https://magrittr.tidyverse.org" class="external-link"><code>magrittr</code></a> package or the base R package for R version &gt;= 4.1.0). By using the pipe, the output of a function call is passed directly to the next, avoiding nested function calls or the need to assign local variables. Below are examples the whole analysis assigning local variables in intermediate steps and using the base R pipe:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Using intermediate steps</span>
-<span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-raw.csv"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/specify_parameters.html">specify_parameters</a></span><span class="op">(</span>
-  data <span class="op">=</span> <span class="va">acc_data</span>, acc_placement <span class="op">=</span> <span class="st">"hip"</span>, subj_body_mass <span class="op">=</span> <span class="fl">78</span>
-<span class="op">)</span>
-<span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_acc.html">filter_acc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span><span class="op">)</span>
-<span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/use_resultant.html">use_resultant</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span><span class="op">)</span>
-<span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/find_peaks.html">find_peaks</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span>, vector <span class="op">=</span> <span class="st">"resultant"</span><span class="op">)</span>
-<span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_loading.html">predict_loading</a></span><span class="op">(</span>
-  data <span class="op">=</span> <span class="va">acc_data</span>,
-  outcome <span class="op">=</span> <span class="st">"grf"</span>,
-  vector <span class="op">=</span> <span class="st">"resultant"</span>,
-  model <span class="op">=</span> <span class="st">"walking/running"</span>
-<span class="op">)</span>
-
-<span class="co"># Using the base R pipe operator</span>
-<span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-raw.csv"</span><span class="op">)</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="../reference/specify_parameters.html">specify_parameters</a></span><span class="op">(</span>acc_placement <span class="op">=</span> <span class="st">"hip"</span>, subj_body_mass <span class="op">=</span> <span class="fl">78</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="../reference/filter_acc.html">filter_acc</a></span><span class="op">(</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="../reference/use_resultant.html">use_resultant</a></span><span class="op">(</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="../reference/find_peaks.html">find_peaks</a></span><span class="op">(</span>vector <span class="op">=</span> <span class="st">"resultant"</span><span class="op">)</span> |&gt;
-  <span class="fu"><a href="../reference/predict_loading.html">predict_loading</a></span><span class="op">(</span>
-    outcome <span class="op">=</span> <span class="st">"grf"</span>,
-    vector <span class="op">=</span> <span class="st">"resultant"</span>,
-    model <span class="op">=</span> <span class="st">"walking/running"</span>
-  <span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># Using intermediate steps</span></span>
+<span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-raw.csv"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/specify_parameters.html">specify_parameters</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">acc_data</span>, acc_placement <span class="op">=</span> <span class="st">"hip"</span>, subj_body_mass <span class="op">=</span> <span class="fl">78</span></span>
+<span><span class="op">)</span></span>
+<span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/filter_acc.html">filter_acc</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span><span class="op">)</span></span>
+<span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/use_resultant.html">use_resultant</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span><span class="op">)</span></span>
+<span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/find_peaks.html">find_peaks</a></span><span class="op">(</span>data <span class="op">=</span> <span class="va">acc_data</span>, vector <span class="op">=</span> <span class="st">"resultant"</span><span class="op">)</span></span>
+<span><span class="va">acc_data</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/predict_loading.html">predict_loading</a></span><span class="op">(</span></span>
+<span>  data <span class="op">=</span> <span class="va">acc_data</span>,</span>
+<span>  outcome <span class="op">=</span> <span class="st">"grf"</span>,</span>
+<span>  vector <span class="op">=</span> <span class="st">"resultant"</span>,</span>
+<span>  model <span class="op">=</span> <span class="st">"walking/running"</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Using the base R pipe operator</span></span>
+<span><span class="fu"><a href="../reference/read_acc.html">read_acc</a></span><span class="op">(</span><span class="fu"><a href="../reference/impactr_example.html">impactr_example</a></span><span class="op">(</span><span class="st">"hip-raw.csv"</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/specify_parameters.html">specify_parameters</a></span><span class="op">(</span>acc_placement <span class="op">=</span> <span class="st">"hip"</span>, subj_body_mass <span class="op">=</span> <span class="fl">78</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/filter_acc.html">filter_acc</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/use_resultant.html">use_resultant</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/find_peaks.html">find_peaks</a></span><span class="op">(</span>vector <span class="op">=</span> <span class="st">"resultant"</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/predict_loading.html">predict_loading</a></span><span class="op">(</span></span>
+<span>    outcome <span class="op">=</span> <span class="st">"grf"</span>,</span>
+<span>    vector <span class="op">=</span> <span class="st">"resultant"</span>,</span>
+<span>    model <span class="op">=</span> <span class="st">"walking/running"</span></span>
+<span>  <span class="op">)</span></span></code></pre></div>
 </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside>
@@ -391,7 +398,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
   <p class="preferably">Using <a href="https://preferably.amirmasoudabdol.name/?source=footer" class="external-link">preferably</a> template.</p>
 </div>
 
