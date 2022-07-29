@@ -2,8 +2,8 @@
 * Fixed an issue with saving the non-wear plot with `remove_nonwear()` (#2).
 * Change the name of the "valid_observation" to "valid_file" in the non-wear summary to better express its meaning.
 * Limited the number of characters of the non-wear plot title to 50 characters, preventing the plot title to exceed the plot window limits. In case of large (n. char. > 50) titles, `remove_nonwear()` automatically crops it.
-* Return `NA` in the summary variables from `summarise_loading()` whenever the number of detected peaks is 0
-* Change the coefficients of the prediction models for walking/running to match the final version of the published paper [doi.org/10.1080/17461391.2022.2102437](doi.org/10.1080/17461391.2022.2102437)
+* Return `NA` in the summary variables from `summarise_loading()` whenever the number of detected peaks is 0.
+* Change the coefficients of the prediction models for walking/running to match the final version of the published [paper](https://doi.org/10.1080/17461391.2022.2102437).
 
 # impactr 0.4.0
 * Added the function `remove_nonwear()` to detect and remove accelerometer non-wear time.
