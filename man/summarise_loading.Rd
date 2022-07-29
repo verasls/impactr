@@ -52,6 +52,7 @@ given magnitude range. The summaries can be displayed by day or as a
 daily average.
 }
 \examples{
+\donttest{
 # Ensure that {accdata} package is available before running the example.
 # If it is not, run install_accdata() to install the required package.
 if (requireNamespace("accdata", quietly = TRUE)) {
@@ -64,5 +65,6 @@ if (requireNamespace("accdata", quietly = TRUE)) {
     variable = "acc", vector = "vertical",
     ranges_acc = 1:5
   )
+}
 }
 }

@@ -23,10 +23,12 @@ datasets documentation can be accessed by \code{?accdata::`dataset_name`}
 (e.g., \code{?accdata::daily_acc_3d}.
 }
 \examples{
+\donttest{
 # Ensure that {accdata} package is available before running the example.
 # If it is not, run install_accdata() to install the required package.
 if (requireNamespace("accdata", quietly = TRUE)) {
   data <- import_dataset("daily_acc_3d")
   data
+}
 }
 }

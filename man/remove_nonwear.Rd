@@ -94,11 +94,13 @@ summary to be saved, if the arguments are set to do so.
 }
 
 \examples{
+\donttest{
 # Ensure that {accdata} package is available before running the example.
 # If it is not, run install_accdata() to install the required package.
 if (requireNamespace("accdata", quietly = TRUE)) {
   data <- import_dataset("daily_acc_3d")
   remove_nonwear(data)
+}
 }
 }
 \references{
