@@ -46,4 +46,4 @@ VignetteBuilder: knitr
 Language: en-GB
 Depends: 
     R (>= 2.10)
-Additional_repositories: https://lveras.com/drat/
+Additional_repositories: https://verasls.github.io/drat/
