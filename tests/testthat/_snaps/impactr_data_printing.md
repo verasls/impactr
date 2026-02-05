@@ -21,8 +21,7 @@
        8 2017-12-09 15:00:00 -0.0146 0.00635 0.964
        9 2017-12-09 15:00:00 -0.0156 0.00586 0.966
       10 2017-12-09 15:00:00 -0.0151 0.00635 0.963
-      # ... with 90 more rows
-      # i Use `print(n = ...)` to see more rows
+      # i 90 more rows
 
 # printing from specify_parameter() works
 
@@ -47,8 +46,7 @@
        8 2017-12-09 15:00:00 -0.0146 0.00635 0.964
        9 2017-12-09 15:00:00 -0.0156 0.00586 0.966
       10 2017-12-09 15:00:00 -0.0151 0.00635 0.963
-      # ... with 90 more rows
-      # i Use `print(n = ...)` to see more rows
+      # i 90 more rows
 
 # printing from filter_acc() works
 
@@ -73,8 +71,7 @@
        8 2017-12-09 15:00:00 -0.0155  0.00592 0.976
        9 2017-12-09 15:00:00 -0.0154  0.00623 0.970
       10 2017-12-09 15:00:00 -0.0146  0.00691 0.962
-      # ... with 90 more rows
-      # i Use `print(n = ...)` to see more rows
+      # i 90 more rows
 
 # printing from find_peaks() works
 
@@ -99,8 +96,7 @@
        8 2021-04-06 15:43:16              1.36
        9 2021-04-06 15:43:16              1.46
       10 2021-04-06 15:43:17              1.32
-      # ... with 241 more rows
-      # i Use `print(n = ...)` to see more rows
+      # i 241 more rows
 
 ---
 
@@ -125,8 +121,7 @@
        8 2021-04-06 15:43:05               1.34
        9 2021-04-06 15:43:06               1.39
       10 2021-04-06 15:43:07               1.46
-      # ... with 293 more rows
-      # i Use `print(n = ...)` to see more rows
+      # i 293 more rows
 
 ---
 
@@ -151,6 +146,5 @@
        8 2021-04-06 15:43:04              1.59              NA   
        9 2021-04-06 15:43:05             NA                  2.13
       10 2021-04-06 15:43:05             NA                  1.34
-      # ... with 321 more rows
-      # i Use `print(n = ...)` to see more rows
+      # i 321 more rows
 
